@@ -16,8 +16,8 @@ const RegisterSchema = Yup.object().shape({
 const Register: React.FC<{}> = ({}) => {
   return (
     <Wrapper variant="small">
-      <Box boxShadow="md" rounded="sm" bg="white">
-        <Box borderTopRadius="sm" py={6} mb={3} bg="blue.500" color="white" textAlign={['center']}>
+      <Box style={{ overflow: 'hidden' }} boxShadow="md" rounded="sm" bg="white">
+        <Box py={6} mb={3} bg="blue.500" color="white" textAlign={['center']}>
           <Heading>SPLAT</Heading>
         </Box>
         <Box px={8} py={12}>
