@@ -1,18 +1,13 @@
 # Splat
 
-Bug and ticket tracker created with React.js, Express, and MySQL
-
-
-
+Bug and ticket tracker created with Next.js, Express, and Postgres
 
 ## Tech Stack
 
-**Client:** React, ChakraUI, Typescript
+**Client:** Next.js, ChakraUI, Typescript
 
-**Server:** Node, Express, MySQL, Typescript
+**Server:** Node.js, Express, Typescript, Argon2, Postgres, Redis, Winston
 
-  
 ## Features
 
 - TBD
-  
