@@ -64,7 +64,7 @@ const login = (request, response) => __awaiter(void 0, void 0, void 0, function*
             response.status(401).send({ field: 'password', message: 'Invalid password' });
         }
         request.session.userId = user.id;
-        response.cookie('userId', user.id, { maxAge: 24 * 60 * 60, httpOnly: true });
+        response.cookie('userId', user.id, { maxAge: 24 * 60 * 60 * 60 * 60, httpOnly: true, sameSite: 'lax' });
         response.status(200).send({ message: 'Log in successful' });
     }
     catch (error) {
