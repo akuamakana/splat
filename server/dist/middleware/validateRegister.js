@@ -42,20 +42,20 @@ const validateRegister = (request, response, next) => __awaiter(void 0, void 0, 
     }
     try {
         let userRepository = (0, typeorm_1.getRepository)(User_1.User);
-        let user = yield userRepository.findOne({ username: request.body.username });
+        let user = yield userRepository.findOne({ email: request.body.email });
         if (user) {
-            response.status(400).send({ field: 'username', message: 'Failed. Username is already taken.' });
+            response.status(400).send({ field: 'email', message: 'Email is already in use.' });
             return;
         }
-        user = yield userRepository.findOne({ email: request.body.email });
+        user = yield userRepository.findOne({ username: request.body.username });
         if (user) {
-            response.status(400).send({ field: 'email', message: 'Failed. Email is already in use.' });
+            response.status(400).send({ field: 'username', message: 'Username is already taken.' });
             return;
         }
         next();
     }
     catch (error) {
-        response.status(500).send({ message: error.message });
+        response.status(500).send({ field: 'alert', message: error.message });
         return;
     }
 });

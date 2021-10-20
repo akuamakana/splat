@@ -5,13 +5,8 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import InputField from '../components/InputField';
 import Wrapper from '../components/Wrapper';
-import * as Yup from 'yup';
-
-const RegisterSchema = Yup.object().shape({
-  username: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
-  password: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
-});
+import { UserResponse } from '../types/User';
+import axios, { AxiosResponse } from 'axios';
 
 const Register: React.FC<{}> = ({}) => {
   return (
@@ -22,10 +17,15 @@ const Register: React.FC<{}> = ({}) => {
         </Box>
         <Box px={8} py={12}>
           <Formik
-            validationSchema={RegisterSchema}
             initialValues={{ username: '', password: '', email: '' }}
-            onSubmit={async (values) => {
-              console.log(values);
+            onSubmit={async (values, { setFieldError, setErrors }) => {
+              try {
+                await axios.post('http://localhost:3001/auth/register', values);
+              } catch (error: any) {
+                const _data: UserResponse = error.response.data;
+                const { field, message } = _data;
+                setFieldError(field, message);
+              }
             }}
           >
             {({ isSubmitting }) => (
