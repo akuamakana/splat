@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Heading, Spacer } from '@chakra-ui/layout';
-import { Text } from '@chakra-ui/react';
+import { Text, Link as CLink } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -10,7 +10,7 @@ import { UserResponse } from '../types/User';
 import Link from 'next/link';
 import router from 'next/router';
 
-const Register: React.FC<{}> = ({}) => {
+const Login: React.FC<{}> = ({}) => {
   return (
     <Wrapper variant="small">
       <Box style={{ overflow: 'hidden' }} boxShadow="md" rounded="sm" bg="white">
@@ -19,12 +19,12 @@ const Register: React.FC<{}> = ({}) => {
         </Box>
         <Box px={8} py={12}>
           <Formik
-            initialValues={{ username: '', password: '', email: '' }}
+            initialValues={{ username: '', password: '' }}
             onSubmit={async (values, { setFieldError }) => {
               try {
-                const res = await axios.post('http://localhost:3001/auth/register', values);
-                if (res.status === 201) {
-                  router.push('/login');
+                const res = await axios.post('http://localhost:3001/auth/login', values, { withCredentials: true });
+                if (res.status === 200) {
+                  router.push('/');
                 }
               } catch (error: any) {
                 const _data: UserResponse = error.response.data;
@@ -35,8 +35,7 @@ const Register: React.FC<{}> = ({}) => {
           >
             {({ isSubmitting }) => (
               <Form>
-                <InputField name="email" label="Email" placeholder="email" />
-                <Box mt={6}>
+                <Box>
                   <InputField name="username" label="Username" placeholder="username" />
                 </Box>
                 <Box mt={6}>
@@ -45,7 +44,7 @@ const Register: React.FC<{}> = ({}) => {
                 <Flex mt={12}>
                   <Spacer />
                   <Button type="submit" isLoading={isSubmitting} colorScheme="blue">
-                    Register
+                    Login
                   </Button>
                   <Spacer />
                 </Flex>
@@ -55,13 +54,13 @@ const Register: React.FC<{}> = ({}) => {
         </Box>
       </Box>
       <Text mt={6} textAlign={['center']}>
-        Alrady have an account?
-        <Link href="/login">
-          <a> Login</a>
+        New here?
+        <Link href="/register">
+          <a> Create an account</a>
         </Link>
       </Text>
     </Wrapper>
   );
 };
 
-export default Register;
+export default Login;
