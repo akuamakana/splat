@@ -31,7 +31,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = void 0;
+exports.me = exports.login = exports.register = void 0;
 const argon2 = __importStar(require("argon2"));
 const typeorm_1 = require("typeorm");
 const User_1 = require("../entity/User");
@@ -52,4 +52,39 @@ const register = (request, response) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.register = register;
+const login = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userRepository = (0, typeorm_1.getRepository)(User_1.User);
+        const user = yield userRepository.findOne({ username: request.body.username });
+        if (!user) {
+            response.status(401).send({ field: 'username', message: 'User not found' });
+        }
+        const validPassword = yield argon2.verify(user.password, request.body.password);
+        if (!validPassword) {
+            response.status(401).send({ field: 'password', message: 'Invalid password' });
+        }
+        request.session.userId = user.id;
+        response.cookie('userId', user.id, { maxAge: 24 * 60 * 60, httpOnly: true });
+        response.status(200).send({ message: 'Log in successful' });
+    }
+    catch (error) {
+        response.status(500).send({ message: error.message });
+    }
+});
+exports.login = login;
+const me = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(request.session.userId);
+    if (!request.session.userId) {
+        response.status(401).send();
+    }
+    try {
+        const userRepository = (0, typeorm_1.getRepository)(User_1.User);
+        const user = yield userRepository.findOne(request.session.userId);
+        response.status(200).send({ username: user.username });
+    }
+    catch (error) {
+        response.status(500);
+    }
+});
+exports.me = me;
 //# sourceMappingURL=auth.js.map

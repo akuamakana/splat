@@ -11,6 +11,8 @@ const authRoute = (app) => {
         next();
     });
     app.post('/auth/register', [validateRegister_1.default], auth_1.register);
+    app.post('/auth/login', auth_1.login);
+    app.get('/auth/me', auth_1.me);
 };
 exports.authRoute = authRoute;
 //# sourceMappingURL=auth.js.map
