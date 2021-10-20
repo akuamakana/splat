@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, Express } from 'express';
-import { register } from '../controllers/auth';
+import { login, register, me } from '../controllers/auth';
 import validateRegister from '../middleware/validateRegister';
 
 export const authRoute = (app: Express) => {
@@ -8,4 +8,8 @@ export const authRoute = (app: Express) => {
   });
 
   app.post('/auth/register', [validateRegister], register);
+
+  app.post('/auth/login', login);
+
+  app.get('/auth/me', me);
 };
