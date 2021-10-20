@@ -39,6 +39,7 @@ const main = async () => {
 
   routes.hello(app);
   routes.auth(app);
+  routes.project(app);
 
   app.listen(process.env.PORT || 8080, () => {
     logger.info(`Server is running on http://localhost:${process.env.PORT}`);

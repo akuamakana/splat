@@ -74,10 +74,6 @@ const login = (request, response) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.login = login;
 const me = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(request.session.userId);
-    if (!request.session.userId) {
-        response.status(401).send();
-    }
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = yield userRepository.findOne(request.session.userId);

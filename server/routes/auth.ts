@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, Express } from 'express';
 import { login, register, me } from '../controllers/auth';
 import validateRegister from '../middleware/validateRegister';
+import validateLoggedIn from '../middleware/validateLoggedIn';
 
 export const authRoute = (app: Express) => {
   app.use((request: Request, response: Response, next: NextFunction) => {
@@ -11,5 +12,5 @@ export const authRoute = (app: Express) => {
 
   app.post('/auth/login', login);
 
-  app.get('/auth/me', me);
+  app.get('/auth/me', [validateLoggedIn], me);
 };

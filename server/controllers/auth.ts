@@ -46,12 +46,6 @@ export const login = async (request: Request, response: Response) => {
 };
 
 export const me = async (request: Request, response: Response) => {
-  console.log(request.session.userId);
-
-  if (!request.session.userId) {
-    response.status(401).send();
-  }
-
   try {
     const userRepository = getRepository(User);
     const user = await userRepository.findOne(request.session.userId);

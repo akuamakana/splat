@@ -1,18 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { User } from './User';
 
 @Entity()
-export class User {
+export class Project {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  username!: string;
+  name!: string;
 
   @Column()
-  password!: string;
+  description!: string;
 
-  @Column()
-  email!: string;
+  @JoinColumn()
+  @OneToOne(() => User, { cascade: true })
+  user!: User;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at!: Date;
