@@ -68,6 +68,7 @@ const login = (request, response) => __awaiter(void 0, void 0, void 0, function*
         response.status(200).send({ message: 'Log in successful' });
     }
     catch (error) {
+        logger_1.default.error(error);
         response.status(500).send({ message: error.message });
     }
 });
@@ -83,6 +84,7 @@ const me = (request, response) => __awaiter(void 0, void 0, void 0, function* ()
         response.status(200).send({ username: user.username });
     }
     catch (error) {
+        logger_1.default.error(error);
         response.status(500);
     }
 });

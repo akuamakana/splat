@@ -40,6 +40,7 @@ export const login = async (request: Request, response: Response) => {
 
     response.status(200).send({ message: 'Log in successful' });
   } catch (error) {
+    logger.error(error);
     response.status(500).send({ message: error.message });
   }
 };
@@ -57,6 +58,7 @@ export const me = async (request: Request, response: Response) => {
 
     response.status(200).send({ username: user.username });
   } catch (error) {
+    logger.error(error);
     response.status(500);
   }
 };

@@ -384,3 +384,5 @@
 {"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-10-20 14:01:36"}
 {"level":"info","message":"Saved a new user with id: 4","timestamp":"2021-10-20 14:07:27"}
 {"level":"info","message":"Saved a new user with id: 5","timestamp":"2021-10-20 14:07:39"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-10-20 14:20:25"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-10-20 14:20:29"}
