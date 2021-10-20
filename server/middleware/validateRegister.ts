@@ -37,21 +37,22 @@ const validateRegister = async (request: Request, response: Response, next: Next
 
   try {
     let userRepository: Repository<User> = getRepository(User);
-    let user: User | null = await userRepository.findOne({ username: request.body.username });
+    let user: User | null = await userRepository.findOne({ email: request.body.email });
 
     if (user) {
-      response.status(400).send({ field: 'username', message: 'Failed. Username is already taken.' });
+      response.status(400).send({ field: 'email', message: 'Email is already in use.' });
       return;
     }
 
-    user = await userRepository.findOne({ email: request.body.email });
+    user = await userRepository.findOne({ username: request.body.username });
     if (user) {
-      response.status(400).send({ field: 'email', message: 'Failed. Email is already in use.' });
+      response.status(400).send({ field: 'username', message: 'Username is already taken.' });
       return;
     }
+
     next();
   } catch (error) {
-    response.status(500).send({ message: error.message });
+    response.status(500).send({ field: 'alert', message: error.message });
     return;
   }
 };
