@@ -38,11 +38,12 @@ const User_1 = require("../entity/User");
 const logger_1 = __importDefault(require("../middleware/logger"));
 const register = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = new User_1.User();
         user.username = request.body.username;
         user.password = yield argon2.hash(request.body.password);
         user.email = request.body.email;
-        yield (0, typeorm_1.getConnection)().manager.save(user);
+        yield userRepository.save(user);
         logger_1.default.info('Saved a new user with id: ' + user.id);
         response.status(201).send({ message: 'User successfully created.' });
     }
@@ -58,10 +59,12 @@ const login = (request, response) => __awaiter(void 0, void 0, void 0, function*
         const user = yield userRepository.findOne({ username: request.body.username });
         if (!user) {
             response.status(401).send({ field: 'username', message: 'User not found' });
+            return;
         }
         const validPassword = yield argon2.verify(user.password, request.body.password);
         if (!validPassword) {
             response.status(401).send({ field: 'password', message: 'Invalid password' });
+            return;
         }
         request.session.userId = user.id;
         response.cookie('userId', user.id, { maxAge: 24 * 60 * 60 * 60 * 60, httpOnly: true, sameSite: 'lax' });
@@ -77,6 +80,10 @@ const me = (request, response) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = yield userRepository.findOne(request.session.userId);
+        if (!user) {
+            response.status(401).send();
+            return;
+        }
         response.status(200).send({ username: user.username });
     }
     catch (error) {

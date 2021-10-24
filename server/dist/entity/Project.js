@@ -21,14 +21,13 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Project.prototype, "name", void 0);
+], Project.prototype, "title", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Project.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.JoinColumn)(),
-    (0, typeorm_1.OneToOne)(() => User_1.User, { cascade: true }),
+    (0, typeorm_1.ManyToOne)(() => User_1.User),
     __metadata("design:type", User_1.User)
 ], Project.prototype, "user", void 0);
 __decorate([

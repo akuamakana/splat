@@ -5,7 +5,6 @@ const validateLoggedIn = (request: Request, response: Response, next: NextFuncti
     response.status(401).send();
     return;
   }
-
   next();
 };
 

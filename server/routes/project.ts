@@ -1,11 +1,16 @@
-import { createProject } from './../controllers/project';
-import { Request, Response, NextFunction, Express } from 'express';
+import { Express } from 'express';
 import validateLoggedIn from '../middleware/validateLoggedIn';
+import verifyAccess from '../middleware/verifyAccess';
+import { createProject, deleteProject, updateProject, getProjects, getProject } from './../controllers/project';
 
 export const projectRoute = (app: Express) => {
-  app.use((request: Request, response: Response, next: NextFunction) => {
-    next();
-  });
-
   app.post('/project', [validateLoggedIn], createProject);
+
+  app.put('/project', [validateLoggedIn, verifyAccess], updateProject);
+
+  app.delete('/project', [validateLoggedIn, verifyAccess], deleteProject);
+
+  app.get('/project', [validateLoggedIn], getProjects);
+
+  app.get('/project/:id', [validateLoggedIn], getProject);
 };

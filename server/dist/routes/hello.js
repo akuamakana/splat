@@ -3,9 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.helloRoute = void 0;
 const hello_1 = require("../controllers/hello");
 const helloRoute = (app) => {
-    app.use((request, response, next) => {
-        next();
-    });
     app.get('/hello', hello_1.hello);
 };
 exports.helloRoute = helloRoute;

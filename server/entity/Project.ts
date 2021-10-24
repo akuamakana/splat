@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { User } from './User';
 
 @Entity()
@@ -7,13 +7,12 @@ export class Project {
   id!: number;
 
   @Column()
-  name!: string;
+  title!: string;
 
   @Column()
   description!: string;
 
-  @JoinColumn()
-  @OneToOne(() => User, { cascade: true })
+  @ManyToOne(() => User)
   user!: User;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
