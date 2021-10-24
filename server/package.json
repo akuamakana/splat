@@ -13,6 +13,7 @@
    "license": "ISC",
    "devDependencies": {
       "@types/body-parser": "^1.19.1",
+      "@types/connect-redis": "^0.0.17",
       "@types/cookie-parser": "^1.4.2",
       "@types/cors": "^2.8.12",
       "@types/dotenv": "^8.2.0",
@@ -20,6 +21,7 @@
       "@types/express-session": "^1.17.4",
       "@types/mysql": "^2.15.19",
       "@types/node": "^8.0.29",
+      "@types/redis": "^2.8.32",
       "@types/sequelize": "^4.28.10",
       "@types/winston": "^2.4.4",
       "nodemon": "^2.0.13",

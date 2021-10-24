@@ -37,7 +37,7 @@ const validateRegister = async (request: Request, response: Response, next: Next
 
   try {
     let userRepository: Repository<User> = getRepository(User);
-    let user: User | null = await userRepository.findOne({ email: request.body.email });
+    let user = await userRepository.findOne({ email: request.body.email });
 
     if (user) {
       response.status(400).send({ field: 'email', message: 'Email is already in use.' });
