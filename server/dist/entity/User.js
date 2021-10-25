@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const Project_1 = require("./Project");
+const Role_1 = require("./Role");
 let User = class User {
 };
 __decorate([
@@ -19,19 +20,23 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ select: false, nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => Project_1.Project, (project) => project.user),
+    (0, typeorm_1.ManyToOne)(() => Role_1.Role, (role) => role.user, { nullable: false }),
+    __metadata("design:type", Role_1.Role)
+], User.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => Project_1.Project, (project) => project.assigned_users, { nullable: false }),
     __metadata("design:type", Array)
 ], User.prototype, "projects", void 0);
 __decorate([

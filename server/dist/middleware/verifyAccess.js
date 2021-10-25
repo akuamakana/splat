@@ -16,15 +16,17 @@ const typeorm_1 = require("typeorm");
 const Project_1 = require("../entity/Project");
 const logger_1 = __importDefault(require("./logger"));
 const verifyAccess = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('request params: ', request.params);
     try {
         const projectRepository = (0, typeorm_1.getRepository)(Project_1.Project);
-        const project = yield projectRepository.findOne(request.body.id, { relations: ['user'] });
+        const project = yield projectRepository
+            .createQueryBuilder('project')
+            .where(`project.id = ${request.params.id}`)
+            .leftJoinAndSelect('project.assigned_users', 'user')
+            .andWhere(`user.id = ${request.session.userId}`)
+            .getOne();
         if (!project) {
             response.status(404).send({ field: 'alert', message: 'Project not found' });
-            return;
-        }
-        if (project.user.id !== request.session.userId) {
-            response.status(401).send();
             return;
         }
         response.locals.projectRepository = projectRepository;

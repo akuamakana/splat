@@ -60,6 +60,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         resave: false,
         store: new RedisStore({ client: redisClient, disableTouch: true }),
     }));
+    app.use(express_1.default.urlencoded({ extended: true }));
     app.use(express_1.default.json());
     app.use((0, cors_1.default)(corsOptions));
     app.use((0, cookie_parser_1.default)());

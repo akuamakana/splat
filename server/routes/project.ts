@@ -1,16 +1,17 @@
 import { Express } from 'express';
-import validateLoggedIn from '../middleware/validateLoggedIn';
+import verifyLoggedIn from '../middleware/verifyLoggedIn';
 import verifyAccess from '../middleware/verifyAccess';
+import verifyRole from '../middleware/verifyRole';
 import { createProject, deleteProject, updateProject, getProjects, getProject } from './../controllers/project';
 
 export const projectRoute = (app: Express) => {
-  app.post('/project', [validateLoggedIn], createProject);
+  app.post('/project', [verifyLoggedIn, verifyRole(3)], createProject);
 
-  app.put('/project', [validateLoggedIn, verifyAccess], updateProject);
+  app.put('/project/:id', [verifyLoggedIn, verifyAccess, verifyRole(3)], updateProject);
 
-  app.delete('/project', [validateLoggedIn, verifyAccess], deleteProject);
+  app.delete('/project/:id', [verifyLoggedIn, verifyAccess, verifyRole(3)], deleteProject);
 
-  app.get('/project', [validateLoggedIn], getProjects);
+  app.get('/project', [verifyLoggedIn], getProjects);
 
-  app.get('/project/:id', [validateLoggedIn], getProject);
+  app.get('/project/:id', [verifyLoggedIn, verifyAccess, verifyRole(2)], getProject);
 };
