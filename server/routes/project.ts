@@ -2,7 +2,7 @@ import { Express } from 'express';
 import verifyLoggedIn from '../middleware/verifyLoggedIn';
 import verifyAccess from '../middleware/verifyAccess';
 import verifyRole from '../middleware/verifyRole';
-import { createProject, deleteProject, updateProject, getProjects, getProject } from './../controllers/project';
+import { createProject, deleteProject, updateProject, getProjects, getProject, addUserToProject, removeUserFromProject } from './../controllers/project';
 
 export const projectRoute = (app: Express) => {
   app.post('/project', [verifyLoggedIn, verifyRole(3)], createProject);
@@ -14,4 +14,8 @@ export const projectRoute = (app: Express) => {
   app.get('/project', [verifyLoggedIn], getProjects);
 
   app.get('/project/:id', [verifyLoggedIn, verifyAccess, verifyRole(2)], getProject);
+
+  app.put('/project/:id/user/:uid', [verifyLoggedIn, verifyAccess, verifyRole(3)], addUserToProject);
+
+  app.delete('/project/:id/user/:uid', [verifyLoggedIn, verifyAccess, verifyRole(3)], removeUserFromProject);
 };

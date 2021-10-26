@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { Project } from '../entity/Project';
+import { User } from '../entity/User';
 import logger from '../middleware/logger';
 
 export const createProject = async (request: Request, response: Response) => {
@@ -65,14 +66,15 @@ export const getProjects = async (request: Request, response: Response) => {
   }
 };
 
-export const getProject = async (_: Request, response: Response) => {
+export const getProject = async (request: Request, response: Response) => {
   try {
-    if (!response.locals.project) {
+    const project = await response.locals.projectRepository?.findOne(request.params.id, { relations: ['assigned_users'] });
+    if (!project) {
       response.status(404).send({ message: 'Project not found' });
       return;
     }
 
-    response.status(200).send({ project: response.locals.project });
+    response.status(200).send({ project });
   } catch (error) {
     response.status(500).send({ error: error.message });
   }
@@ -80,6 +82,51 @@ export const getProject = async (_: Request, response: Response) => {
 
 // TODO
 
-// export const addUserToProject = async (request: Request, response: Response) => {};
+export const addUserToProject = async (request: Request, response: Response) => {
+  try {
+    if (!response.locals.project) {
+      response.status(404).send({ message: 'Project not found' });
+      return;
+    }
 
-// export const removeUserFromProject = async (request: Request, response: Response) => {};
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne(request.params.uid);
+
+    if (user && response.locals.project) {
+      // TODO: Check if user in project
+      response.locals.project.assigned_users = [...response.locals.project.assigned_users, user];
+    }
+
+    await response.locals.projectRepository?.save(response.locals.project);
+    logger.info(`User: ${user?.id} added to project: ${response.locals.project.id}`);
+    response.status(200).send({ field: 'alert', message: 'User added to project' });
+  } catch (error) {
+    logger.error(error);
+    response.status(500).send({ error: error.message });
+  }
+};
+
+export const removeUserFromProject = async (request: Request, response: Response) => {
+  try {
+    if (!response.locals.project) {
+      response.status(404).send({ message: 'Project not found' });
+      return;
+    }
+
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne(request.params.uid);
+
+    if (user && response.locals.project) {
+      // TODO: Check if user not in project
+      const userIndex = response.locals.project.assigned_users.indexOf(user);
+      response.locals.project.assigned_users = response.locals.project.assigned_users.splice(userIndex, 1);
+    }
+
+    await response.locals.projectRepository?.save(response.locals.project);
+    logger.info(`User: ${user?.id} removed from project: ${response.locals.project.id}`);
+    response.status(200).send({ field: 'alert', message: 'User removed from project' });
+  } catch (error) {
+    logger.error(error);
+    response.status(500).send({ error: error.message });
+  }
+};

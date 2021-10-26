@@ -33,10 +33,12 @@ export const register = async (request: Request, response: Response) => {
 export const login = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
-    const user = await userRepository.findOne({ username: request.body.username });
+    const user = await userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where({ username: request.body.password }).getOne();
+
+    console.log(user);
 
     if (!user) {
-      response.status(401).send({ field: 'username', message: 'User not found' });
+      response.status(404).send({ field: 'username', message: 'User not found' });
       return;
     }
 
@@ -56,21 +58,3 @@ export const login = async (request: Request, response: Response) => {
     response.status(500).send({ message: error.message });
   }
 };
-
-export const me = async (request: Request, response: Response) => {
-  try {
-    const userRepository = getRepository(User);
-    const user = await userRepository.findOne(request.session.userId, { relations: ['projects'] });
-    if (!user) {
-      response.status(401).send();
-      return;
-    }
-
-    response.status(200).send({ user });
-  } catch (error) {
-    logger.error(error);
-    response.status(500);
-  }
-};
-
-// TODO: Change user role

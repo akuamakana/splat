@@ -4,10 +4,9 @@ import { Project } from '../entity/Project';
 import logger from './logger';
 
 const verifyAccess = async (request: Request, response: Response, next: NextFunction) => {
-  console.log('request params: ', request.params);
   try {
     const projectRepository = getRepository(Project);
-    const project: Project | undefined = await projectRepository
+    const project = await projectRepository
       .createQueryBuilder('project')
       .where(`project.id = ${request.params.id}`)
       .leftJoinAndSelect('project.assigned_users', 'user')

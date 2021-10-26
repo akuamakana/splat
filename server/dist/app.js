@@ -67,6 +67,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     routes_1.routes.hello(app);
     routes_1.routes.auth(app);
     routes_1.routes.project(app);
+    routes_1.routes.user(app);
     app.listen(process.env.PORT || 8080, () => {
         logger_1.default.info(`Server is running on http://localhost:${process.env.PORT}`);
     });
