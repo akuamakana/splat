@@ -20,7 +20,6 @@ export const me = async (request: Request, response: Response) => {
   }
 };
 
-// TODO: Change user role
 export const changeRole = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
