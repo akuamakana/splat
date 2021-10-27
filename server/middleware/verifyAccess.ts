@@ -26,6 +26,7 @@ const verifyAccess = async (request: Request, response: Response, next: NextFunc
     logger.error(error);
     response.status(500).send({ message: error.message });
   }
+  
 };
 
 export default verifyAccess;

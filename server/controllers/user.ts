@@ -7,7 +7,7 @@ import logger from '../middleware/logger';
 export const me = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
-    const user: any = await userRepository.findOne(request.session.userId, { relations: ['projects'] });
+    const user: any = await userRepository.findOne(request.session.userId, { relations: ['projects', 'role'] });
     if (!user) {
       response.status(401).send();
       return;
