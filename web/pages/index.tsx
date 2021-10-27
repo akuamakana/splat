@@ -1,8 +1,17 @@
 import type { NextPage } from 'next';
-import { Heading } from '@chakra-ui/react';
+import Card from '../components/Card';
+import Content from '../components/Content';
+import Projects from '../components/Projects';
 
 const Home: NextPage = () => {
-  return <Heading>Hello world</Heading>;
+  // http://localhost:3001/user/me
+  return (
+    <Content>
+      <Card heading="Projects">
+        <Projects />
+      </Card>
+    </Content>
+  );
 };
 
 export default Home;
