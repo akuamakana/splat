@@ -90,13 +90,14 @@ export const addUserToProject = async (request: Request, response: Response) => 
     const userRepository = getRepository(User);
     const user = await userRepository.findOne(request.params.uid);
 
-    // user && response.locals.project
-    if (response.locals.project.assigned_users.indexOf(user) > -1) {
-      response.status(403).send({field: "alert", message: "User is already in project"})
-      return
+    if (user && response.locals.project) {
+      if (response.locals.project.assigned_users.indexOf(user) > -1) {
+        response.status(403).send({ field: 'alert', message: 'User is already in project' });
+        return;
+      }
+      response.locals.project.assigned_users = [...response.locals.project.assigned_users, user];
     }
 
-    response.locals.project.assigned_users = [...response.locals.project.assigned_users, user];
     await response.locals.projectRepository?.save(response.locals.project);
     logger.info(`User: ${user?.id} added to project: ${response.locals.project.id}`);
     response.status(200).send({ field: 'alert', message: 'User added to project' });
@@ -115,15 +116,16 @@ export const removeUserFromProject = async (request: Request, response: Response
 
     const userRepository = getRepository(User);
     const user = await userRepository.findOne(request.params.uid);
-    const userIndex = response.locals.project.assigned_users.indexOf(user);
 
-    // user && response.locals.project
-    if (userIndex === -1) {
-      response.status(403).send({field: "alert", message: "User is not in project"})
-      return
+    if (user) {
+      const userIndex = response.locals.project.assigned_users.indexOf(user);
+      if (userIndex === -1) {
+        response.status(403).send({ field: 'alert', message: 'User is not in project' });
+        return;
+      }
+      response.locals.project.assigned_users = response.locals.project.assigned_users.splice(userIndex, 1);
     }
 
-    response.locals.project.assigned_users = response.locals.project.assigned_users.splice(userIndex, 1);
     await response.locals.projectRepository?.save(response.locals.project);
     logger.info(`User: ${user?.id} removed from project: ${response.locals.project.id}`);
     response.status(200).send({ field: 'alert', message: 'User removed from project' });

@@ -99,7 +99,6 @@ const getProject = (request, response) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getProject = getProject;
-// TODO
 const addUserToProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
     try {
@@ -110,7 +109,10 @@ const addUserToProject = (request, response) => __awaiter(void 0, void 0, void 0
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = yield userRepository.findOne(request.params.uid);
         if (user && response.locals.project) {
-            // TODO: Check if user in project
+            if (response.locals.project.assigned_users.indexOf(user) > -1) {
+                response.status(403).send({ field: 'alert', message: 'User is already in project' });
+                return;
+            }
             response.locals.project.assigned_users = [...response.locals.project.assigned_users, user];
         }
         yield ((_b = response.locals.projectRepository) === null || _b === void 0 ? void 0 : _b.save(response.locals.project));
@@ -132,9 +134,12 @@ const removeUserFromProject = (request, response) => __awaiter(void 0, void 0, v
         }
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = yield userRepository.findOne(request.params.uid);
-        if (user && response.locals.project) {
-            // TODO: Check if user not in project
+        if (user) {
             const userIndex = response.locals.project.assigned_users.indexOf(user);
+            if (userIndex === -1) {
+                response.status(403).send({ field: 'alert', message: 'User is not in project' });
+                return;
+            }
             response.locals.project.assigned_users = response.locals.project.assigned_users.splice(userIndex, 1);
         }
         yield ((_c = response.locals.projectRepository) === null || _c === void 0 ? void 0 : _c.save(response.locals.project));

@@ -33,7 +33,6 @@ const me = (request, response) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.me = me;
-// TODO: Change user role
 const changeRole = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
