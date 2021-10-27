@@ -6,15 +6,15 @@ import logger from './logger';
 const verifyAccess = async (request: Request, response: Response, next: NextFunction) => {
   try {
     const projectRepository = getRepository(Project);
-    const project = await projectRepository.findOne(request.body.id, { relations: ['user'] });
+    const project = await projectRepository
+      .createQueryBuilder('project')
+      .where(`project.id = ${request.params.id}`)
+      .leftJoinAndSelect('project.assigned_users', 'user')
+      .andWhere(`user.id = ${request.session.userId}`)
+      .getOne();
 
     if (!project) {
       response.status(404).send({ field: 'alert', message: 'Project not found' });
-      return;
-    }
-
-    if (project.user.id !== request.session.userId) {
-      response.status(401).send();
       return;
     }
 
@@ -26,6 +26,7 @@ const verifyAccess = async (request: Request, response: Response, next: NextFunc
     logger.error(error);
     response.status(500).send({ message: error.message });
   }
+  
 };
 
 export default verifyAccess;

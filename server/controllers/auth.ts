@@ -1,6 +1,7 @@
 import * as argon2 from 'argon2';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
+import { Role } from '../entity/Role';
 import { User } from '../entity/User';
 import logger from '../middleware/logger';
 
@@ -8,9 +9,17 @@ export const register = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
     const user = new User();
+    const roleRepository = getRepository(Role);
+    const role = await roleRepository.findOne(request.body.role);
+
+    if (!role) {
+      throw new Error('Role not found');
+    }
+
     user.username = request.body.username;
     user.password = await argon2.hash(request.body.password);
     user.email = request.body.email;
+    user.role = role;
 
     await userRepository.save(user);
     logger.info('Saved a new user with id: ' + user.id);
@@ -24,10 +33,12 @@ export const register = async (request: Request, response: Response) => {
 export const login = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
-    const user = await userRepository.findOne({ username: request.body.username });
+    const user = await userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where({ username: request.body.password }).getOne();
+
+    console.log(user);
 
     if (!user) {
-      response.status(401).send({ field: 'username', message: 'User not found' });
+      response.status(404).send({ field: 'username', message: 'User not found' });
       return;
     }
 
@@ -45,21 +56,5 @@ export const login = async (request: Request, response: Response) => {
   } catch (error) {
     logger.error(error);
     response.status(500).send({ message: error.message });
-  }
-};
-
-export const me = async (request: Request, response: Response) => {
-  try {
-    const userRepository = getRepository(User);
-    const user = await userRepository.findOne(request.session.userId);
-    if (!user) {
-      response.status(401).send();
-      return;
-    }
-
-    response.status(200).send({ username: user.username });
-  } catch (error) {
-    logger.error(error);
-    response.status(500);
   }
 };

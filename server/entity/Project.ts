@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { User } from './User';
 
 @Entity()
@@ -6,14 +6,18 @@ export class Project {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ nullable: false })
   title!: string;
 
-  @Column()
+  @Column({ nullable: false })
   description!: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: false })
   user!: User;
+
+  @ManyToMany(() => User, (user) => user.projects, { nullable: false })
+  @JoinTable()
+  assigned_users: User[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at!: Date;

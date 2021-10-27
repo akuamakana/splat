@@ -31,18 +31,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.me = exports.login = exports.register = void 0;
+exports.login = exports.register = void 0;
 const argon2 = __importStar(require("argon2"));
 const typeorm_1 = require("typeorm");
+const Role_1 = require("../entity/Role");
 const User_1 = require("../entity/User");
 const logger_1 = __importDefault(require("../middleware/logger"));
 const register = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = new User_1.User();
+        const roleRepository = (0, typeorm_1.getRepository)(Role_1.Role);
+        const role = yield roleRepository.findOne(request.body.role);
+        if (!role) {
+            throw new Error('Role not found');
+        }
         user.username = request.body.username;
         user.password = yield argon2.hash(request.body.password);
         user.email = request.body.email;
+        user.role = role;
         yield userRepository.save(user);
         logger_1.default.info('Saved a new user with id: ' + user.id);
         response.status(201).send({ message: 'User successfully created.' });
@@ -56,9 +63,10 @@ exports.register = register;
 const login = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
-        const user = yield userRepository.findOne({ username: request.body.username });
+        const user = yield userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where({ username: request.body.password }).getOne();
+        console.log(user);
         if (!user) {
-            response.status(401).send({ field: 'username', message: 'User not found' });
+            response.status(404).send({ field: 'username', message: 'User not found' });
             return;
         }
         const validPassword = yield argon2.verify(user.password, request.body.password);
@@ -76,20 +84,4 @@ const login = (request, response) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.login = login;
-const me = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const userRepository = (0, typeorm_1.getRepository)(User_1.User);
-        const user = yield userRepository.findOne(request.session.userId);
-        if (!user) {
-            response.status(401).send();
-            return;
-        }
-        response.status(200).send({ username: user.username });
-    }
-    catch (error) {
-        logger_1.default.error(error);
-        response.status(500);
-    }
-});
-exports.me = me;
 //# sourceMappingURL=auth.js.map

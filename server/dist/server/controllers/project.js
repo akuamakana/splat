@@ -12,10 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeUserFromProject = exports.addUserToProject = exports.getProject = exports.getProjects = exports.deleteProject = exports.updateProject = exports.createProject = void 0;
+exports.addUserToProject = exports.getProject = exports.getProjects = exports.deleteProject = exports.updateProject = exports.createProject = void 0;
 const typeorm_1 = require("typeorm");
 const Project_1 = require("../entity/Project");
-const User_1 = require("../entity/User");
 const logger_1 = __importDefault(require("../middleware/logger"));
 const createProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -84,72 +83,32 @@ const getProjects = (request, response) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.getProjects = getProjects;
-const getProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+const getProject = (_, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const project = yield ((_a = response.locals.projectRepository) === null || _a === void 0 ? void 0 : _a.findOne(request.params.id, { relations: ['assigned_users'] }));
-        if (!project) {
+        if (!response.locals.project) {
             response.status(404).send({ message: 'Project not found' });
             return;
         }
-        response.status(200).send({ project });
+        response.status(200).send({ project: response.locals.project });
     }
     catch (error) {
         response.status(500).send({ error: error.message });
     }
 });
 exports.getProject = getProject;
+// TODO
 const addUserToProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
     try {
         if (!response.locals.project) {
             response.status(404).send({ message: 'Project not found' });
             return;
         }
-        const userRepository = (0, typeorm_1.getRepository)(User_1.User);
-        const user = yield userRepository.findOne(request.params.uid);
-        if (user && response.locals.project) {
-            if (response.locals.project.assigned_users.indexOf(user) > -1) {
-                response.status(403).send({ field: 'alert', message: 'User is already in project' });
-                return;
-            }
-            response.locals.project.assigned_users = [...response.locals.project.assigned_users, user];
-        }
-        yield ((_b = response.locals.projectRepository) === null || _b === void 0 ? void 0 : _b.save(response.locals.project));
-        logger_1.default.info(`User: ${user === null || user === void 0 ? void 0 : user.id} added to project: ${response.locals.project.id}`);
-        response.status(200).send({ field: 'alert', message: 'User added to project' });
+        const UserResponse;
+        response.locals.project.assigned_users;
     }
     catch (error) {
-        logger_1.default.error(error);
-        response.status(500).send({ error: error.message });
     }
 });
 exports.addUserToProject = addUserToProject;
-const removeUserFromProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
-    try {
-        if (!response.locals.project) {
-            response.status(404).send({ message: 'Project not found' });
-            return;
-        }
-        const userRepository = (0, typeorm_1.getRepository)(User_1.User);
-        const user = yield userRepository.findOne(request.params.uid);
-        if (user) {
-            const userIndex = response.locals.project.assigned_users.indexOf(user);
-            if (userIndex === -1) {
-                response.status(403).send({ field: 'alert', message: 'User is not in project' });
-                return;
-            }
-            response.locals.project.assigned_users = response.locals.project.assigned_users.splice(userIndex, 1);
-        }
-        yield ((_c = response.locals.projectRepository) === null || _c === void 0 ? void 0 : _c.save(response.locals.project));
-        logger_1.default.info(`User: ${user === null || user === void 0 ? void 0 : user.id} removed from project: ${response.locals.project.id}`);
-        response.status(200).send({ field: 'alert', message: 'User removed from project' });
-    }
-    catch (error) {
-        logger_1.default.error(error);
-        response.status(500).send({ error: error.message });
-    }
-});
-exports.removeUserFromProject = removeUserFromProject;
+// export const removeUserFromProject = async (request: Request, response: Response) => {};
 //# sourceMappingURL=project.js.map

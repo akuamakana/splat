@@ -4,9 +4,11 @@ exports.routes = void 0;
 const project_1 = require("./project");
 const auth_1 = require("./auth");
 const hello_1 = require("./hello");
+const user_1 = require("./user");
 exports.routes = {
     hello: hello_1.helloRoute,
     auth: auth_1.authRoute,
     project: project_1.projectRoute,
+    user: user_1.userRoute,
 };
 //# sourceMappingURL=index.js.map

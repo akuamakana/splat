@@ -33,6 +33,7 @@ const main = async () => {
       store: new RedisStore({ client: redisClient, disableTouch: true }),
     })
   );
+  app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   app.use(cors(corsOptions));
   app.use(cookieParser());
@@ -40,6 +41,7 @@ const main = async () => {
   routes.hello(app);
   routes.auth(app);
   routes.project(app);
+  routes.user(app);
 
   app.listen(process.env.PORT || 8080, () => {
     logger.info(`Server is running on http://localhost:${process.env.PORT}`);

@@ -1,21 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Project } from './Project';
+import { Role } from './Role';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ nullable: false })
   username!: string;
 
-  @Column()
+  @Column({ select: false, nullable: false })
   password!: string;
 
-  @Column()
+  @Column({ nullable: false })
   email!: string;
 
-  @OneToMany(() => Project, (project) => project.user)
+  @ManyToOne(() => Role, (role) => role.user, { nullable: false })
+  role!: Role;
+
+  @ManyToMany(() => Project, (project) => project.assigned_users, { nullable: false })
+  // @JoinTable()
   projects: Project[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
