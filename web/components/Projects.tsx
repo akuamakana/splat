@@ -1,43 +1,28 @@
+import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import React from 'react';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption } from '@chakra-ui/react';
+import { useQuery } from 'react-query';
+import { fetchProjects } from '../lib/splat-api';
+import ProjectItem from './shared/ProjectItem';
 
 interface ProjectsProps {}
 
 const Projects: React.FC<ProjectsProps> = ({}) => {
+  const { data } = useQuery('projects', fetchProjects);
+
   return (
     <Table variant="simple">
-      <TableCaption>Imperial to metric conversion factors</TableCaption>
       <Thead>
         <Tr>
-          <Th>To convert</Th>
-          <Th>into</Th>
-          <Th isNumeric>multiply by</Th>
+          <Th>id</Th>
+          <Th>Title</Th>
+          <Th>Description</Th>
         </Tr>
       </Thead>
       <Tbody>
-        <Tr>
-          <Td>inches</Td>
-          <Td>millimetres (mm)</Td>
-          <Td isNumeric>25.4</Td>
-        </Tr>
-        <Tr>
-          <Td>feet</Td>
-          <Td>centimetres (cm)</Td>
-          <Td isNumeric>30.48</Td>
-        </Tr>
-        <Tr>
-          <Td>yards</Td>
-          <Td>metres (m)</Td>
-          <Td isNumeric>0.91444</Td>
-        </Tr>
+        {data?.projects.map((project) => (
+          <ProjectItem project={project} key={project.id} />
+        ))}
       </Tbody>
-      <Tfoot>
-        <Tr>
-          <Th>To convert</Th>
-          <Th>into</Th>
-          <Th isNumeric>multiply by</Th>
-        </Tr>
-      </Tfoot>
     </Table>
   );
 };

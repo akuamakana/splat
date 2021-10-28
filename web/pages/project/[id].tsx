@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
-const Index: NextPage = () => {
+const Project: NextPage = () => {
   return <div>To be a landing page</div>;
 };
 
-export default Index;
+export default Project;

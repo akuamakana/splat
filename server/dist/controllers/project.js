@@ -76,7 +76,12 @@ exports.deleteProject = deleteProject;
 const getProjects = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const projectRepository = (0, typeorm_1.getRepository)(Project_1.Project);
-        const projects = yield projectRepository.createQueryBuilder('project').leftJoinAndSelect('project.assigned_users', 'user').where(`user.id = ${request.session.userId}`).getMany();
+        const projects = yield projectRepository
+            .createQueryBuilder('project')
+            .leftJoinAndSelect('project.assigned_users', 'assigned_users')
+            .where(`assigned_users.id = ${request.session.userId}`)
+            .orderBy('project.updated_at', 'DESC')
+            .getMany();
         response.status(200).send({ projects });
     }
     catch (error) {

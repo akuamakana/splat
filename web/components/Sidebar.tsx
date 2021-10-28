@@ -6,7 +6,7 @@ interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
   return (
-    <Box textAlign="center" height="100vh" p="12" pt="0" bg="gray.700" width="260px" position="fixed" boxShadow="sm" color="white">
+    <Box textAlign="center" h="100%" p="12" pt="0" bg="gray.700" boxShadow="sm" color="white">
       <Box h="80px"></Box>
       <Text as="strong" fontSize="3xl">
         Filler
