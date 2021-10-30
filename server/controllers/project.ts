@@ -58,7 +58,12 @@ export const deleteProject = async (_: Request, response: Response) => {
 export const getProjects = async (request: Request, response: Response) => {
   try {
     const projectRepository = getRepository(Project);
-    const projects: Project[] = await projectRepository.createQueryBuilder('project').leftJoinAndSelect('project.assigned_users', 'user').where(`user.id = ${request.session.userId}`).getMany();
+    const projects: Project[] = await projectRepository
+      .createQueryBuilder('project')
+      .leftJoinAndSelect('project.assigned_users', 'assigned_users')
+      .where(`assigned_users.id = ${request.session.userId}`)
+      .orderBy('project.updated_at', 'DESC')
+      .getMany();
 
     response.status(200).send({ projects });
   } catch (error) {

@@ -4,13 +4,14 @@ import { Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import InputField from '../components/InputField';
-import Wrapper from '../components/Wrapper';
+import InputField from '../components/shared/InputField';
+import Wrapper from '../components/shared/Wrapper';
 import { UserResponse } from '../types/User';
 import Link from 'next/link';
 import router from 'next/router';
+import { NextPage } from 'next';
 
-const Register: React.FC<{}> = ({}) => {
+const Register: NextPage = () => {
   return (
     <Wrapper variant="small">
       <Box style={{ overflow: 'hidden' }} boxShadow="md" rounded="sm" bg="white">
