@@ -16,7 +16,7 @@ export const createProject = async (request: Request, response: Response) => {
       project.assigned_users = [response.locals.user];
       await projectRepository.save(project);
       logger.info('Project created successfully: ' + project.id);
-      response.status(201).send({ field: 'alert', message: 'Project successfully created.', project: project });
+      response.status(201).send({ field: 'alert', message: 'Project successfully created.', ...project });
     } else {
       response.status(401).send({ message: 'Access denied' });
       return;
@@ -31,7 +31,7 @@ export const updateProject = async (request: Request, response: Response) => {
   try {
     if (response.locals.projectRepository && response.locals.project) {
       const updatedProject = await response.locals.projectRepository.save({ id: response.locals.project.id, ...request.body });
-      response.status(200).send({ field: 'alert', message: 'Project successfully updated.', project: updatedProject });
+      response.status(200).send({ field: 'alert', message: 'Project successfully updated.', ...updatedProject });
     } else {
       response.status(401).send({ field: 'alert', message: 'Access denied' });
     }
@@ -65,7 +65,7 @@ export const getProjects = async (request: Request, response: Response) => {
       .orderBy('project.updated_at', 'DESC')
       .getMany();
 
-    response.status(200).send({ projects });
+    response.status(200).send(projects);
   } catch (error) {
     response.status(500).send({ error: error.message });
   }
@@ -79,7 +79,7 @@ export const getProject = async (request: Request, response: Response) => {
       return;
     }
 
-    response.status(200).send({ project });
+    response.status(200).send(project);
   } catch (error) {
     response.status(500).send({ error: error.message });
   }

@@ -1,16 +1,17 @@
-import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Table, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 import React from 'react';
-import { useQuery } from 'react-query';
-import { fetchProjects } from '../lib/splat-api';
+import { useProjects } from '../lib/splat-api';
 import ProjectItem from './shared/ProjectItem';
+import { useMediaQuery } from '@chakra-ui/react';
 
 interface ProjectsProps {}
 
 const Projects: React.FC<ProjectsProps> = ({}) => {
-  const { data } = useQuery('projects', fetchProjects);
+  const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
+  const { data } = useProjects();
 
   return (
-    <Table variant="simple">
+    <Table variant="simple" size={isLargerThan992 ? 'md' : 'sm'}>
       <Thead>
         <Tr>
           <Th>id</Th>
@@ -19,7 +20,7 @@ const Projects: React.FC<ProjectsProps> = ({}) => {
         </Tr>
       </Thead>
       <Tbody>
-        {data?.projects.map((project) => (
+        {data?.map((project) => (
           <ProjectItem project={project} key={project.id} />
         ))}
       </Tbody>

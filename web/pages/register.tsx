@@ -6,10 +6,10 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import InputField from '../components/shared/InputField';
 import Wrapper from '../components/shared/Wrapper';
-import { UserResponse } from '../types/User';
 import Link from 'next/link';
 import router from 'next/router';
 import { NextPage } from 'next';
+import { IUserResponse } from '../interfaces/IUserResponse';
 
 const Register: NextPage = () => {
   return (
@@ -28,7 +28,7 @@ const Register: NextPage = () => {
                   router.push('/login');
                 }
               } catch (error: any) {
-                const _data: UserResponse = error.response.data;
+                const _data: IUserResponse = error.response.data;
                 const { field, message } = _data;
                 setFieldError(field, message);
               }

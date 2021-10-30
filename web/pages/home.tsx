@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Card from '../components/shared/Card';
-import Content from '../components/shared/Content';
+import Content from '../layout/Content';
 import Projects from '../components/Projects';
 
 const Home: NextPage = () => {

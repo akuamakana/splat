@@ -25,7 +25,7 @@ const me = (request, response) => __awaiter(void 0, void 0, void 0, function* ()
             response.status(401).send();
             return;
         }
-        response.status(200).send({ user });
+        response.status(200).send(user);
     }
     catch (error) {
         logger_1.default.error(error);
