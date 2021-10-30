@@ -1,15 +1,15 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Heading, Spacer } from '@chakra-ui/layout';
-import { Text, Link as CLink } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import InputField from '../components/shared/InputField';
 import Wrapper from '../components/shared/Wrapper';
-import { UserResponse } from '../types/User';
 import Link from 'next/link';
 import router from 'next/router';
 import { NextPage } from 'next';
+import { IUserResponse } from '../interfaces/IUserResponse';
 
 const Login: NextPage = () => {
   return (
@@ -25,10 +25,10 @@ const Login: NextPage = () => {
               try {
                 const res = await axios.post('http://localhost:3001/auth/login', values, { withCredentials: true });
                 if (res.status === 200) {
-                  router.push('/');
+                  router.push('/home');
                 }
               } catch (error: any) {
-                const _data: UserResponse = error.response.data;
+                const _data: IUserResponse = error.response.data;
                 const { field, message } = _data;
                 setFieldError(field, message);
               }

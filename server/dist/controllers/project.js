@@ -28,7 +28,7 @@ const createProject = (request, response) => __awaiter(void 0, void 0, void 0, f
             project.assigned_users = [response.locals.user];
             yield projectRepository.save(project);
             logger_1.default.info('Project created successfully: ' + project.id);
-            response.status(201).send({ field: 'alert', message: 'Project successfully created.', project: project });
+            response.status(201).send(Object.assign({ field: 'alert', message: 'Project successfully created.' }, project));
         }
         else {
             response.status(401).send({ message: 'Access denied' });
@@ -45,7 +45,7 @@ const updateProject = (request, response) => __awaiter(void 0, void 0, void 0, f
     try {
         if (response.locals.projectRepository && response.locals.project) {
             const updatedProject = yield response.locals.projectRepository.save(Object.assign({ id: response.locals.project.id }, request.body));
-            response.status(200).send({ field: 'alert', message: 'Project successfully updated.', project: updatedProject });
+            response.status(200).send(Object.assign({ field: 'alert', message: 'Project successfully updated.' }, updatedProject));
         }
         else {
             response.status(401).send({ field: 'alert', message: 'Access denied' });
@@ -82,7 +82,7 @@ const getProjects = (request, response) => __awaiter(void 0, void 0, void 0, fun
             .where(`assigned_users.id = ${request.session.userId}`)
             .orderBy('project.updated_at', 'DESC')
             .getMany();
-        response.status(200).send({ projects });
+        response.status(200).send(projects);
     }
     catch (error) {
         response.status(500).send({ error: error.message });
@@ -97,7 +97,7 @@ const getProject = (request, response) => __awaiter(void 0, void 0, void 0, func
             response.status(404).send({ message: 'Project not found' });
             return;
         }
-        response.status(200).send({ project });
+        response.status(200).send(project);
     }
     catch (error) {
         response.status(500).send({ error: error.message });

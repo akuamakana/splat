@@ -7,8 +7,10 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ children, heading }) => {
   return (
-    <Box height="full" bgColor="white" boxShadow="sm" rounded="sm" p="6">
-      <Heading mb="6">{heading}</Heading>
+    <Box bgColor="white" boxShadow="sm" rounded="sm" p="6">
+      <Heading size="md" color="gray.700" mb="8">
+        {heading.toUpperCase()}
+      </Heading>
       <Box>{children}</Box>
     </Box>
   );

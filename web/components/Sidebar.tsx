@@ -8,8 +8,8 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
   return (
     <Box textAlign="center" h="100%" p="12" pt="0" bg="gray.700" boxShadow="sm" color="white">
       <Box h="80px"></Box>
-      <Text as="strong" fontSize="3xl">
-        Filler
+      <Text as="strong" fontSize="xl" color="gray.400">
+        FILLER
       </Text>
     </Box>
   );
