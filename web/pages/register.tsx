@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Heading, Spacer } from '@chakra-ui/layout';
-import { Text } from '@chakra-ui/react';
+import { Text, Link as CLink } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -56,10 +56,12 @@ const Register: NextPage = () => {
         </Box>
       </Box>
       <Text mt={6} textAlign={['center']}>
-        Alrady have an account?
-        <Link href="/login">
-          <a> Login</a>
-        </Link>
+        Alrady have an account?{' '}
+        <CLink as="strong" color="blue.600">
+          <Link href="/login">
+            <a>Login</a>
+          </Link>
+        </CLink>
       </Text>
     </Wrapper>
   );
