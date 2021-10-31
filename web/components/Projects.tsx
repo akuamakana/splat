@@ -11,7 +11,7 @@ const Projects: React.FC<ProjectsProps> = ({}) => {
   const { data } = useProjects();
 
   return (
-    <Table variant="simple" size={isLargerThan992 ? 'md' : 'sm'}>
+    <Table variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
       <Thead>
         <Tr>
           <Th>id</Th>
