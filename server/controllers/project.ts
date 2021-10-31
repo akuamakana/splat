@@ -29,6 +29,10 @@ export const createProject = async (request: Request, response: Response) => {
 
 export const updateProject = async (request: Request, response: Response) => {
   try {
+    if (request.body.title.length < 3) {
+      response.status(400).send({ field: 'title', message: 'Too short' });
+      return;
+    }
     if (response.locals.projectRepository && response.locals.project) {
       const updatedProject = await response.locals.projectRepository.save({ id: response.locals.project.id, ...request.body });
       response.status(200).send({ field: 'alert', message: 'Project successfully updated.', ...updatedProject });

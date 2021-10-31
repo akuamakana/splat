@@ -1,14 +1,14 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Heading, Spacer } from '@chakra-ui/layout';
-import { Text } from '@chakra-ui/react';
+import { Text, Link as CLink } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
+import { NextPage } from 'next';
+import Link from 'next/link';
+import router from 'next/router';
 import React from 'react';
 import InputField from '../components/shared/InputField';
 import Wrapper from '../components/shared/Wrapper';
-import Link from 'next/link';
-import router from 'next/router';
-import { NextPage } from 'next';
 import { IUserResponse } from '../interfaces/IUserResponse';
 
 const Login: NextPage = () => {
@@ -25,7 +25,7 @@ const Login: NextPage = () => {
               try {
                 const res = await axios.post('http://localhost:3001/auth/login', values, { withCredentials: true });
                 if (res.status === 200) {
-                  router.push('/home');
+                  router.push('/projects');
                 }
               } catch (error: any) {
                 const _data: IUserResponse = error.response.data;
@@ -55,10 +55,10 @@ const Login: NextPage = () => {
         </Box>
       </Box>
       <Text mt={6} textAlign={['center']}>
-        New here?
-        <Link href="/register">
-          <a> Create an account</a>
-        </Link>
+        New here?{' '}
+        <CLink color="blue.600" as="strong">
+          <Link href="/register">Create an account</Link>
+        </CLink>
       </Text>
     </Wrapper>
   );

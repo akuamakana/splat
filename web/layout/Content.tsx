@@ -4,11 +4,16 @@ import { useMe } from '../lib/splat-api';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { Loading } from '../components/shared/Loading';
+import router from 'next/router';
 
 interface Content {}
 
 const Content: React.FC<{}> = ({ children }) => {
-  const { isSuccess, isLoading } = useMe();
+  const { isSuccess, isLoading, isError } = useMe();
+
+  if (isError) {
+    router.push('/login');
+  }
 
   return (
     <>

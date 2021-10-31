@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { useQuery } from 'react-query';
-import { IProject } from '../interfaces/IProject';
-import { IUser } from '../interfaces/IUser';
+import { useMutation, useQuery } from 'react-query';
+import { IProject } from '@interfaces/IProject';
+import { IUser } from '@interfaces/IUser';
 import constants from './constants';
 
 const _axios = axios.create({ withCredentials: true });
@@ -21,12 +21,17 @@ const fetchMe = async () => {
   return data;
 };
 
+export const updateProject = async (id: string, values: { title: string; description: string }) => {
+  const { data } = await _axios.put<IProject>(`${constants.API_URL}/project/${id}`, values);
+  return data;
+};
+
 export const useMe = () => {
   return useQuery<IUser, Error>('me', fetchMe, { staleTime: 1000 * 20 });
 };
 
 export const useProject = (id: string) => {
-  return useQuery<IProject, Error>('project', () => fetchProject(id));
+  return useQuery<IProject, Error>('project', () => fetchProject(id), {});
 };
 
 export const useProjects = () => {

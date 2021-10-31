@@ -43,6 +43,10 @@ const createProject = (request, response) => __awaiter(void 0, void 0, void 0, f
 exports.createProject = createProject;
 const updateProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (request.body.title.length < 3) {
+            response.status(400).send({ field: 'title', message: 'Too short' });
+            return;
+        }
         if (response.locals.projectRepository && response.locals.project) {
             const updatedProject = yield response.locals.projectRepository.save(Object.assign({ id: response.locals.project.id }, request.body));
             response.status(200).send(Object.assign({ field: 'alert', message: 'Project successfully updated.' }, updatedProject));

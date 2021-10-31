@@ -19,7 +19,20 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
   };
 
   return (
-    <Tr style={{ cursor: 'pointer' }} bgColor={hover ? 'gray.100' : ''} onClick={() => router.push(`/project/${project.id}`)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <Tr
+      style={{ cursor: 'pointer' }}
+      bgColor={hover ? 'gray.100' : ''}
+      onClick={() =>
+        router.push({
+          pathname: '/project/[id]',
+          query: {
+            id: project.id,
+          },
+        })
+      }
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <Td>{project.id}</Td>
       <Td>{project.title}</Td>
       <Td>{project.description}</Td>

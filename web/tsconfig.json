@@ -25,6 +25,13 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@layout/*": ["layout/*"],
+      "@lib/*": ["lib/*"],
+      "@interfaces/*": ["interfaces/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "styles/theme.ts"],
   "exclude": ["node_modules"]

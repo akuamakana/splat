@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Grid } from '@chakra-ui/react';
 import React from 'react';
 
 interface WrapperProps {
@@ -7,9 +7,11 @@ interface WrapperProps {
 
 const Wrapper: React.FC<WrapperProps> = ({ children, variant = 'regular' }) => {
   return (
-    <Box mt={8} mx="auto" maxW={variant === 'regular' ? '800px' : '400px'} w="100%">
-      {children}
-    </Box>
+    <Grid h="100vh" placeItems="center">
+      <Box mx="auto" maxW={variant === 'regular' ? '800px' : '400px'} w="100%">
+        {children}
+      </Box>
+    </Grid>
   );
 };
 
