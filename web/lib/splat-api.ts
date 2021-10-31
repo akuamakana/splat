@@ -11,13 +11,22 @@ const fetchProjects = async () => {
   return data;
 };
 
+const fetchProject = async (id: string) => {
+  const { data } = await _axios.get<IProject>(`${constants.API_URL}/project/${id}`);
+  return data;
+};
+
 const fetchMe = async () => {
   const { data } = await _axios.get<IUser>(`${constants.API_URL}/user/me`);
   return data;
 };
 
 export const useMe = () => {
-  return useQuery<IUser, Error>('me', fetchMe);
+  return useQuery<IUser, Error>('me', fetchMe, { staleTime: 1000 * 20 });
+};
+
+export const useProject = (id: string) => {
+  return useQuery<IProject, Error>('project', () => fetchProject(id));
 };
 
 export const useProjects = () => {

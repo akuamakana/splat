@@ -1,16 +1,7 @@
-import type { NextPage } from 'next';
-import Card from '../components/shared/Card';
-import Content from '../layout/Content';
-import Projects from '../components/Projects';
+import { NextPage } from 'next';
 
-const Home: NextPage = () => {
-  return (
-    <Content>
-      <Card heading="Projects">
-        <Projects />
-      </Card>
-    </Content>
-  );
+const Index: NextPage = () => {
+  return <div>To be a home page</div>;
 };
 
-export default Home;
+export default Index;

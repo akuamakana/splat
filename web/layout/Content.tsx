@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, SimpleGrid } from '@chakra-ui/react';
 import React from 'react';
 import { useMe } from '../lib/splat-api';
 import Navbar from '../components/Navbar';
@@ -27,7 +27,9 @@ const Content: React.FC<{}> = ({ children }) => {
               <Navbar />
             </GridItem>
             <GridItem bgColor="gray.100" p="6" overflowY="auto">
-              {children}
+              <SimpleGrid columns={1} spacing={6}>
+                {children}
+              </SimpleGrid>
             </GridItem>
           </>
         )}
