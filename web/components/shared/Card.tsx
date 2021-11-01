@@ -2,7 +2,7 @@ import { Box, Heading, HStack, Spacer } from '@chakra-ui/layout';
 import React from 'react';
 
 interface CardProps {
-  heading?: string;
+  heading: string;
   description?: string;
   control?: React.ReactNode;
 }
@@ -15,9 +15,11 @@ const Card: React.FC<CardProps> = ({ children, heading, description, control }) 
           <Heading size="md" color="gray.700">
             {heading?.toUpperCase()}
           </Heading>
-          <Heading size="sm" color="gray.600" mt={2}>
-            {description}
-          </Heading>
+          {description && (
+            <Heading size="sm" color="gray.600" mt={2}>
+              {description}
+            </Heading>
+          )}
         </Box>
         <Spacer />
         <Box>{control}</Box>

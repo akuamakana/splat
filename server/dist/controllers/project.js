@@ -19,6 +19,10 @@ const User_1 = require("../entity/User");
 const logger_1 = __importDefault(require("../middleware/logger"));
 const createProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (request.body.title.length < 3) {
+            response.status(400).send({ field: 'title', message: 'Too short' });
+            return;
+        }
         const projectRepository = (0, typeorm_1.getRepository)(Project_1.Project);
         const project = new Project_1.Project();
         project.title = request.body.title;

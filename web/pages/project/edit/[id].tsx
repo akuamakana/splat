@@ -13,14 +13,15 @@ import { useState } from 'react';
 import constants from '@lib/constants';
 import { IFieldError } from '@interfaces/IFieldError';
 import { IProjectInput } from '@interfaces/IProjectInput';
+import { IProject } from '@interfaces/IProject';
 
-const Index: NextPage = () => {
+const EditProject: NextPage = () => {
   const router = useRouter();
   const { data, isSuccess, isLoading } = useProject(router?.query?.id as string);
   const [error, setError] = useState<IFieldError>({ field: '', message: '' });
   const updateProjectMutation = useMutation(
     (values: IProjectInput) => {
-      return axios.put(`${constants.API_URL}/project/${router?.query?.id}`, values, { withCredentials: true });
+      return axios.put<IProject>(`${constants.API_URL}/project/${router?.query?.id}`, values, { withCredentials: true });
     },
     {
       onError: (_error: any) => {
@@ -48,8 +49,8 @@ const Index: NextPage = () => {
 
   return (
     <Content>
-      <Card>
-        {isSuccess && (
+      {isSuccess && (
+        <Card heading={data ? data.title : ''} description="Edit project">
           <Formik
             initialValues={{ title: data ? data.title : '', description: data ? data.description : '' }}
             onSubmit={async (values, { setFieldError }) => {
@@ -61,7 +62,7 @@ const Index: NextPage = () => {
           >
             {({ isSubmitting }) => (
               <Form>
-                <Box>
+                <Box mt={10}>
                   <InputField name="title" label="Title" placeholder="Title..." />
                 </Box>
                 <Box mt={6}>
@@ -83,11 +84,11 @@ const Index: NextPage = () => {
               </Form>
             )}
           </Formik>
-        )}
-        {isLoading && <Loading />}
-      </Card>
+        </Card>
+      )}
+      {isLoading && <Loading />}
     </Content>
   );
 };
 
-export default Index;
+export default EditProject;
