@@ -103,17 +103,20 @@ export const addUserToProject = async (request: Request, response: Response) => 
     const userRepository = getRepository(User);
     const user = await userRepository.findOne(request.params.uid);
 
-    if (user && response.locals.project) {
+    const projectRepository = getRepository(Project);
+    const project = await projectRepository.findOne(response.locals.project.id, { relations: ['assigned_users'] });
+
+    if (user && project) {
       if (response.locals.project.assigned_users.indexOf(user) > -1) {
         response.status(403).send({ field: 'alert', message: 'User is already in project' });
         return;
       }
-      response.locals.project.assigned_users = [...response.locals.project.assigned_users, user];
-    }
+      project.assigned_users = [...project.assigned_users, user];
+      await projectRepository?.save(project);
 
-    await response.locals.projectRepository?.save(response.locals.project);
-    logger.info(`User: ${user?.id} added to project: ${response.locals.project.id}`);
-    response.status(200).send({ field: 'alert', message: 'User added to project' });
+      logger.info(`User: ${user?.id} added to project: ${project.id}`);
+      response.status(200).send({ field: 'alert', message: 'User added to project' });
+    }
   } catch (error) {
     logger.error(error);
     response.status(500).send({ error: error.message });
@@ -122,7 +125,10 @@ export const addUserToProject = async (request: Request, response: Response) => 
 
 export const removeUserFromProject = async (request: Request, response: Response) => {
   try {
-    if (!response.locals.project) {
+    const projectRepository = getRepository(Project);
+    const project = await projectRepository.findOne(request.params.id, { relations: ['assigned_users'] });
+
+    if (!project) {
       response.status(404).send({ message: 'Project not found' });
       return;
     }
@@ -131,16 +137,20 @@ export const removeUserFromProject = async (request: Request, response: Response
     const user = await userRepository.findOne(request.params.uid);
 
     if (user) {
-      const userIndex = response.locals.project.assigned_users.indexOf(user);
-      if (userIndex === -1) {
+      if (user.id === request.session.userId) {
+        response.status(400).send({ field: 'alert', message: 'Unable to remove self from project' });
+        return;
+      }
+      const _assignedUsers = project.assigned_users.filter((_user) => user.id !== _user.id);
+      if (_assignedUsers.length === 0) {
         response.status(403).send({ field: 'alert', message: 'User is not in project' });
         return;
       }
-      response.locals.project.assigned_users = response.locals.project.assigned_users.splice(userIndex, 1);
+      project.assigned_users = _assignedUsers;
     }
 
-    await response.locals.projectRepository?.save(response.locals.project);
-    logger.info(`User: ${user?.id} removed from project: ${response.locals.project.id}`);
+    await projectRepository?.save(project);
+    logger.info(`User: ${user?.id} removed from project: ${project.id}`);
     response.status(200).send({ field: 'alert', message: 'User removed from project' });
   } catch (error) {
     logger.error(error);

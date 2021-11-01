@@ -1,6 +1,7 @@
 import { Box, Button } from '@chakra-ui/react';
 import Card from '@components/Card';
 import SelectField from '@components/SelectField';
+import UserItem from '@components/UserItem';
 import UsersTable from '@components/UsersTable';
 import { IFieldError } from '@interfaces/IFieldError';
 import Content from '@layout/Content';
@@ -89,7 +90,11 @@ const ManageUsers: NextPage = () => {
       {data && (
         <Card heading="Users">
           <Box mt="6">
-            <UsersTable users={data} />
+            <UsersTable>
+              {data.map((user) => (
+                <UserItem key={user.id} user={user} />
+              ))}
+            </UsersTable>
           </Box>
         </Card>
       )}

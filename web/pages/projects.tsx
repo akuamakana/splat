@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Card from '@components/Card';
-import Content from '../layout/Content';
+import Content from '@layout/Content';
 import ProjectsTable from '@components/ProjectsTable';
 import { IconButton } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
