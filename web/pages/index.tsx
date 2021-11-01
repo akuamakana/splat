@@ -1,7 +1,12 @@
+import Content from '@layout/Content';
 import { NextPage } from 'next';
 
 const Index: NextPage = () => {
-  return <div>To be a landing page</div>;
+  return (
+    <Content>
+      <div>To be a landing page</div>
+    </Content>
+  );
 };
 
 export default Index;

@@ -2322,3 +2322,4 @@
 {"level":"info","message":"User: 3 update to role manager","timestamp":"2021-11-01 10:10:57"}
 {"level":"info","message":"User: 3 update to role admin","timestamp":"2021-11-01 10:11:02"}
 {"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 11:28:18"}
+{"level":"info","message":"User: 2 update to role developer","timestamp":"2021-11-01 11:38:20"}

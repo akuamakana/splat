@@ -1,20 +1,20 @@
-import { Box } from '@chakra-ui/layout';
-import { Link } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { VStack } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/react';
+import { SidebarLink } from '@components/SidebarLink';
+import { useMe } from '@lib/splat-api';
 import React from 'react';
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
-  const router = useRouter();
+  const { data } = useMe();
   return (
-    <Box textAlign="center" h="100%" p="12" pt="0" bg="gray.700" boxShadow="sm" color="white">
-      <Box h="80px"></Box>
-      <Link as="strong" fontSize="xl" color={router.route === '/projects' ? 'white' : 'gray.400'}>
-        <NextLink href="/projects">PROJECTS</NextLink>
-      </Link>
-    </Box>
+    <VStack textAlign="center" h="100%" bg="gray.700" boxShadow="sm" color="white">
+      <Box h="61px"></Box>
+      <SidebarLink href="/home">HOME</SidebarLink>
+      <SidebarLink href="/projects">PROJECTS</SidebarLink>
+      {data && data?.role?.id > 3 && <SidebarLink href="/manage-users">MANAGE USERS</SidebarLink>}
+    </VStack>
   );
 };
 

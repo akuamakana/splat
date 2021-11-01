@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Spacer } from '@chakra-ui/react';
-import Card from '@components/shared/Card';
-import InputField from '@components/shared/InputField';
+import Card from '@components/Card';
+import InputField from '@components/InputField';
 import { IFieldError } from '@interfaces/IFieldError';
 import { IProject } from '@interfaces/IProject';
 import { IProjectInput } from '@interfaces/IProjectInput';

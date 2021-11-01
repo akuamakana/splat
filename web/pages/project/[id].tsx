@@ -1,8 +1,8 @@
 import { EditIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
-import Card from '@components/shared/Card';
-import { Loading } from '@components/shared/Loading';
-import UsersTable from '@components/shared/UsersTable';
+import Card from '@components/Card';
+import { Loading } from '@components/Loading';
+import UsersTable from '@components/UsersTable';
 import Content from '@layout/Content';
 import { useProject } from '@lib/splat-api';
 import { NextPage } from 'next';

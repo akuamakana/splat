@@ -32,7 +32,7 @@ export const updateProject = async (id: string, values: { title: string; descrip
 };
 
 export const useMe = () => {
-  return useQuery<IUser, Error>('me', fetchMe, { staleTime: 1000 * 20 });
+  return useQuery<IUser, Error>('me', fetchMe, { staleTime: 1000 * 20, retry: 1 });
 };
 
 export const useProject = (id: string) => {

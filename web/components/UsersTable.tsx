@@ -1,7 +1,7 @@
 import { Table, Tbody, Th, Thead, Tr, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 import { IUser } from '@interfaces/IUser';
-import UserItem from '@components/shared/UserItem';
+import UserItem from '@components/UserItem';
 
 interface UsersTableProps {
   users: IUser[];

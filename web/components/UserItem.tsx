@@ -1,6 +1,6 @@
 import { Td, Tr } from '@chakra-ui/react';
 import React from 'react';
-import { IUser } from '../../interfaces/IUser';
+import { IUser } from '@interfaces/IUser';
 
 interface UserItemProps {
   user: IUser;
