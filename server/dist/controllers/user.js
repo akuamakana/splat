@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeRole = exports.me = void 0;
+exports.getUsers = exports.changeRole = exports.me = void 0;
 const typeorm_1 = require("typeorm");
 const Role_1 = require("../entity/Role");
 const User_1 = require("../entity/User");
@@ -38,7 +38,11 @@ const changeRole = (request, response) => __awaiter(void 0, void 0, void 0, func
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = yield userRepository.findOne(request.params.id);
         if (!user) {
-            response.status(404).send({ field: 'alert', message: 'User not found' });
+            response.status(404).send({ field: 'user', message: 'User not found' });
+            return;
+        }
+        if (user.id === request.session.userId) {
+            response.status(400).send({ field: 'user', message: 'Cannot update self' });
             return;
         }
         if (!request.body.role) {
@@ -62,4 +66,16 @@ const changeRole = (request, response) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.changeRole = changeRole;
+const getUsers = (_, response) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userRepository = (0, typeorm_1.getRepository)(User_1.User);
+        const users = yield userRepository.find({ relations: ['role'] });
+        response.status(200).send(users);
+    }
+    catch (error) {
+        logger_1.default.error(error);
+        response.status(500).send({ error: error.message });
+    }
+});
+exports.getUsers = getUsers;
 //# sourceMappingURL=user.js.map

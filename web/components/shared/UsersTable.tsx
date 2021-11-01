@@ -1,21 +1,21 @@
 import { Table, Tbody, Th, Thead, Tr, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
-import { IUser } from '../interfaces/IUser';
-import UserItem from './shared/UserItem';
+import { IUser } from '@interfaces/IUser';
+import UserItem from '@components/shared/UserItem';
 
-interface UsersProps {
+interface UsersTableProps {
   users: IUser[];
 }
 
-const Users: React.FC<UsersProps> = ({ users }) => {
+const UsersTable: React.FC<UsersTableProps> = ({ users }) => {
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
 
   return (
     <Table variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
       <Thead>
         <Tr>
-          <Th>Title</Th>
-          <Th>Description</Th>
+          <Th>ID</Th>
+          <Th>Username</Th>
           <Th>Role</Th>
         </Tr>
       </Thead>
@@ -28,4 +28,4 @@ const Users: React.FC<UsersProps> = ({ users }) => {
   );
 };
 
-export default Users;
+export default UsersTable;

@@ -2,7 +2,7 @@ import { EditIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
 import Card from '@components/shared/Card';
 import { Loading } from '@components/shared/Loading';
-import Users from '@components/Users';
+import UsersTable from '@components/shared/UsersTable';
 import Content from '@layout/Content';
 import { useProject } from '@lib/splat-api';
 import { NextPage } from 'next';
@@ -28,7 +28,7 @@ const Project: NextPage = () => {
             <IconButton aria-label="Create project" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/project/edit/[id]', query: { id: data ? data.id : router.query.id } })} />
           }
         ></Card>
-        <Card heading="Assigned Users">{data?.assigned_users && <Users users={data.assigned_users} />}</Card>
+        <Card heading="Assigned Users">{data?.assigned_users && <UsersTable users={data.assigned_users} />}</Card>
       </Content>
     );
   }
