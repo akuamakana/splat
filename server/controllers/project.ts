@@ -6,6 +6,10 @@ import logger from '../middleware/logger';
 
 export const createProject = async (request: Request, response: Response) => {
   try {
+    if (request.body.title.length < 3) {
+      response.status(400).send({ field: 'title', message: 'Too short' });
+      return;
+    }
     const projectRepository = getRepository(Project);
     const project = new Project();
     project.title = request.body.title;

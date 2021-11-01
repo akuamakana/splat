@@ -1,6 +1,6 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import { Box, HStack, Spacer } from '@chakra-ui/layout';
-import { Avatar, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text, useMediaQuery } from '@chakra-ui/react';
+import { Avatar, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useMe } from '../lib/splat-api';
 import { Loading } from './shared/Loading';
@@ -8,7 +8,6 @@ import { Loading } from './shared/Loading';
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = ({}) => {
-  const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
   const { data, isSuccess, isLoading } = useMe();
 
   if (isLoading) {
@@ -19,7 +18,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
     return (
       <HStack py="2" px="6" color="gray" bgColor="white" boxShadow="sm" zIndex="sticky" height={'max-content'}>
         <Box>
-          <InputGroup size={isLargerThan992 ? 'sm' : 'xs'}>
+          <InputGroup size={'sm'}>
             <InputLeftElement pointerEvents="none" size>
               <SearchIcon color="gray.300" />
             </InputLeftElement>
@@ -31,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
         <Menu>
           <MenuButton>
             <HStack>
-              <Avatar size={isLargerThan992 ? 'sm' : 'xs'} name={data?.email} />
+              <Avatar size={'sm'} name={data?.email} />
               <Box px="2" textAlign="left" display={{ base: 'none', lg: 'block' }}>
                 <Text fontSize="sm" as="strong">
                   {data?.email}
