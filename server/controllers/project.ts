@@ -81,7 +81,7 @@ export const getProjects = async (request: Request, response: Response) => {
 
 export const getProject = async (request: Request, response: Response) => {
   try {
-    const project = await response.locals.projectRepository?.findOne(request.params.id, { relations: ['assigned_users', 'assigned_users.role'] });
+    const project = await response.locals.projectRepository?.findOne(request.params.id, { relations: ['assigned_users', 'assigned_users.role', 'tickets', 'tickets.submitter', 'tickets.project'] });
     if (!project) {
       response.status(404).send({ message: 'Project not found' });
       return;

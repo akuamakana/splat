@@ -100,7 +100,7 @@ exports.getProjects = getProjects;
 const getProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const project = yield ((_a = response.locals.projectRepository) === null || _a === void 0 ? void 0 : _a.findOne(request.params.id, { relations: ['assigned_users', 'assigned_users.role'] }));
+        const project = yield ((_a = response.locals.projectRepository) === null || _a === void 0 ? void 0 : _a.findOne(request.params.id, { relations: ['assigned_users', 'assigned_users.role', 'tickets', 'tickets.submitter', 'tickets.project'] }));
         if (!project) {
             response.status(404).send({ message: 'Project not found' });
             return;
