@@ -1,10 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import { Express } from 'express';
 import { hello } from '../controllers/hello';
 
-export const helloRoute = (app) => {
-  app.use((request: Request, response: Response, next: NextFunction) => {
-    next();
-  });
-
+export const helloRoute = (app: Express) => {
   app.get('/hello', hello);
 };
