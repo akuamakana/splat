@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { getRepository } from 'typeorm';
-import { User } from '../entity/User';
+import { User } from '../entities/User';
 
 const verifyLoggedIn = async (request: Request, response: Response, next: NextFunction) => {
   if (!request.session.userId) {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepository, Repository } from 'typeorm';
-import { User } from '../entity/User';
+import { User } from '../entities/User';
 
 const validateRegister = async (request: Request, response: Response, next: NextFunction) => {
   // simple verification of email

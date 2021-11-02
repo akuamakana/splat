@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsers = exports.changeRole = exports.me = void 0;
 const typeorm_1 = require("typeorm");
-const Role_1 = require("../entity/Role");
-const User_1 = require("../entity/User");
-const logger_1 = __importDefault(require("../middleware/logger"));
+const Role_1 = require("../entities/Role");
+const User_1 = require("../entities/User");
+const logger_1 = __importDefault(require("../lib/logger"));
 const me = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);

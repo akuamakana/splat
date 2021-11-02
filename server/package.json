@@ -2,12 +2,14 @@
    "name": "server",
    "version": "1.0.0",
    "description": "splat server",
-   "main": "index.js",
+   "main": "app.js",
    "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "dev": "nodemon dist/app.js",
-      "start": "ts-node src/index.ts",
-      "watch": "tsc -w"
+      "start": "nodemon -r tsconfig-paths/register app.ts",
+      "watch": "tsc -w",
+      "build": "tsc -w --project tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./dist",
+      "start2": "node -r tsconfig-paths/register -r ts-node ./app.ts"
    },
    "author": "Kion Kaimi",
    "license": "ISC",
@@ -27,6 +29,7 @@
       "@types/winston": "^2.4.4",
       "nodemon": "^2.0.13",
       "ts-node": "3.3.0",
+      "tsconfig-paths": "^3.11.0",
       "typescript": "^4.4.4"
    },
    "dependencies": {
@@ -41,6 +44,7 @@
       "pg": "^8.7.1",
       "redis": "^3.1.2",
       "reflect-metadata": "^0.1.10",
+      "tscpaths": "^0.0.9",
       "typeorm": "0.2.38",
       "winston": "^3.3.3"
    }

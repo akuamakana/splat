@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Project } from './Project';
 import { User } from './User';
 
@@ -17,8 +17,8 @@ export enum TicketPriority {
 export enum TicketType {
   BUGS = 'bugs/errors',
   FEATURES = 'feature requests',
-  OTHER = 'other comments',
-  TRAINING = 'training/document requests',
+  OTHER = 'other',
+  TRAINING = 'training',
 }
 
 @Entity()
@@ -32,19 +32,23 @@ export class Ticket {
   @Column({ nullable: false })
   description!: string;
 
-  @ManyToOne(() => Project, (project) => project.tickets)
-  project: Project;
+  @ManyToOne(() => Project, (project) => project.tickets, { nullable: false })
+  @JoinColumn()
+  project!: Project;
 
   @ManyToOne(() => User, { nullable: false })
+  @JoinColumn()
   submitter!: User;
 
   @ManyToOne(() => User)
+  @JoinColumn()
   assigned_user!: User;
 
   @Column({
     type: 'enum',
     enum: TicketStatus,
     default: TicketStatus.OPEN,
+    nullable: false,
   })
   status: TicketStatus;
 
@@ -52,6 +56,7 @@ export class Ticket {
     type: 'enum',
     enum: TicketPriority,
     default: TicketPriority.MEDIUM,
+    nullable: false,
   })
   priority: TicketPriority;
 
@@ -59,6 +64,13 @@ export class Ticket {
     type: 'enum',
     enum: TicketType,
     default: TicketType.BUGS,
+    nullable: false,
   })
   type: TicketType;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  created_at!: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
+  updated_at!: Date;
 }

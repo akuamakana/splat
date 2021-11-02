@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Project } from '../entity/Project';
-import { User } from '../entity/User';
-import logger from '../middleware/logger';
+import { Project } from '../entities/Project';
+import { User } from '../entities/User';
+import logger from '../lib/logger';
 
 export const createProject = async (request: Request, response: Response) => {
   try {

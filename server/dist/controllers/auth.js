@@ -34,9 +34,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.register = void 0;
 const argon2 = __importStar(require("argon2"));
 const typeorm_1 = require("typeorm");
-const Role_1 = require("../entity/Role");
-const User_1 = require("../entity/User");
-const logger_1 = __importDefault(require("../middleware/logger"));
+const Role_1 = require("../entities/Role");
+const User_1 = require("../entities/User");
+const logger_1 = __importDefault(require("../lib/logger"));
 const register = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
@@ -64,7 +64,6 @@ const login = (request, response) => __awaiter(void 0, void 0, void 0, function*
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = yield userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where({ username: request.body.password }).getOne();
-        console.log(user);
         if (!user) {
             response.status(404).send({ field: 'username', message: 'User not found' });
             return;

@@ -7,7 +7,7 @@ exports.projectRoute = void 0;
 const verifyLoggedIn_1 = __importDefault(require("../middleware/verifyLoggedIn"));
 const verifyAccess_1 = __importDefault(require("../middleware/verifyAccess"));
 const verifyRole_1 = __importDefault(require("../middleware/verifyRole"));
-const project_1 = require("./../controllers/project");
+const project_1 = require("../controllers/project");
 const projectRoute = (app) => {
     app.post('/project', [verifyLoggedIn_1.default, (0, verifyRole_1.default)(3)], project_1.createProject);
     app.put('/project/:id', [verifyLoggedIn_1.default, verifyAccess_1.default, (0, verifyRole_1.default)(3)], project_1.updateProject);

@@ -38,7 +38,7 @@ const routes_1 = require("./routes");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 require("reflect-metadata");
-const logger_1 = __importDefault(require("./middleware/logger"));
+const logger_1 = __importDefault(require("./lib/logger"));
 const express_session_1 = __importDefault(require("express-session"));
 const redis_1 = __importDefault(require("redis"));
 const connect_redis_1 = __importDefault(require("connect-redis"));
@@ -68,6 +68,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     routes_1.routes.auth(app);
     routes_1.routes.project(app);
     routes_1.routes.user(app);
+    routes_1.routes.ticket(app);
     app.listen(process.env.PORT || 8080, () => {
         logger_1.default.info(`Server is running on http://localhost:${process.env.PORT}`);
     });

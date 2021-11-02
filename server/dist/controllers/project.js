@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeUserFromProject = exports.addUserToProject = exports.getProject = exports.getProjects = exports.deleteProject = exports.updateProject = exports.createProject = void 0;
 const typeorm_1 = require("typeorm");
-const Project_1 = require("../entity/Project");
-const User_1 = require("../entity/User");
-const logger_1 = __importDefault(require("../middleware/logger"));
+const Project_1 = require("../entities/Project");
+const User_1 = require("../entities/User");
+const logger_1 = __importDefault(require("../lib/logger"));
 const createProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (request.body.title.length < 3) {
