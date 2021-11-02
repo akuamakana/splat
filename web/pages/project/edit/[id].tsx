@@ -2,21 +2,21 @@ import { Box, Button, Flex, Spacer } from '@chakra-ui/react';
 import Card from '@components/Card';
 import InputField from '@components/InputField';
 import { Loading } from '@components/Loading';
+import { IFieldError } from '@interfaces/IFieldError';
+import { IProject } from '@interfaces/IProject';
+import { IProjectInput } from '@interfaces/IProjectInput';
 import Content from '@layout/Content';
+import constants from '@lib/constants';
+import { useProject } from '@lib/splat-api';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
-import { useProject } from '@lib/splat-api';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
 import { useState } from 'react';
-import constants from '@lib/constants';
-import { IFieldError } from '@interfaces/IFieldError';
-import { IProjectInput } from '@interfaces/IProjectInput';
-import { IProject } from '@interfaces/IProject';
+import { useMutation } from 'react-query';
+import { useClientRouter } from 'use-client-router';
 
 const EditProject: NextPage = () => {
-  const router = useRouter();
+  const router = useClientRouter();
   const { data, isSuccess, isLoading } = useProject(router?.query?.id as string);
   const [error, setError] = useState<IFieldError>({ field: '', message: '' });
   const updateProjectMutation = useMutation(

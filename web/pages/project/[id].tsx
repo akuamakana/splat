@@ -7,10 +7,10 @@ import UsersTable from '@components/UsersTable';
 import Content from '@layout/Content';
 import { useProject } from '@lib/splat-api';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import { useClientRouter } from 'use-client-router';
 
 const Project: NextPage = () => {
-  const router = useRouter();
+  const router = useClientRouter();
   const id = router.query.id as string;
   const { data, isLoading, isSuccess } = useProject(id);
 

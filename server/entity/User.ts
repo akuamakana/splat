@@ -20,7 +20,6 @@ export class User {
   role!: Role;
 
   @ManyToMany(() => Project, (project) => project.assigned_users, { nullable: false })
-  // @JoinTable()
   projects: Project[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })

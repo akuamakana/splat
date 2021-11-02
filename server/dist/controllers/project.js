@@ -114,17 +114,18 @@ const getProject = (request, response) => __awaiter(void 0, void 0, void 0, func
 exports.getProject = getProject;
 const addUserToProject = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (!response.locals.project) {
-            response.status(404).send({ message: 'Project not found' });
-            return;
-        }
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
         const user = yield userRepository.findOne(request.params.uid);
         const projectRepository = (0, typeorm_1.getRepository)(Project_1.Project);
-        const project = yield projectRepository.findOne(response.locals.project.id, { relations: ['assigned_users'] });
+        const project = yield projectRepository.findOne(request.params.id, { relations: ['assigned_users'] });
+        if (!project) {
+            response.status(404).send({ message: 'Project not found' });
+            return;
+        }
         if (user && project) {
-            if (response.locals.project.assigned_users.indexOf(user) > -1) {
-                response.status(403).send({ field: 'alert', message: 'User is already in project' });
+            const _assignedUsers = project.assigned_users.filter((_user) => user.id === _user.id);
+            if (_assignedUsers.length === 1) {
+                response.status(400).send({ field: 'alert', message: 'User is already in project' });
                 return;
             }
             project.assigned_users = [...project.assigned_users, user];

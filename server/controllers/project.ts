@@ -95,20 +95,20 @@ export const getProject = async (request: Request, response: Response) => {
 
 export const addUserToProject = async (request: Request, response: Response) => {
   try {
-    if (!response.locals.project) {
-      response.status(404).send({ message: 'Project not found' });
-      return;
-    }
-
     const userRepository = getRepository(User);
     const user = await userRepository.findOne(request.params.uid);
 
     const projectRepository = getRepository(Project);
-    const project = await projectRepository.findOne(response.locals.project.id, { relations: ['assigned_users'] });
+    const project = await projectRepository.findOne(request.params.id, { relations: ['assigned_users'] });
+    if (!project) {
+      response.status(404).send({ message: 'Project not found' });
+      return;
+    }
 
     if (user && project) {
-      if (response.locals.project.assigned_users.indexOf(user) > -1) {
-        response.status(403).send({ field: 'alert', message: 'User is already in project' });
+      const _assignedUsers = project.assigned_users.filter((_user) => user.id === _user.id);
+      if (_assignedUsers.length === 1) {
+        response.status(400).send({ field: 'alert', message: 'User is already in project' });
         return;
       }
       project.assigned_users = [...project.assigned_users, user];
