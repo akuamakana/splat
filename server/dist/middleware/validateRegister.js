@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const User_1 = require("../entity/User");
+const User_1 = require("../entities/User");
 const validateRegister = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     // simple verification of email
     if (!request.body.email.includes('@')) {

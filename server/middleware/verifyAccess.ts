@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Project } from '../entity/Project';
-import logger from './logger';
+import { Project } from '../entities/Project';
+import logger from '../lib/logger';
 
 const verifyAccess = async (request: Request, response: Response, next: NextFunction) => {
   try {
@@ -26,7 +26,6 @@ const verifyAccess = async (request: Request, response: Response, next: NextFunc
     logger.error(error);
     response.status(500).send({ message: error.message });
   }
-
 };
 
 export default verifyAccess;

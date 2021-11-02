@@ -7,7 +7,7 @@ exports.userRoute = void 0;
 const user_1 = require("../controllers/user");
 const verifyLoggedIn_1 = __importDefault(require("../middleware/verifyLoggedIn"));
 const verifyRole_1 = __importDefault(require("../middleware/verifyRole"));
-const user_2 = require("./../controllers/user");
+const user_2 = require("../controllers/user");
 const userRoute = (app) => {
     app.get('/user', [verifyLoggedIn_1.default, (0, verifyRole_1.default)(3)], user_2.getUsers);
     app.get('/user/me', [verifyLoggedIn_1.default], user_1.me);

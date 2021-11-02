@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const User_1 = require("../entity/User");
+const User_1 = require("../entities/User");
 const verifyLoggedIn = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!request.session.userId) {
         response.status(401).send();

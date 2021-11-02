@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const Project_1 = require("../entity/Project");
-const logger_1 = __importDefault(require("./logger"));
+const Project_1 = require("../entities/Project");
+const logger_1 = __importDefault(require("../lib/logger"));
 const verifyAccess = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const projectRepository = (0, typeorm_1.getRepository)(Project_1.Project);

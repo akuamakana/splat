@@ -7,4 +7,6 @@ temp/
 ormconfig.json
 .env
 /coverage
-/logs
+logs/
+dist/
+*.sql

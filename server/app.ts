@@ -5,7 +5,7 @@ import { routes } from './routes';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'reflect-metadata';
-import logger from './middleware/logger';
+import logger from './lib/logger';
 import session from 'express-session';
 import redis from 'redis';
 import connectRedis from 'connect-redis';
@@ -42,6 +42,7 @@ const main = async () => {
   routes.auth(app);
   routes.project(app);
   routes.user(app);
+  routes.ticket(app);
 
   app.listen(process.env.PORT || 8080, () => {
     logger.info(`Server is running on http://localhost:${process.env.PORT}`);

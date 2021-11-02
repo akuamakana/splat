@@ -1,8 +1,8 @@
 import { Request, Response } from 'express-serve-static-core';
 import { getRepository } from 'typeorm';
-import { Role } from '../entity/Role';
-import { User } from '../entity/User';
-import logger from '../middleware/logger';
+import { Role } from '../entities/Role';
+import { User } from '../entities/User';
+import logger from '../lib/logger';
 
 export const me = async (request: Request, response: Response) => {
   try {

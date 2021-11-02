@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import { Project } from './entity/Project';
-import { User } from './entity/User';
+import { Project } from './entities/Project';
+import { User } from './entities/User';
 
 interface Locals {
   projectRepository?: Repository<Project>;

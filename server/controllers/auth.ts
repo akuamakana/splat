@@ -1,9 +1,9 @@
 import * as argon2 from 'argon2';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Role } from '../entity/Role';
-import { User } from '../entity/User';
-import logger from '../middleware/logger';
+import { Role } from '../entities/Role';
+import { User } from '../entities/User';
+import logger from '../lib/logger';
 
 export const register = async (request: Request, response: Response) => {
   try {
@@ -34,8 +34,6 @@ export const login = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
     const user = await userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where({ username: request.body.password }).getOne();
-
-    console.log(user);
 
     if (!user) {
       response.status(404).send({ field: 'username', message: 'User not found' });
