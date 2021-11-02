@@ -10,4 +10,7 @@ export interface ITicket {
   type: string;
   submitter: IUser;
   project?: IProject;
+  assigned_user: IUser | null;
+  created_at: string;
+  updated_at: string;
 }
