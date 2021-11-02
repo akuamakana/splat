@@ -20,7 +20,7 @@ const logger_1 = __importDefault(require("../middleware/logger"));
 const me = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userRepository = (0, typeorm_1.getRepository)(User_1.User);
-        const user = yield userRepository.findOne(request.session.userId, { relations: ['role'] });
+        const user = yield userRepository.findOne(request.session.userId, { relations: ['role', 'projects'] });
         if (!user) {
             response.status(401).send();
             return;

@@ -2478,3 +2478,91 @@
 {"level":"info","message":"User: 2 added to project: 9","timestamp":"2021-11-01 15:45:59"}
 {"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 15:46:00"}
 {"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 15:46:07"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:04:43"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:16:06"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:16:09"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:17:49"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:17:51"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:18:21"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:18:48"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:18:58"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:19:02"}
+{"level":"info","message":"User: 2 added to project: 9","timestamp":"2021-11-01 21:19:02"}
+{"level":"info","message":"User: 2 removed from project: 9","timestamp":"2021-11-01 21:19:11"}
+{"level":"info","message":"User: 3 removed from project: 9","timestamp":"2021-11-01 21:19:11"}
+{"level":"info","message":"User: 2 added to project: 9","timestamp":"2021-11-01 21:19:13"}
+{"level":"info","message":"User: 2 added to project: 9","timestamp":"2021-11-01 21:19:14"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:19:15"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:20:08"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:20:12"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:20:23"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:20:27"}
+{"level":"info","message":"User: 3 removed from project: 9","timestamp":"2021-11-01 21:20:33"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:20:35"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:20:45"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:21:14"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:21:29"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:21:35"}
+{"level":"info","message":"User: 2 added to project: 9","timestamp":"2021-11-01 21:21:36"}
+{"level":"info","message":"User: 2 added to project: 9","timestamp":"2021-11-01 21:21:54"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:22:00"}
+{"level":"info","message":"User: 3 removed from project: 9","timestamp":"2021-11-01 21:23:51"}
+{"level":"info","message":"User: 2 removed from project: 9","timestamp":"2021-11-01 21:24:48"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:24:55"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:24:57"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:24:59"}
+{"level":"info","message":"User: 2 added to project: 9","timestamp":"2021-11-01 21:25:01"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:25:22"}
+{"level":"info","message":"User: 3 removed from project: 9","timestamp":"2021-11-01 21:25:45"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:25:54"}
+{"level":"info","message":"User: 3 removed from project: 9","timestamp":"2021-11-01 21:25:57"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:26:50"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:28:40"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:28:46"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:28:50"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:29:06"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:29:07"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:29:15"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:29:34"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:29:37"}
+{"level":"info","message":"User: 1 added to project: 9","timestamp":"2021-11-01 21:29:50"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:30:03"}
+{"level":"info","message":"User: 3 removed from project: 9","timestamp":"2021-11-01 21:30:26"}
+{"level":"info","message":"User: 2 removed from project: 9","timestamp":"2021-11-01 21:30:28"}
+{"level":"info","message":"User: 2 added to project: 9","timestamp":"2021-11-01 21:30:30"}
+{"level":"info","message":"User: 3 added to project: 9","timestamp":"2021-11-01 21:30:32"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:30:41"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:36:15"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:36:21"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:36:49"}
+{"code":"23503","constraint":"FK_79daf0d2be103f4c30c77ddd6be","detail":"Key (userId)=(18) is not present in table \"user\".","driverError":{"code":"23503","constraint":"FK_79daf0d2be103f4c30c77ddd6be","detail":"Key (userId)=(18) is not present in table \"user\".","file":"ri_triggers.c","length":297,"line":"2463","name":"error","routine":"ri_ReportViolation","schema":"public","severity":"ERROR","table":"user_projects_project"},"file":"ri_triggers.c","length":297,"level":"error","line":"2463","message":"insert or update on table \"user_projects_project\" violates foreign key constraint \"FK_79daf0d2be103f4c30c77ddd6be\"","parameters":[18,1],"query":"INSERT INTO \"user_projects_project\"(\"userId\", \"projectId\") VALUES ($1, $2)","routine":"ri_ReportViolation","schema":"public","severity":"ERROR","stack":"QueryFailedError: insert or update on table \"user_projects_project\" violates foreign key constraint \"FK_79daf0d2be103f4c30c77ddd6be\"\n    at QueryFailedError.TypeORMError [as constructor] (/home/akuamakana/Source/Repos/splat/server/node_modules/typeorm/error/TypeORMError.js:9:28)\n    at new QueryFailedError (/home/akuamakana/Source/Repos/splat/server/node_modules/typeorm/error/QueryFailedError.js:13:28)\n    at PostgresQueryRunner.<anonymous> (/home/akuamakana/Source/Repos/splat/server/node_modules/typeorm/driver/postgres/PostgresQueryRunner.js:277:31)\n    at step (/home/akuamakana/Source/Repos/splat/server/node_modules/tslib/tslib.js:143:27)\n    at Object.throw (/home/akuamakana/Source/Repos/splat/server/node_modules/tslib/tslib.js:124:57)\n    at rejected (/home/akuamakana/Source/Repos/splat/server/node_modules/tslib/tslib.js:115:69)\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)","table":"user_projects_project","timestamp":"2021-11-01 21:37:13"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:38:23"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:38:33"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:38:37"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:38:39"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:38:47"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:38:51"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:38:53"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:39:03"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:39:07"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:39:12"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:39:23"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:39:32"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:39:41"}
+{"level":"error","message":"user.projects is not iterable","stack":"TypeError: user.projects is not iterable\n    at /home/akuamakana/Source/Repos/splat/server/dist/controllers/project.js:35:38\n    at Generator.next (<anonymous>)\n    at fulfilled (/home/akuamakana/Source/Repos/splat/server/dist/controllers/project.js:5:58)\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)","timestamp":"2021-11-01 21:39:44"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:40:00"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:40:02"}
+{"code":"23503","constraint":"FK_79daf0d2be103f4c30c77ddd6be","detail":"Key (userId)=(19) is not present in table \"user\".","driverError":{"code":"23503","constraint":"FK_79daf0d2be103f4c30c77ddd6be","detail":"Key (userId)=(19) is not present in table \"user\".","file":"ri_triggers.c","length":297,"line":"2463","name":"error","routine":"ri_ReportViolation","schema":"public","severity":"ERROR","table":"user_projects_project"},"file":"ri_triggers.c","length":297,"level":"error","line":"2463","message":"insert or update on table \"user_projects_project\" violates foreign key constraint \"FK_79daf0d2be103f4c30c77ddd6be\"","parameters":[19,1],"query":"INSERT INTO \"user_projects_project\"(\"userId\", \"projectId\") VALUES ($1, $2)","routine":"ri_ReportViolation","schema":"public","severity":"ERROR","stack":"QueryFailedError: insert or update on table \"user_projects_project\" violates foreign key constraint \"FK_79daf0d2be103f4c30c77ddd6be\"\n    at QueryFailedError.TypeORMError [as constructor] (/home/akuamakana/Source/Repos/splat/server/node_modules/typeorm/error/TypeORMError.js:9:28)\n    at new QueryFailedError (/home/akuamakana/Source/Repos/splat/server/node_modules/typeorm/error/QueryFailedError.js:13:28)\n    at PostgresQueryRunner.<anonymous> (/home/akuamakana/Source/Repos/splat/server/node_modules/typeorm/driver/postgres/PostgresQueryRunner.js:277:31)\n    at step (/home/akuamakana/Source/Repos/splat/server/node_modules/tslib/tslib.js:143:27)\n    at Object.throw (/home/akuamakana/Source/Repos/splat/server/node_modules/tslib/tslib.js:124:57)\n    at rejected (/home/akuamakana/Source/Repos/splat/server/node_modules/tslib/tslib.js:115:69)\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)","table":"user_projects_project","timestamp":"2021-11-01 21:40:05"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:40:19"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:40:56"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:41:13"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:41:30"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:41:49"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:42:38"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:42:39"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:43:52"}
+{"level":"info","message":"Project created successfully: 20","timestamp":"2021-11-01 21:44:04"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:45:27"}
+{"level":"info","message":"Project created successfully: 21","timestamp":"2021-11-01 21:45:34"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:45:49"}
+{"level":"info","message":"Server is running on http://localhost:3001","timestamp":"2021-11-01 21:45:51"}
