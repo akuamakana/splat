@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Project = void 0;
 const typeorm_1 = require("typeorm");
+const Ticket_1 = require("./Ticket");
 const User_1 = require("./User");
 let Project = class Project {
 };
@@ -35,6 +36,10 @@ __decorate([
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], Project.prototype, "assigned_users", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Ticket_1.Ticket, (ticket) => ticket.project),
+    __metadata("design:type", Array)
+], Project.prototype, "tickets", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' }),
     __metadata("design:type", Date)
