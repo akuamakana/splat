@@ -1,13 +1,9 @@
 import { Table, Tbody, Th, Thead, Tr, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
-import { IUser } from '@interfaces/IUser';
-import UserItem from '@components/shared/UserItem';
 
-interface UsersTableProps {
-  users: IUser[];
-}
+interface UsersTableProps {}
 
-const UsersTable: React.FC<UsersTableProps> = ({ users }) => {
+const UsersTable: React.FC<UsersTableProps> = ({ children }) => {
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
 
   return (
@@ -19,11 +15,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ users }) => {
           <Th>Role</Th>
         </Tr>
       </Thead>
-      <Tbody>
-        {users?.map((user) => (
-          <UserItem user={user} key={user.id} />
-        ))}
-      </Tbody>
+      <Tbody>{children}</Tbody>
     </Table>
   );
 };

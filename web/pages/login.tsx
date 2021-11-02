@@ -7,8 +7,8 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import router from 'next/router';
 import React from 'react';
-import InputField from '../components/shared/InputField';
-import Wrapper from '../components/shared/Wrapper';
+import InputField from '@components/InputField';
+import Wrapper from '@components/Wrapper';
 import { IUserResponse } from '../interfaces/IUserResponse';
 
 const Login: NextPage = () => {

@@ -1,8 +1,9 @@
 import { EditIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
-import Card from '@components/shared/Card';
-import { Loading } from '@components/shared/Loading';
-import UsersTable from '@components/shared/UsersTable';
+import Card from '@components/Card';
+import { Loading } from '@components/Loading';
+import UserItem from '@components/UserItem';
+import UsersTable from '@components/UsersTable';
 import Content from '@layout/Content';
 import { useProject } from '@lib/splat-api';
 import { NextPage } from 'next';
@@ -12,11 +13,6 @@ const Project: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { data, isLoading, isSuccess } = useProject(id);
-
-  // TODO:
-  // add settings menu to update
-  // option to delete
-  // add role title to separate user column
 
   if (isSuccess) {
     return (
@@ -28,7 +24,25 @@ const Project: NextPage = () => {
             <IconButton aria-label="Create project" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/project/edit/[id]', query: { id: data ? data.id : router.query.id } })} />
           }
         ></Card>
-        <Card heading="Assigned Users">{data?.assigned_users && <UsersTable users={data.assigned_users} />}</Card>
+        <Card
+          control={
+            <IconButton
+              aria-label="Create project"
+              icon={<EditIcon />}
+              size="sm"
+              onClick={() => router.push({ pathname: '/project/edit/users/[id]', query: { id: data ? data.id : router.query.id } })}
+            />
+          }
+          heading="Assigned Users"
+        >
+          {data?.assigned_users && (
+            <UsersTable>
+              {data.assigned_users.map((user) => (
+                <UserItem user={user} key={user.id} />
+              ))}
+            </UsersTable>
+          )}
+        </Card>
       </Content>
     );
   }

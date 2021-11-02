@@ -1,3 +1,4 @@
+import { IFieldError } from '@interfaces/IFieldError';
 import { IProject } from '@interfaces/IProject';
 import { IUser } from '@interfaces/IUser';
 import axios from 'axios';
@@ -31,8 +32,18 @@ export const updateProject = async (id: string, values: { title: string; descrip
   return data;
 };
 
+export const addUserToProject = async (pid: string, uid: string) => {
+  const { data } = await _axios.put<IFieldError>(`${constants.API_URL}/project/${pid}/user/${uid}`);
+  return data;
+};
+
+export const removeUserFromProject = async (pid: string, uid: string) => {
+  const { data } = await _axios.delete<IFieldError>(`${constants.API_URL}/project/${pid}/user/${uid}`);
+  return data;
+};
+
 export const useMe = () => {
-  return useQuery<IUser, Error>('me', fetchMe, { staleTime: 1000 * 20 });
+  return useQuery<IUser, Error>('me', fetchMe, { staleTime: 1000 * 20, retry: 1 });
 };
 
 export const useProject = (id: string) => {

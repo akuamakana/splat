@@ -1,14 +1,16 @@
 import { Box, Button } from '@chakra-ui/react';
-import Card from '@components/shared/Card';
-import SelectField from '@components/shared/SelectField';
-import UsersTable from '@components/shared/UsersTable';
+import Card from '@components/Card';
+import SelectField from '@components/SelectField';
+import UserItem from '@components/UserItem';
+import UsersTable from '@components/UsersTable';
 import { IFieldError } from '@interfaces/IFieldError';
 import Content from '@layout/Content';
 import constants from '@lib/constants';
-import { useUsers } from '@lib/splat-api';
+import { useMe, useUsers } from '@lib/splat-api';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 
@@ -18,6 +20,8 @@ interface IRoleInput {
 }
 
 const ManageUsers: NextPage = () => {
+  const router = useRouter();
+  const me = useMe();
   const { data, refetch } = useUsers();
   const [fieldError, setFieldError] = useState<IFieldError>({ field: '', message: '' });
   const updateRoleMutation = useMutation(
@@ -34,6 +38,11 @@ const ManageUsers: NextPage = () => {
       },
     }
   );
+
+  if (me.data && me?.data?.role.id < 3) {
+    router.push('/projects');
+  }
+
   return (
     <Content>
       <Card heading="Manage user roles">
@@ -81,7 +90,11 @@ const ManageUsers: NextPage = () => {
       {data && (
         <Card heading="Users">
           <Box mt="6">
-            <UsersTable users={data} />
+            <UsersTable>
+              {data.map((user) => (
+                <UserItem key={user.id} user={user} />
+              ))}
+            </UsersTable>
           </Box>
         </Card>
       )}

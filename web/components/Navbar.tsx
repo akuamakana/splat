@@ -3,7 +3,7 @@ import { Box, HStack, Spacer } from '@chakra-ui/layout';
 import { Avatar, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useMe } from '../lib/splat-api';
-import { Loading } from './shared/Loading';
+import { Loading } from '@components/Loading';
 
 interface NavbarProps {}
 

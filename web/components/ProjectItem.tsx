@@ -2,7 +2,7 @@ import { Td, Tr } from '@chakra-ui/react';
 import React from 'react';
 import router from 'next/router';
 import { useState } from 'react';
-import { IProject } from '../../interfaces/IProject';
+import { IProject } from '@interfaces/IProject';
 
 interface ProjectItemProps {
   project: IProject;

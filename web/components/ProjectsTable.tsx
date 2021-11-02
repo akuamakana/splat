@@ -1,7 +1,7 @@
 import { Table, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 import React from 'react';
-import { useProjects } from '../lib/splat-api';
-import ProjectItem from './shared/ProjectItem';
+import { useProjects } from '@lib/splat-api';
+import ProjectItem from '@components/ProjectItem';
 import { useMediaQuery } from '@chakra-ui/react';
 
 interface ProjectsProps {}
