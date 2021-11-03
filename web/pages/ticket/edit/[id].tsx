@@ -1,6 +1,6 @@
 import { Flex, HStack, Spacer } from '@chakra-ui/layout';
 import { Form, Formik } from 'formik';
-import { createTicket, useProjects } from '@lib/splat-api';
+import { deleteTicket, editTicket, useProjects, useTicket } from '@lib/splat-api';
 
 import { Button } from '@chakra-ui/react';
 import Card from '@components/Card';
@@ -11,15 +11,16 @@ import InputField from '@components/InputField';
 import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
+import { useClientRouter } from 'use-client-router';
 import { useMutation } from 'react-query';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-const CreateTicket: NextPage = () => {
-  const router = useRouter();
+const EditTicket: NextPage = () => {
+  const router = useClientRouter();
   const [error, setError] = useState<IFieldError>({ field: '', message: '' });
   const projects = useProjects();
-  const createTicketMutation = useMutation(createTicket, {
+  const ticket = useTicket(router?.query?.id as string);
+  const editTicketMutation = useMutation((values: ITicketInput) => editTicket(values, router?.query?.id as string), {
     onSuccess: () => {
       router.back();
     },
@@ -27,18 +28,30 @@ const CreateTicket: NextPage = () => {
       setError(_error.response.data);
     },
   });
+  const deleteTicketMutation = useMutation((id: string) => deleteTicket(id), {
+    onSuccess: () => {
+      router.push({ pathname: '/project/[id]', query: { id: ticket?.data?.project?.id } });
+    },
+  });
 
-  console.log(router);
-
-  if (projects.isSuccess) {
+  if (ticket.isSuccess) {
     return (
       <Content>
-        <Card heading="New Ticket">
+        <Card heading="Edit Ticket">
           <Formik
-            initialValues={{ title: '', description: '', status: 'open', priority: 'medium', type: 'bugs/errors', project: router.query.id ? router.query.id : '' } as ITicketInput}
+            initialValues={
+              {
+                title: ticket.data.title,
+                description: ticket.data.description,
+                status: ticket.data.status,
+                priority: ticket.data.priority,
+                type: ticket.data.type,
+                project: ticket?.data?.project?.id.toString(),
+              } as ITicketInput
+            }
             onSubmit={async (values: ITicketInput, { setFieldError, resetForm }) => {
-              createTicketMutation.mutate(values);
-              if (createTicketMutation.error) {
+              editTicketMutation.mutate(values);
+              if (editTicketMutation.error) {
                 setFieldError(error.field, error.message);
                 return;
               }
@@ -84,6 +97,9 @@ const CreateTicket: NextPage = () => {
                   <Button mx={2} w="150px" onClick={() => router.back()} isLoading={isSubmitting} colorScheme="blue">
                     Cancel
                   </Button>
+                  <Button mx={2} w="150px" onClick={() => deleteTicketMutation.mutate(ticket.data.id)} isLoading={isSubmitting} colorScheme="red">
+                    Delete
+                  </Button>
                   <Button mx={2} w="150px" type="submit" isLoading={isSubmitting} colorScheme="blue">
                     Submit
                   </Button>
@@ -99,4 +115,4 @@ const CreateTicket: NextPage = () => {
   return <Loading />;
 };
 
-export default CreateTicket;
+export default EditTicket;

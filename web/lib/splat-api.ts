@@ -39,6 +39,16 @@ export const createTicket = async (values: ITicketInput) => {
   return data;
 };
 
+export const editTicket = async (values: ITicketInput, id: string) => {
+  const { data } = await _axios.put<ITicket>(`${constants.API_URL}/ticket/${id}`, values);
+  return data;
+};
+
+export const deleteTicket = async (id: string) => {
+  const { data } = await _axios.delete<ITicket>(`${constants.API_URL}/ticket/${id}`);
+  return data;
+};
+
 export const updateProject = async (id: string, values: { title: string; description: string }) => {
   const { data } = await _axios.put<IProject>(`${constants.API_URL}/project/${id}`, values);
   return data;

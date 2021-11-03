@@ -1,26 +1,31 @@
+import { Box, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
+
 import Card from '@components/Card';
 import Content from '@layout/Content';
-import { NextPage } from 'next';
-import { Box, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
-import { useTicket } from '@lib/splat-api';
-import { useClientRouter } from 'use-client-router';
+import { EditIcon } from '@chakra-ui/icons';
+import { IconButton } from '@chakra-ui/react';
 import { Loading } from '@components/Loading';
+import { NextPage } from 'next';
+import { useClientRouter } from 'use-client-router';
+import { useTicket } from '@lib/splat-api';
 
 const Ticket: NextPage = () => {
   const router = useClientRouter();
   const { data, isSuccess } = useTicket(router.query.id as string);
 
+  const editTicketButton = <IconButton aria-label="Edit Ticket" icon={<EditIcon />} onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />;
+
   if (isSuccess && data) {
     return (
       <Content>
-        <Card heading={`#${data.id} Ticket Detail`}>
+        <Card heading={`#${data.id} Ticket Detail`} control={editTicketButton}>
           <Grid templateColumns={'auto auto'} gap={6} mt={6}>
             <GridItem>
               <Box>
                 <Heading size="sm" style={{ textTransform: 'uppercase' }}>
                   Title
                 </Heading>
-                <Text style={{ textTransform: 'capitalize' }}>{data.title}</Text>
+                <Text>{data.title}</Text>
               </Box>
             </GridItem>
             <GridItem>
@@ -28,7 +33,7 @@ const Ticket: NextPage = () => {
                 <Heading size="sm" style={{ textTransform: 'uppercase' }}>
                   Description
                 </Heading>
-                <Text style={{ textTransform: 'capitalize' }}>{data.description}</Text>
+                <Text>{data.description}</Text>
               </Box>
             </GridItem>
             <GridItem>
