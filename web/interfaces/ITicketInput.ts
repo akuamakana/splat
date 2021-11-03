@@ -4,5 +4,5 @@ export interface ITicketInput {
   status: 'open' | 'closed' | 'in progress';
   priority: 'low' | 'medium' | 'high';
   type: 'bugs/errors' | 'feature requests' | 'other' | 'training';
-  projectId: string;
+  project: string;
 }
