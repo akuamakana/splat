@@ -2,6 +2,8 @@ import { EditIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
 import Card from '@components/Card';
 import { Loading } from '@components/Loading';
+import TicketItem from '@components/TicketItem';
+import TicketTable from '@components/TicketTable';
 import UserItem from '@components/UserItem';
 import UsersTable from '@components/UsersTable';
 import Content from '@layout/Content';
@@ -24,6 +26,15 @@ const Project: NextPage = () => {
             <IconButton aria-label="Create project" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/project/edit/[id]', query: { id: data ? data.id : router.query.id } })} />
           }
         ></Card>
+        <Card heading="Tickets">
+          {data && (
+            <TicketTable>
+              {data.tickets.map((ticket) => (
+                <TicketItem key={ticket.id} ticket={ticket} handleOnClick={() => router.push({ pathname: '/ticket/[id]', query: { id: ticket.id } })} />
+              ))}
+            </TicketTable>
+          )}
+        </Card>
         <Card
           control={
             <IconButton

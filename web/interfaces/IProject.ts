@@ -1,3 +1,4 @@
+import { ITicket } from './ITicket';
 import { IUser } from './IUser';
 
 export interface IProject {
@@ -7,4 +8,5 @@ export interface IProject {
   created_at: string;
   updated_at: string;
   assigned_users: IUser[];
+  tickets: ITicket[];
 }

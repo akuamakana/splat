@@ -21,7 +21,7 @@ const UserItem: React.FC<UserItemProps> = ({ user, handleOnClick }) => {
     <Tr style={{ cursor: handleOnClick ? 'pointer' : '' }} bgColor={hover && handleOnClick ? 'gray.100' : ''} onClick={handleOnClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Td>{user.id}</Td>
       <Td>{user.username}</Td>
-      <Td style={{ textTransform: 'capitalize' }}>{user.role.name}</Td>
+      <Td style={{ textTransform: 'capitalize' }}>{user?.role?.name}</Td>
     </Tr>
   );
 };

@@ -4,7 +4,7 @@ export interface IUser {
   id: number;
   created_at: string;
   updated_at: string;
-  role: {
+  role?: {
     id: number;
     name: string;
   };

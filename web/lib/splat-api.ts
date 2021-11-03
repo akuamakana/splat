@@ -1,5 +1,6 @@
 import { IFieldError } from '@interfaces/IFieldError';
 import { IProject } from '@interfaces/IProject';
+import { ITicket } from '@interfaces/ITicket';
 import { IUser } from '@interfaces/IUser';
 import axios from 'axios';
 import { useQuery } from 'react-query';
@@ -27,6 +28,11 @@ const fetchUsers = async () => {
   return data;
 };
 
+const fetchTicket = async (id: string) => {
+  const { data } = await _axios.get<ITicket>(`${constants.API_URL}/ticket/${id}`);
+  return data;
+};
+
 export const updateProject = async (id: string, values: { title: string; description: string }) => {
   const { data } = await _axios.put<IProject>(`${constants.API_URL}/project/${id}`, values);
   return data;
@@ -47,7 +53,7 @@ export const useMe = () => {
 };
 
 export const useProject = (id: string) => {
-  return useQuery<IProject, Error>('project', () => fetchProject(id), {});
+  return useQuery<IProject, Error>('project', () => fetchProject(id));
 };
 
 export const useProjects = () => {
@@ -56,4 +62,8 @@ export const useProjects = () => {
 
 export const useUsers = () => {
   return useQuery<IUser[], Error>('users', fetchUsers);
+};
+
+export const useTicket = (id: string) => {
+  return useQuery<ITicket, Error>('ticket', () => fetchTicket(id));
 };

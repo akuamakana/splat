@@ -14,7 +14,6 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@fontsource/nunito": "^4.5.0",
-    "@hookstate/core": "^3.0.13",
     "axios": "^0.23.0",
     "formik": "^2.2.9",
     "framer-motion": "^4",
