@@ -1,17 +1,18 @@
 import { Box, Button, Flex, Spacer } from '@chakra-ui/react';
+import { Form, Formik } from 'formik';
+
 import Card from '@components/Card';
-import InputField from '@components/InputField';
+import Content from '@layout/Content';
 import { IFieldError } from '@interfaces/IFieldError';
 import { IProject } from '@interfaces/IProject';
 import { IProjectInput } from '@interfaces/IProjectInput';
-import Content from '@layout/Content';
-import constants from '@lib/constants';
-import axios from 'axios';
-import { Form, Formik } from 'formik';
+import InputField from '@components/InputField';
 import { NextPage } from 'next';
+import axios from 'axios';
+import constants from '@lib/constants';
+import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
 
 const CreateProject: NextPage = () => {
   const router = useRouter();

@@ -1,10 +1,11 @@
 import { IFieldError } from '@interfaces/IFieldError';
 import { IProject } from '@interfaces/IProject';
 import { ITicket } from '@interfaces/ITicket';
+import { ITicketInput } from '@interfaces/ITicketInput';
 import { IUser } from '@interfaces/IUser';
 import axios from 'axios';
-import { useQuery } from 'react-query';
 import constants from './constants';
+import { useQuery } from 'react-query';
 
 const _axios = axios.create({ withCredentials: true });
 
@@ -30,6 +31,11 @@ const fetchUsers = async () => {
 
 const fetchTicket = async (id: string) => {
   const { data } = await _axios.get<ITicket>(`${constants.API_URL}/ticket/${id}`);
+  return data;
+};
+
+export const createTicket = async (values: ITicketInput) => {
+  const { data } = await _axios.post<ITicket>(`${constants.API_URL}/ticket`, values);
   return data;
 };
 
