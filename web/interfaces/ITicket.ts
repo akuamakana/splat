@@ -1,3 +1,4 @@
+import { IComment } from './IComment';
 import { IProject } from './IProject';
 import { IUser } from './IUser';
 
@@ -13,4 +14,5 @@ export interface ITicket {
   assigned_user: IUser | null;
   created_at: string;
   updated_at: string;
+  comments: IComment[];
 }

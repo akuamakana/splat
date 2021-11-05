@@ -1,9 +1,9 @@
 import { Box, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
+import { IconButton, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
 import { EditIcon } from '@chakra-ui/icons';
-import { IconButton } from '@chakra-ui/react';
 import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import { useClientRouter } from 'use-client-router';
@@ -12,6 +12,8 @@ import { useTicket } from '@lib/splat-api';
 const Ticket: NextPage = () => {
   const router = useClientRouter();
   const { data, isSuccess } = useTicket(router.query.id as string);
+
+  const formatDate = (date: string) => new Date(date).toLocaleString();
 
   const editTicketButton = <IconButton aria-label="Edit Ticket" icon={<EditIcon />} onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />;
 
@@ -89,7 +91,7 @@ const Ticket: NextPage = () => {
                 <Heading size="sm" style={{ textTransform: 'uppercase' }}>
                   Created
                 </Heading>
-                <Text style={{ textTransform: 'capitalize' }}>{new Date(data.created_at).toLocaleString()}</Text>
+                <Text style={{ textTransform: 'capitalize' }}>{formatDate(data.created_at)}</Text>
               </Box>
             </GridItem>
             <GridItem>
@@ -97,10 +99,30 @@ const Ticket: NextPage = () => {
                 <Heading size="sm" style={{ textTransform: 'uppercase' }}>
                   Updated
                 </Heading>
-                <Text style={{ textTransform: 'capitalize' }}>{new Date(data.updated_at).toLocaleString()}</Text>
+                <Text style={{ textTransform: 'capitalize' }}>{formatDate(data.updated_at)}</Text>
               </Box>
             </GridItem>
           </Grid>
+        </Card>
+        <Card heading="Comments">
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>Comment</Th>
+                <Th>Submitter</Th>
+                <Th>Time</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {data.comments.map((comment) => (
+                <Tr key={comment.id}>
+                  <Td>{comment.text}</Td>
+                  <Td>{comment.submitter.username}</Td>
+                  <Td>{formatDate(comment.created_at)}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
         </Card>
       </Content>
     );
