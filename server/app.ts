@@ -1,14 +1,16 @@
-import { createConnection } from 'typeorm';
+import 'reflect-metadata';
+
 import * as dotenv from 'dotenv';
-import express from 'express';
-import { routes } from './routes';
+
+import connectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import express from 'express';
 import logger from './lib/logger';
-import session from 'express-session';
 import redis from 'redis';
-import connectRedis from 'connect-redis';
+import { routes } from './routes';
+import session from 'express-session';
 
 var corsOptions = {
   origin: 'http://localhost:3000',
@@ -43,6 +45,7 @@ const main = async () => {
   routes.project(app);
   routes.user(app);
   routes.ticket(app);
+  routes.comment(app);
 
   app.listen(process.env.PORT || 8080, () => {
     logger.info(`Server is running on http://localhost:${process.env.PORT}`);
