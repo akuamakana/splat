@@ -16,16 +16,7 @@ import { useState } from 'react';
 
 const CreateProject: NextPage = () => {
   const router = useRouter();
-  const [error, setError] = useState<IFieldError>({ field: '', message: '' });
-  const createProjectMutation = useMutation((values: IProjectInput) => axios.post<IProject>(`${constants.API_URL}/project`, values, { withCredentials: true }), {
-    onError: (_error: any) => {
-      setError(_error.response.data);
-    },
-    onSuccess: (response) => {
-      setError({ field: '', message: '' });
-      router.push({ pathname: '/project/[id]', query: { id: response.data.id } });
-    },
-  });
+  const createProjectMutation = useMutation((values: IProjectInput) => axios.post<IProject>(`${constants.API_URL}/project`, values, { withCredentials: true }));
 
   return (
     <Content>
@@ -33,12 +24,15 @@ const CreateProject: NextPage = () => {
         <Formik
           initialValues={{ title: '', description: '' }}
           onSubmit={async (values, { setFieldError, resetForm }) => {
-            createProjectMutation.mutate(values);
-            if (error) {
-              setFieldError(error.field, error.message);
-              return;
-            }
-            resetForm();
+            createProjectMutation.mutate(values, {
+              onError: (error: any) => {
+                setFieldError(error.response.data.field, error.response.data.message);
+              },
+              onSuccess: (response) => {
+                router.push({ pathname: '/project/[id]', query: { id: response.data.id } });
+                resetForm();
+              },
+            });
           }}
         >
           {({ isSubmitting }) => (

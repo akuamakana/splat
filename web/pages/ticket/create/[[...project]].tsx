@@ -5,7 +5,6 @@ import { createTicket, useProjects } from '@lib/splat-api';
 import { Button } from '@chakra-ui/react';
 import Card from '@components/Card';
 import Content from '@layout/Content';
-import { IFieldError } from '@interfaces/IFieldError';
 import { ITicketInput } from '@interfaces/ITicketInput';
 import InputField from '@components/InputField';
 import { Loading } from '@components/Loading';
@@ -13,22 +12,11 @@ import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 const CreateTicket: NextPage = () => {
   const router = useRouter();
-  const [error, setError] = useState<IFieldError>({ field: '', message: '' });
   const projects = useProjects();
-  const createTicketMutation = useMutation(createTicket, {
-    onSuccess: () => {
-      router.back();
-    },
-    onError: (_error: any) => {
-      setError(_error.response.data);
-    },
-  });
-
-  console.log(router);
+  const createTicketMutation = useMutation((values: ITicketInput) => createTicket(values));
 
   if (projects.isSuccess) {
     return (
@@ -37,21 +25,24 @@ const CreateTicket: NextPage = () => {
           <Formik
             initialValues={{ title: '', description: '', status: 'open', priority: 'medium', type: 'bugs/errors', project: router.query.id ? router.query.id : '' } as ITicketInput}
             onSubmit={async (values: ITicketInput, { setFieldError, resetForm }) => {
-              createTicketMutation.mutate(values);
-              if (createTicketMutation.error) {
-                setFieldError(error.field, error.message);
-                return;
-              }
-              resetForm();
+              createTicketMutation.mutate(values, {
+                onError: (error: any) => {
+                  setFieldError(error.response.data.field, error.response.data.message);
+                },
+                onSuccess: () => {
+                  resetForm();
+                  router.back();
+                },
+              });
             }}
           >
             {({ isSubmitting }) => (
               <Form>
-                <HStack mt={10} spacing={6}>
+                <HStack mt={10} spacing={6} alignItems={'base'}>
                   <InputField name="title" label="Title" placeholder="Title..." />
                   <InputField name="description" label="Description" placeholder="Description..." />
                 </HStack>
-                <HStack mt={6} spacing={6}>
+                <HStack mt={6} spacing={6} alignItems={'base'}>
                   <SelectField name="status" label="Status">
                     <option value="open">Open</option>
                     <option value="in progress">In Progress</option>
@@ -63,7 +54,7 @@ const CreateTicket: NextPage = () => {
                     <option value="high">High</option>
                   </SelectField>
                 </HStack>
-                <HStack mt={6} spacing={6}>
+                <HStack mt={6} spacing={6} alignItems={'base'}>
                   <SelectField name="type" label="Type">
                     <option value="bugs/errors">Bugs/Errors</option>
                     <option value="feature requests">Feature Requests</option>
