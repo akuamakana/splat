@@ -1,11 +1,13 @@
 import { createTicket, deleteTicket, getTicket, getTickets, updateTicket } from '../controllers/ticket';
-import verifyLoggedIn from '../middleware/verifyLoggedIn';
+
 import { Express } from 'express';
+import validateTicket from '../middleware/validateTicket';
+import verifyLoggedIn from '../middleware/verifyLoggedIn';
 
 export const ticketRoute = (app: Express) => {
-  app.post('/ticket', [verifyLoggedIn], createTicket);
+  app.post('/ticket', [verifyLoggedIn, validateTicket], createTicket);
 
-  app.put('/ticket/:id', [verifyLoggedIn], updateTicket);
+  app.put('/ticket/:id', [verifyLoggedIn, validateTicket], updateTicket);
 
   app.delete('/ticket/:id', [verifyLoggedIn], deleteTicket);
 

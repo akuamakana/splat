@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+
 import { Project } from './Project';
 import { User } from './User';
 
@@ -32,7 +33,7 @@ export class Ticket {
   @Column({ nullable: false })
   description!: string;
 
-  @ManyToOne(() => Project, (project) => project.tickets, { nullable: false })
+  @ManyToOne(() => Project, (project) => project.tickets, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn()
   project!: Project;
 

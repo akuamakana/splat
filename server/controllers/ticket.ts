@@ -1,8 +1,9 @@
-import { Ticket } from '../entities/Ticket';
 import { Request, Response } from 'express';
+
+import { Ticket } from '../entities/Ticket';
+import { User } from '../entities/User';
 import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
-import { User } from '../entities/User';
 
 export const createTicket = async (request: Request, response: Response) => {
   try {
@@ -16,7 +17,7 @@ export const createTicket = async (request: Request, response: Response) => {
       ticket.title = request.body.title;
       ticket.description = request.body.description;
       ticket.submitter = user;
-      ticket.project = request.body.projectId;
+      ticket.project = request.body.project;
 
       await ticketRepository.save(ticket);
       logger.info('Ticket created successfully: ' + ticket.id);
@@ -61,7 +62,6 @@ export const getTickets = async (_: Request, response: Response) => {
 export const updateTicket = async (request: Request, response: Response) => {
   try {
     const ticketRepository = getRepository(Ticket);
-
     const ticket = await ticketRepository.update(request.params.id, request.body);
 
     if (ticket.affected && ticket.affected < 1) {
