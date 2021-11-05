@@ -1,18 +1,17 @@
 import { Box, Button } from '@chakra-ui/react';
+import { Form, Formik } from 'formik';
+import { useMe, useUsers } from '@lib/splat-api';
+
 import Card from '@components/Card';
+import Content from '@layout/Content';
+import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
 import UserItem from '@components/UserItem';
 import UsersTable from '@components/UsersTable';
-import { IFieldError } from '@interfaces/IFieldError';
-import Content from '@layout/Content';
-import constants from '@lib/constants';
-import { useMe, useUsers } from '@lib/splat-api';
 import axios from 'axios';
-import { Form, Formik } from 'formik';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import constants from '@lib/constants';
 import { useMutation } from 'react-query';
+import { useRouter } from 'next/router';
 
 interface IRoleInput {
   user: string;
@@ -23,23 +22,11 @@ const ManageUsers: NextPage = () => {
   const router = useRouter();
   const me = useMe();
   const { data, refetch } = useUsers();
-  const [fieldError, setFieldError] = useState<IFieldError>({ field: '', message: '' });
-  const updateRoleMutation = useMutation(
-    (values: IRoleInput) => {
-      return axios.put(`${constants.API_URL}/user/${values.user ? values.user : '0'}`, values, { withCredentials: true });
-    },
-    {
-      onSuccess: () => {
-        setFieldError({ field: '', message: '' });
-        refetch();
-      },
-      onError: (_error: any) => {
-        setFieldError(_error.response.data);
-      },
-    }
-  );
+  const updateRoleMutation = useMutation((values: IRoleInput) => {
+    return axios.put(`${constants.API_URL}/user/${values.user ? values.user : '0'}`, values, { withCredentials: true });
+  });
 
-  if (me.data && me?.data?.role.id < 3) {
+  if (me.data?.role && me.data.role?.id < 3) {
     router.push('/projects');
   }
 
@@ -51,12 +38,15 @@ const ManageUsers: NextPage = () => {
             <Formik
               initialValues={{ user: '', role: '' }}
               onSubmit={(values, { setFieldError, resetForm }) => {
-                updateRoleMutation.mutate(values);
-                if (fieldError) {
-                  setFieldError(fieldError.field, fieldError.message);
-                  return;
-                }
-                resetForm();
+                updateRoleMutation.mutate(values, {
+                  onError: (error: any) => {
+                    setFieldError(error.response.data.field, error.response.data.message);
+                  },
+                  onSuccess: () => {
+                    refetch();
+                    resetForm();
+                  },
+                });
               }}
             >
               <Form>

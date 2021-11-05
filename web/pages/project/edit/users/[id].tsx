@@ -1,16 +1,17 @@
-import { Grid } from '@chakra-ui/layout';
+import { Alert, AlertIcon } from '@chakra-ui/react';
+import { addUserToProject, removeUserFromProject, useProject, useUsers } from '@lib/splat-api';
+
 import Card from '@components/Card';
+import Content from '@layout/Content';
+import { Grid } from '@chakra-ui/layout';
+import { IFieldError } from '@interfaces/IFieldError';
 import { Loading } from '@components/Loading';
+import { NextPage } from 'next';
 import UserItem from '@components/UserItem';
 import UsersTable from '@components/UsersTable';
-import { IFieldError } from '@interfaces/IFieldError';
-import Content from '@layout/Content';
-import { addUserToProject, removeUserFromProject, useProject, useUsers } from '@lib/splat-api';
-import { NextPage } from 'next';
-import { Alert, AlertIcon } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useMutation } from 'react-query';
 import { useClientRouter } from 'use-client-router';
+import { useMutation } from 'react-query';
+import { useState } from 'react';
 
 const EditUsersProject: NextPage = () => {
   const router = useClientRouter();
@@ -76,8 +77,6 @@ const EditUsersProject: NextPage = () => {
                   key={user.id}
                   handleOnClick={() => {
                     deleteUserMutation.mutate(user.id.toString());
-                    currentProject.refetch();
-                    allUsers.refetch();
                   }}
                 />
               ))}
@@ -91,8 +90,6 @@ const EditUsersProject: NextPage = () => {
                   key={user.id}
                   handleOnClick={() => {
                     addUserMutation.mutate(user.id.toString());
-                    currentProject.refetch();
-                    allUsers.refetch();
                   }}
                 />
               ))}

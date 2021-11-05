@@ -5,7 +5,6 @@ import { deleteTicket, editTicket, useProjects, useTicket } from '@lib/splat-api
 import { Button } from '@chakra-ui/react';
 import Card from '@components/Card';
 import Content from '@layout/Content';
-import { IFieldError } from '@interfaces/IFieldError';
 import { ITicketInput } from '@interfaces/ITicketInput';
 import InputField from '@components/InputField';
 import { Loading } from '@components/Loading';
@@ -13,21 +12,12 @@ import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
 import { useClientRouter } from 'use-client-router';
 import { useMutation } from 'react-query';
-import { useState } from 'react';
 
 const EditTicket: NextPage = () => {
   const router = useClientRouter();
-  const [error, setError] = useState<IFieldError>({ field: '', message: '' });
   const projects = useProjects();
   const ticket = useTicket(router?.query?.id as string);
-  const editTicketMutation = useMutation((values: ITicketInput) => editTicket(values, router?.query?.id as string), {
-    onSuccess: () => {
-      router.back();
-    },
-    onError: (_error: any) => {
-      setError(_error.response.data);
-    },
-  });
+  const editTicketMutation = useMutation((values: ITicketInput) => editTicket(values, router?.query?.id as string));
   const deleteTicketMutation = useMutation((id: string) => deleteTicket(id), {
     onSuccess: () => {
       router.push({ pathname: '/project/[id]', query: { id: ticket?.data?.project?.id } });
@@ -50,12 +40,15 @@ const EditTicket: NextPage = () => {
               } as ITicketInput
             }
             onSubmit={async (values: ITicketInput, { setFieldError, resetForm }) => {
-              editTicketMutation.mutate(values);
-              if (editTicketMutation.error) {
-                setFieldError(error.field, error.message);
-                return;
-              }
-              resetForm();
+              editTicketMutation.mutate(values, {
+                onError: (error: any) => {
+                  setFieldError(error.response.data.field, error.response.data.message);
+                },
+                onSuccess: () => {
+                  resetForm();
+                  router.back();
+                },
+              });
             }}
           >
             {({ isSubmitting }) => (

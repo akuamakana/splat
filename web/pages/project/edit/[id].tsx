@@ -1,32 +1,27 @@
 import { Box, Button, Flex, Spacer } from '@chakra-ui/react';
+import { Form, Formik } from 'formik';
+
 import Card from '@components/Card';
-import InputField from '@components/InputField';
-import { Loading } from '@components/Loading';
-import { IFieldError } from '@interfaces/IFieldError';
+import Content from '@layout/Content';
 import { IProject } from '@interfaces/IProject';
 import { IProjectInput } from '@interfaces/IProjectInput';
-import Content from '@layout/Content';
-import constants from '@lib/constants';
-import { useProject } from '@lib/splat-api';
-import axios from 'axios';
-import { Form, Formik } from 'formik';
+import InputField from '@components/InputField';
+import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
-import { useState } from 'react';
-import { useMutation } from 'react-query';
+import axios from 'axios';
+import constants from '@lib/constants';
 import { useClientRouter } from 'use-client-router';
+import { useMutation } from 'react-query';
+import { useProject } from '@lib/splat-api';
 
 const EditProject: NextPage = () => {
   const router = useClientRouter();
   const { data, isSuccess, isLoading } = useProject(router?.query?.id as string);
-  const [error, setError] = useState<IFieldError>({ field: '', message: '' });
   const updateProjectMutation = useMutation(
     (values: IProjectInput) => {
       return axios.put<IProject>(`${constants.API_URL}/project/${router?.query?.id}`, values, { withCredentials: true });
     },
     {
-      onError: (_error: any) => {
-        setError(_error.response.data);
-      },
       onSuccess: () => {
         router.push({ pathname: '/project/[id]', query: { id: router.query.id } });
       },
@@ -38,9 +33,6 @@ const EditProject: NextPage = () => {
       return axios.delete(`${constants.API_URL}/project/${router?.query?.id}`, { withCredentials: true });
     },
     {
-      onError: (_error: any) => {
-        setError(_error.response.data);
-      },
       onSuccess: () => {
         router.push({ pathname: '/projects' });
       },
@@ -54,10 +46,11 @@ const EditProject: NextPage = () => {
           <Formik
             initialValues={{ title: data ? data.title : '', description: data ? data.description : '' }}
             onSubmit={async (values, { setFieldError }) => {
-              updateProjectMutation.mutate(values);
-              if (error) {
-                setFieldError(error.field, error.message);
-              }
+              updateProjectMutation.mutate(values, {
+                onError: (error: any) => {
+                  setFieldError(error.response.data.field, error.response.data.message);
+                },
+              });
             }}
           >
             {({ isSubmitting }) => (
