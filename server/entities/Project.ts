@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+
 import { Ticket } from './Ticket';
 import { User } from './User';
 
@@ -20,7 +21,7 @@ export class Project {
   @JoinTable()
   assigned_users: User[];
 
-  @OneToMany(() => Ticket, (ticket) => ticket.project)
+  @OneToMany(() => Ticket, (ticket) => ticket.project, { onDelete: 'CASCADE' })
   tickets: Ticket[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
