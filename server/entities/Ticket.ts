@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
+import { Comment } from './Comment';
 import { Project } from './Project';
 import { User } from './User';
 
@@ -30,7 +31,7 @@ export class Ticket {
   @Column({ nullable: false })
   title!: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: '' })
   description!: string;
 
   @ManyToOne(() => Project, (project) => project.tickets, { nullable: false, onDelete: 'CASCADE' })
@@ -44,6 +45,10 @@ export class Ticket {
   @ManyToOne(() => User)
   @JoinColumn()
   assigned_user!: User;
+
+  @OneToMany(() => Comment, (comment) => comment.ticket)
+  @JoinColumn()
+  comments: Comment[];
 
   @Column({
     type: 'enum',
