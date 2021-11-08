@@ -1,4 +1,5 @@
 import { IComment } from './IComment';
+import { ILog } from './ILog';
 import { IProject } from './IProject';
 import { IUser } from './IUser';
 
@@ -15,4 +16,5 @@ export interface ITicket {
   created_at: string;
   updated_at: string;
   comments: IComment[];
+  logs: ILog[];
 }
