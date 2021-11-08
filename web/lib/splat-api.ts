@@ -70,6 +70,11 @@ export const addComment = async (values: ICommentInput) => {
   return data;
 };
 
+export const logout = async () => {
+  const { data } = await _axios.post<Boolean>(`${constants.API_URL}/auth/logout`);
+  return data;
+};
+
 export const useMe = () => {
   return useQuery<IUser, Error>('me', fetchMe, { staleTime: 1000 * 20, retry: 1 });
 };

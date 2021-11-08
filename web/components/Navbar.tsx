@@ -1,14 +1,23 @@
-import { SearchIcon } from '@chakra-ui/icons';
-import { Box, HStack, Spacer } from '@chakra-ui/layout';
 import { Avatar, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
-import React from 'react';
-import { useMe } from '../lib/splat-api';
+import { Box, HStack, Spacer } from '@chakra-ui/layout';
+import { logout, useMe } from '../lib/splat-api';
+
 import { Loading } from '@components/Loading';
+import React from 'react';
+import { SearchIcon } from '@chakra-ui/icons';
+import { useClientRouter } from 'use-client-router';
+import { useMutation } from 'react-query';
 
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = ({}) => {
+  const router = useClientRouter();
   const { data, isSuccess, isLoading } = useMe();
+  const useLogoutMutation = useMutation(logout, {
+    onSuccess: () => {
+      router.push('/login');
+    },
+  });
 
   if (isLoading) {
     <Loading />;
@@ -35,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
                 <Text fontSize="sm" as="strong">
                   {data?.email}
                 </Text>
-                <Text fontSize="sm">{data?.role.name}</Text>
+                <Text fontSize="sm">{data?.role?.name}</Text>
               </Box>
             </HStack>
           </MenuButton>
@@ -46,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
             <MenuItem minH="48px">
               <Text fontSize="sm">Settings</Text>
             </MenuItem>
-            <MenuItem minH="48px">
+            <MenuItem minH="48px" onClick={() => useLogoutMutation.mutate()} color="red">
               <Text fontSize="sm">Logout</Text>
             </MenuItem>
           </MenuList>

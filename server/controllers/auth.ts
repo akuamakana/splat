@@ -1,8 +1,10 @@
 import * as argon2 from 'argon2';
+
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+
 import { Role } from '../entities/Role';
 import { User } from '../entities/User';
+import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
 
 export const register = async (request: Request, response: Response) => {
@@ -55,4 +57,11 @@ export const login = async (request: Request, response: Response) => {
     logger.error(error);
     response.status(500).send({ message: error.message });
   }
+};
+
+export const logout = async (request: Request, response: Response) => {
+  request.session.destroy(() => {
+    response.clearCookie('zid');
+    response.clearCookie('userId').send(true);
+  });
 };
