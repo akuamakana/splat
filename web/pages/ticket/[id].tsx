@@ -1,7 +1,7 @@
 import { AddIcon, EditIcon } from '@chakra-ui/icons';
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
 import { Form, Formik } from 'formik';
-import { IconButton, SimpleGrid, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { IconButton, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { addComment, useTicket } from '@lib/splat-api';
 
 import Card from '@components/Card';
@@ -25,9 +25,9 @@ const Ticket: NextPage = () => {
   if (isSuccess && data) {
     return (
       <Content>
-        <Grid templateColumns={'1fr 1fr'} gap={6}>
+        <Grid templateColumns={{ lg: '1fr 1fr' }} templateRows={'475px'} gap={6}>
           <Card heading={`#${data.id} Ticket Detail`} control={editTicketButton}>
-            <Grid templateColumns={'auto auto'} gap={6} mt={6}>
+            <Grid templateColumns={'auto auto'} gap={6}>
               <GridItem>
                 <Box>
                   <Heading size="sm" style={{ textTransform: 'uppercase' }}>
@@ -126,55 +126,59 @@ const Ticket: NextPage = () => {
               }}
             >
               <Form>
-                <HStack mt="2" mb="4" alignItems="end">
-                  <InputField name="text" placeholder="Add comment..."></InputField>
-                  <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" colorScheme="telegram">
+                <HStack mb="4" alignItems="stretch">
+                  <InputField name="text" placeholder="Add comment..." size="sm"></InputField>
+                  <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" colorScheme="telegram" size="sm">
                     Add
                   </IconButton>
                 </HStack>
               </Form>
             </Formik>
-            <Table size="">
-              <Thead>
-                <Tr>
-                  <Th>Comment</Th>
-                  <Th>Submitter</Th>
-                  <Th>Time</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {data.comments.map((comment) => (
-                  <Tr key={comment.id}>
-                    <Td>{comment.text}</Td>
-                    <Td>{comment.submitter.username}</Td>
-                    <Td>{formatDate(comment.created_at)}</Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </Card>
-          <GridItem colSpan={2}>
-            <Card heading="Ticket History">
+            <Box maxHeight={'320px'} overflow="auto">
               <Table size="sm">
                 <Thead>
                   <Tr>
-                    <Th>Property</Th>
-                    <Th>Old Value</Th>
-                    <Th>New Value</Th>
-                    <Th>Date Changed</Th>
+                    <Th>Comment</Th>
+                    <Th>Submitter</Th>
+                    <Th>Time</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data.logs.map((log) => (
-                    <Tr key={log.id}>
-                      <Td>{log.field}</Td>
-                      <Td>{log.old}</Td>
-                      <Td>{log.new}</Td>
-                      <Td>{formatDate(log.created_at)}</Td>
+                  {data.comments.map((comment) => (
+                    <Tr key={comment.id}>
+                      <Td>{comment.text}</Td>
+                      <Td>{comment.submitter.username}</Td>
+                      <Td>{formatDate(comment.created_at)}</Td>
                     </Tr>
                   ))}
                 </Tbody>
               </Table>
+            </Box>
+          </Card>
+          <GridItem colSpan={{ lg: 2 }}>
+            <Card heading="Ticket History">
+              <Box maxHeight={'320px'} overflow="auto">
+                <Table size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th>Property</Th>
+                      <Th>Old Value</Th>
+                      <Th>New Value</Th>
+                      <Th>Date Changed</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {data.logs.map((log) => (
+                      <Tr key={log.id}>
+                        <Td>{log.field}</Td>
+                        <Td>{log.old}</Td>
+                        <Td>{log.new}</Td>
+                        <Td>{formatDate(log.created_at)}</Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
             </Card>
           </GridItem>
         </Grid>

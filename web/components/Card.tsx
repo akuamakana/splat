@@ -1,4 +1,5 @@
-import { Box, Heading, HStack, Spacer } from '@chakra-ui/layout';
+import { Box, HStack, Heading, Spacer } from '@chakra-ui/layout';
+
 import React from 'react';
 
 interface CardProps {
@@ -10,8 +11,8 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ children, heading, description, control }) => {
   return (
     <Box bgColor="white" boxShadow="sm" rounded="sm" p="6">
-      <HStack>
-        <Box>
+      <HStack alignItems="baseline">
+        <Box mb={description ? 0 : 6}>
           <Heading size="md" color="gray.700">
             {heading?.toUpperCase()}
           </Heading>

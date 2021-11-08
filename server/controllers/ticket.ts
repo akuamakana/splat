@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Ticket } from '../entities/Ticket';
 import { TicketHistory } from '../entities/TicketHistory';
 import { User } from '../entities/User';
+import _ from 'lodash';
 import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
 
@@ -34,14 +35,18 @@ export const createTicket = async (request: Request, response: Response) => {
 export const getTicket = async (request: Request, response: Response) => {
   try {
     const ticketRepository = getRepository(Ticket);
-    const ticket = await ticketRepository.findOne(request.params.id, { relations: ['project', 'submitter', 'assigned_user', 'comments', 'comments.submitter', 'logs'] });
+    const ticket = await ticketRepository.findOne(request.params.id, {
+      relations: ['project', 'submitter', 'assigned_user', 'comments', 'comments.submitter', 'logs'],
+    });
 
     if (!ticket) {
       response.status(404).send({ field: 'alert', message: 'Ticket not found' });
     }
 
     if (ticket) {
-      response.status(200).send(ticket);
+      const sortedComments = _.orderBy(ticket.comments, (comment) => comment.id, 'desc');
+      const sortedLogs = _.orderBy(ticket.logs, (log) => log.id, 'desc');
+      response.status(200).send({ ...ticket, logs: sortedLogs, comments: sortedComments });
     }
   } catch (error) {
     response.status(500).send({ error: error.message });
@@ -107,7 +112,6 @@ export const deleteTicket = async (request: Request, response: Response) => {
       return;
     }
 
-    console.log(ticket);
     response.status(200).send({ field: 'alert', message: 'ticket removed' });
   } catch (error) {
     response.status(500).send({ error: error.message });
