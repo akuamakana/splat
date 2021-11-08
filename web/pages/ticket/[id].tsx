@@ -111,29 +111,6 @@ const Ticket: NextPage = () => {
             </Grid>
           </Card>
           <Card heading="Comments">
-            <Formik
-              initialValues={{ text: '', ticket: router.query.id ? (router.query.id as string) : data.id }}
-              onSubmit={(values: ICommentInput, { resetForm, setFieldError }) => {
-                addCommentMutation.mutate(values, {
-                  onSuccess: () => {
-                    refetch();
-                    resetForm();
-                  },
-                  onError: (error: any) => {
-                    setFieldError(error.response.data.field, error.response.data.message);
-                  },
-                });
-              }}
-            >
-              <Form>
-                <HStack mb="4" alignItems="stretch">
-                  <InputField name="text" placeholder="Add comment..." size="sm"></InputField>
-                  <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" colorScheme="telegram" size="sm">
-                    Add
-                  </IconButton>
-                </HStack>
-              </Form>
-            </Formik>
             <Box maxHeight={'320px'} overflow="auto">
               <Table size="sm">
                 <Thead>
@@ -154,6 +131,29 @@ const Ticket: NextPage = () => {
                 </Tbody>
               </Table>
             </Box>
+            <Formik
+              initialValues={{ text: '', ticket: router.query.id ? (router.query.id as string) : data.id }}
+              onSubmit={(values: ICommentInput, { resetForm, setFieldError }) => {
+                addCommentMutation.mutate(values, {
+                  onSuccess: () => {
+                    refetch();
+                    resetForm();
+                  },
+                  onError: (error: any) => {
+                    setFieldError(error.response.data.field, error.response.data.message);
+                  },
+                });
+              }}
+            >
+              <Form>
+                <HStack mt="4" alignItems="stretch">
+                  <InputField name="text" placeholder="Add comment..." size="sm"></InputField>
+                  <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" colorScheme="telegram" size="sm">
+                    Add
+                  </IconButton>
+                </HStack>
+              </Form>
+            </Formik>
           </Card>
           <GridItem colSpan={{ lg: 2 }}>
             <Card heading="Ticket History">

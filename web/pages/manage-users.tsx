@@ -50,7 +50,7 @@ const ManageUsers: NextPage = () => {
               }}
             >
               <Form>
-                <Box mt={6}>
+                <Box>
                   <SelectField name="user" label="Users">
                     <option>Select user...</option>
                     {data.map((user) => (
@@ -79,7 +79,7 @@ const ManageUsers: NextPage = () => {
       </Card>
       {data && (
         <Card heading="Users">
-          <Box mt="6">
+          <Box>
             <UsersTable>
               {data.map((user) => (
                 <UserItem key={user.id} user={user} />

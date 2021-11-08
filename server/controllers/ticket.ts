@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { Notification } from '../entities/Notification';
 import { Ticket } from '../entities/Ticket';
 import { TicketHistory } from '../entities/TicketHistory';
 import { User } from '../entities/User';
@@ -73,7 +74,7 @@ export const getTickets = async (request: Request, response: Response) => {
 export const updateTicket = async (request: Request, response: Response) => {
   try {
     const ticketRepository = getRepository(Ticket);
-    const ticket = await ticketRepository.findOne(request.params.id);
+    const ticket = await ticketRepository.findOne(request.params.id, { relations: ['submitter', 'assigned_user'] });
 
     if (!ticket) {
       response.status(404).send({ field: 'alert', message: 'No ticket found' });
@@ -96,6 +97,22 @@ export const updateTicket = async (request: Request, response: Response) => {
       }
     }
     await ticketHistoryRepository.save(logs);
+
+    // Notifications
+    const notificationRepository = getRepository(Notification);
+    const notification = new Notification();
+
+    notification.message = `Update on ticket #${ticket.id}`;
+    notification.ticket = ticket.id;
+    notification.user = ticket.submitter;
+
+    if (ticket.assigned_user) {
+      let _notification = notification;
+      _notification.user = ticket.assigned_user;
+      await notificationRepository.save(_notification);
+    }
+
+    await notificationRepository.save(notification);
     response.status(200).send();
   } catch (error) {
     response.status(500).send({ error: error.message });

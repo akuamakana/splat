@@ -1,4 +1,6 @@
 import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+
+import { Notification } from './Notification';
 import { Project } from './Project';
 import { Role } from './Role';
 
@@ -22,6 +24,10 @@ export class User {
   @ManyToMany(() => Project, (project) => project.assigned_users, { nullable: false })
   projects: Project[];
 
+  @ManyToMany(() => Notification, (notification) => notification.user)
+  notifications: Notification[];
+
+  @ManyToMany(() => Notification)
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at!: Date;
 

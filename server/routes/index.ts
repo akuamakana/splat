@@ -1,6 +1,7 @@
 import { authRoute } from './auth';
 import { commentRoute } from './comment';
 import { helloRoute } from './hello';
+import { notificationRoute } from './notification';
 import { projectRoute } from './project';
 import { ticketRoute } from './ticket';
 import { userRoute } from './user';
@@ -12,4 +13,5 @@ export const routes = {
   user: userRoute,
   ticket: ticketRoute,
   comment: commentRoute,
+  notification: notificationRoute,
 };
