@@ -94,3 +94,12 @@ export const useUsers = () => {
 export const useTicket = (id: string) => {
   return useQuery<ITicket, Error>('ticket', () => fetchTicket(id));
 };
+
+const fetchTickets = async (id: string) => {
+  const { data } = await _axios.get<ITicket[]>(`${constants.API_URL}/tickets/${id}`);
+  return data;
+};
+
+export const useTickets = (id: string) => {
+  return useQuery<ITicket[], Error>('tickets', () => fetchTickets(id));
+};

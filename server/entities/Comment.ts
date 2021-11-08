@@ -3,7 +3,11 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 import { Ticket } from './Ticket';
 import { User } from './User';
 
-@Entity()
+@Entity({
+  orderBy: {
+    id: 'ASC',
+  },
+})
 export class Comment {
   @PrimaryGeneratedColumn()
   id!: number;

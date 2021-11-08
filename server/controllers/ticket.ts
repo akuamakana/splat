@@ -46,10 +46,14 @@ export const getTicket = async (request: Request, response: Response) => {
   }
 };
 
-export const getTickets = async (_: Request, response: Response) => {
+export const getTickets = async (request: Request, response: Response) => {
   try {
     const ticketRepository = getRepository(Ticket);
-    const tickets = await ticketRepository.find({ relations: ['project', 'submitter', 'assigned_user'] });
+    const tickets = await ticketRepository.find({
+      relations: ['project', 'submitter', 'assigned_user'],
+      where: [{ project: request.params.id, status: 'open' }, { status: 'in progress' }],
+      order: { status: 'ASC', created_at: 'ASC' },
+    });
 
     if (tickets) {
       response.status(200).send(tickets);
