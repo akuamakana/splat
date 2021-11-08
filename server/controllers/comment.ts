@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 
 import { Comment } from '../entities/Comment';
-import { Ticket } from '../entities/Ticket';
-import { User } from '../entities/User';
 import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
 
@@ -11,17 +9,18 @@ export const createComment = async (request: Request, response: Response) => {
     const commentRepository = getRepository(Comment);
     const comment = new Comment();
 
-    const userRepository = getRepository(User);
-    const ticketRepository = getRepository(Ticket);
+    // const ticketRepository = getRepository(Ticket);
 
-    const submitter = await userRepository.findOne(request.session.userId);
-    const ticket = await ticketRepository.findOne(request.body.ticket);
-    comment.text = request.body.text;
+    // const ticket = await ticketRepository.findOne(request.body.ticket);
 
-    if (submitter && ticket) {
-      comment.submitter = submitter;
-      comment.ticket = ticket;
+    if (request.body.text.length <= 3) {
+      response.status(400).send({ field: 'text', message: 'Not long enough' });
+      return;
     }
+
+    comment.text = request.body.text;
+    comment.submitter = request.session.userId as any;
+    comment.ticket = request.body.ticket;
 
     await commentRepository.save(comment);
     logger.info(`Comment saved with id: ${comment.id}`);
