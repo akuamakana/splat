@@ -1,3 +1,4 @@
+import { ICommentInput } from './../interfaces/ICommentInput';
 import { IFieldError } from '@interfaces/IFieldError';
 import { IProject } from '@interfaces/IProject';
 import { ITicket } from '@interfaces/ITicket';
@@ -61,6 +62,11 @@ export const addUserToProject = async (pid: string, uid: string) => {
 
 export const removeUserFromProject = async (pid: string, uid: string) => {
   const { data } = await _axios.delete<IFieldError>(`${constants.API_URL}/project/${pid}/user/${uid}`);
+  return data;
+};
+
+export const addComment = async (values: ICommentInput) => {
+  const { data } = await _axios.post<Boolean>(`${constants.API_URL}/comment`, values);
   return data;
 };
 

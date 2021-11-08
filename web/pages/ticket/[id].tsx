@@ -1,17 +1,22 @@
-import { Box, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
+import { AddIcon, EditIcon } from '@chakra-ui/icons';
+import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
+import { Form, Formik } from 'formik';
 import { IconButton, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { addComment, useTicket } from '@lib/splat-api';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
-import { EditIcon } from '@chakra-ui/icons';
+import { ICommentInput } from '@interfaces/ICommentInput';
+import InputField from '@components/InputField';
 import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import { useClientRouter } from 'use-client-router';
-import { useTicket } from '@lib/splat-api';
+import { useMutation } from 'react-query';
 
 const Ticket: NextPage = () => {
   const router = useClientRouter();
-  const { data, isSuccess } = useTicket(router.query.id as string);
+  const { data, isSuccess, refetch } = useTicket(router.query.id as string);
+  const addCommentMutation = useMutation((values: ICommentInput) => addComment(values));
 
   const formatDate = (date: string) => new Date(date).toLocaleString();
 
@@ -105,6 +110,29 @@ const Ticket: NextPage = () => {
           </Grid>
         </Card>
         <Card heading="Comments">
+          <Formik
+            initialValues={{ text: '', ticket: router.query.id ? (router.query.id as string) : data.id }}
+            onSubmit={(values: ICommentInput, { resetForm, setFieldError }) => {
+              addCommentMutation.mutate(values, {
+                onSuccess: () => {
+                  refetch();
+                  resetForm();
+                },
+                onError: (error: any) => {
+                  setFieldError(error.response.data.field, error.response.data.message);
+                },
+              });
+            }}
+          >
+            <Form>
+              <HStack mt="2" mb="4" alignItems="end">
+                <InputField name="text" placeholder="Add comment..."></InputField>
+                <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" colorScheme="telegram">
+                  Add
+                </IconButton>
+              </HStack>
+            </Form>
+          </Formik>
           <Table>
             <Thead>
               <Tr>

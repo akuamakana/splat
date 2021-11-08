@@ -32,7 +32,7 @@ export const createTicket = async (request: Request, response: Response) => {
 export const getTicket = async (request: Request, response: Response) => {
   try {
     const ticketRepository = getRepository(Ticket);
-    const ticket = await ticketRepository.findOne(request.params.id, { relations: ['project', 'submitter', 'assigned_user'] });
+    const ticket = await ticketRepository.findOne(request.params.id, { relations: ['project', 'submitter', 'assigned_user', 'comments', 'comments.submitter'] });
 
     if (!ticket) {
       response.status(404).send({ field: 'alert', message: 'Ticket not found' });
