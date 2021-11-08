@@ -5,13 +5,13 @@ import { logout, useMe } from '../lib/splat-api';
 import { Loading } from '@components/Loading';
 import React from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
-import { useClientRouter } from 'use-client-router';
 import { useMutation } from 'react-query';
+import { useRouter } from 'next/router';
 
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = ({}) => {
-  const router = useClientRouter();
+  const router = useRouter();
   const { data, isSuccess, isLoading } = useMe();
   const useLogoutMutation = useMutation(logout, {
     onSuccess: () => {

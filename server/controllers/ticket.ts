@@ -52,7 +52,7 @@ export const getTickets = async (request: Request, response: Response) => {
     const tickets = await ticketRepository.find({
       relations: ['project', 'submitter', 'assigned_user'],
       where: [{ project: request.params.id, status: 'open' }, { status: 'in progress' }],
-      order: { status: 'ASC', created_at: 'ASC' },
+      order: { status: 'DESC', created_at: 'ASC' },
     });
 
     if (tickets) {
