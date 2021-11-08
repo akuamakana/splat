@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Ticket } from '../entities/Ticket';
+import { TicketHistory } from '../entities/TicketHistory';
 import { User } from '../entities/User';
 import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
@@ -10,6 +11,7 @@ export const createTicket = async (request: Request, response: Response) => {
     const ticketRepository = getRepository(Ticket);
     const ticket = new Ticket();
 
+    // TODO: remove this query
     const userRepository = getRepository(User);
     const user = await userRepository.findOne(request.session.userId);
 
@@ -32,7 +34,7 @@ export const createTicket = async (request: Request, response: Response) => {
 export const getTicket = async (request: Request, response: Response) => {
   try {
     const ticketRepository = getRepository(Ticket);
-    const ticket = await ticketRepository.findOne(request.params.id, { relations: ['project', 'submitter', 'assigned_user', 'comments', 'comments.submitter'] });
+    const ticket = await ticketRepository.findOne(request.params.id, { relations: ['project', 'submitter', 'assigned_user', 'comments', 'comments.submitter', 'logs'] });
 
     if (!ticket) {
       response.status(404).send({ field: 'alert', message: 'Ticket not found' });
@@ -66,12 +68,29 @@ export const getTickets = async (request: Request, response: Response) => {
 export const updateTicket = async (request: Request, response: Response) => {
   try {
     const ticketRepository = getRepository(Ticket);
-    const ticket = await ticketRepository.update(request.params.id, request.body);
+    const ticket = await ticketRepository.findOne(request.params.id);
 
-    if (ticket.affected && ticket.affected < 1) {
+    if (!ticket) {
       response.status(404).send({ field: 'alert', message: 'No ticket found' });
       return;
     }
+    const _ticket = await ticketRepository.save({ ...ticket, ...request.body });
+
+    // Ticket history logging
+    const ticketHistoryRepository = getRepository(TicketHistory);
+    let logs: TicketHistory[] = [];
+    for (const [key, value] of Object.entries(ticket)) {
+      if (value !== _ticket[key] && key !== 'updated_at') {
+        const log = new TicketHistory();
+        log.type = `update ${key}`;
+        log.field = key;
+        log.old = value;
+        log.new = _ticket[key];
+        log.ticket = ticket;
+        logs.push(log);
+      }
+    }
+    await ticketHistoryRepository.save(logs);
     response.status(200).send();
   } catch (error) {
     response.status(500).send({ error: error.message });
