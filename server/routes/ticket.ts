@@ -11,7 +11,7 @@ export const ticketRoute = (app: Express) => {
 
   app.delete('/ticket/:id', [verifyLoggedIn], deleteTicket);
 
-  app.get('/ticket', [verifyLoggedIn], getTickets);
+  app.get('/tickets/:id', [verifyLoggedIn], getTickets);
 
   app.get('/ticket/:id', [verifyLoggedIn], getTicket);
 };
