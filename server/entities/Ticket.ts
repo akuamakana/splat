@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, Pri
 
 import { Comment } from './Comment';
 import { Project } from './Project';
+import { TicketHistory } from './TicketHistory';
 import { User } from './User';
 
 export enum TicketStatus {
@@ -49,6 +50,10 @@ export class Ticket {
   @OneToMany(() => Comment, (comment) => comment.ticket)
   @JoinColumn()
   comments: Comment[];
+
+  @OneToMany(() => TicketHistory, (ticketHistory) => ticketHistory.ticket)
+  @JoinColumn()
+  logs: TicketHistory[];
 
   @Column({
     type: 'enum',
