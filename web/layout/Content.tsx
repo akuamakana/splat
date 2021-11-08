@@ -1,10 +1,11 @@
 import { Grid, GridItem, SimpleGrid } from '@chakra-ui/react';
-import React from 'react';
-import { useMe } from '../lib/splat-api';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
+
 import { Loading } from '@components/Loading';
+import Navbar from '../components/Navbar';
+import React from 'react';
+import Sidebar from '../components/Sidebar';
 import router from 'next/router';
+import { useMe } from '../lib/splat-api';
 
 interface Content {}
 
