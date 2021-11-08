@@ -111,7 +111,7 @@ const Ticket: NextPage = () => {
         </Card>
         <Card heading="Comments">
           <Formik
-            initialValues={{ text: '', ticket: data.id }}
+            initialValues={{ text: '', ticket: router.query.id ? (router.query.id as string) : data.id }}
             onSubmit={(values: ICommentInput, { resetForm, setFieldError }) => {
               addCommentMutation.mutate(values, {
                 onSuccess: () => {
