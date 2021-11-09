@@ -1,7 +1,7 @@
-import { Avatar, Icon, IconButton, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Avatar, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { BellIcon, SearchIcon } from '@chakra-ui/icons';
 import { Box, HStack, Spacer } from '@chakra-ui/layout';
-import { logout, useMe, useNotifications } from '../lib/splat-api';
+import { deleteNotifications, logout, useMe, useNotifications } from '../lib/splat-api';
 
 import { Loading } from '@components/Loading';
 import React from 'react';
@@ -14,6 +14,11 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
   const router = useRouter();
   const { data, isSuccess, isLoading } = useMe();
   const notifications = useNotifications();
+  const deleteNotificationsMutation = useMutation((ids: string[]) => deleteNotifications(ids), {
+    onSuccess: () => {
+      notifications.refetch();
+    },
+  });
   const useLogoutMutation = useMutation(logout, {
     onSuccess: () => {
       router.push('/login');
@@ -37,18 +42,26 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
           {/* Change to display only magnify glass on mobile */}
         </Box>
         <Spacer />
-        <Menu>
-          <MenuButton as={BellIcon} w={9} h={9} style={{ cursor: 'pointer' }} color={notifications.data ? 'orange.300' : 'gray.200'} />
-          {notifications.data && (
-            <MenuList>
-              {notifications.data.map((notification) => (
-                <MenuItem key={notification.id} onClick={() => router.push({ pathname: '/ticket/[id]', query: { id: notification.ticket } })}>
-                  {notification.message}
-                </MenuItem>
-              ))}
-            </MenuList>
-          )}
-        </Menu>
+        {notifications.isSuccess && (
+          <Menu>
+            <MenuButton as={BellIcon} w={9} h={9} style={{ cursor: notifications?.data.length > 0 ? 'pointer' : '' }} color={notifications?.data.length > 0 ? 'orange.300' : 'gray.200'} />
+            {notifications.data.length > 0 && (
+              <MenuList>
+                {notifications.data.map((notification) => (
+                  <MenuItem
+                    key={notification.id}
+                    onClick={() => {
+                      deleteNotificationsMutation.mutate([notification.id]);
+                      router.push({ pathname: '/ticket/[id]', query: { id: notification.ticket } });
+                    }}
+                  >
+                    {notification.message}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            )}
+          </Menu>
+        )}
         <Menu>
           <MenuButton>
             <HStack>
