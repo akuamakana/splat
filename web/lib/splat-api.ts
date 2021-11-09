@@ -1,5 +1,6 @@
 import { ICommentInput } from './../interfaces/ICommentInput';
 import { IFieldError } from '@interfaces/IFieldError';
+import { INotification } from '@interfaces/INotification';
 import { IProject } from '@interfaces/IProject';
 import { ITicket } from '@interfaces/ITicket';
 import { ITicketInput } from '@interfaces/ITicketInput';
@@ -102,4 +103,13 @@ const fetchTickets = async (id: string) => {
 
 export const useTickets = (id: string) => {
   return useQuery<ITicket[], Error>('tickets', () => fetchTickets(id));
+};
+
+const fetchNotifications = async () => {
+  const { data } = await _axios.get<INotification[]>(`${constants.API_URL}/notifications`);
+  return data;
+};
+
+export const useNotifications = () => {
+  return useQuery<INotification[], Error>('notifications', fetchNotifications);
 };
