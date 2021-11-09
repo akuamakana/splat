@@ -13,6 +13,7 @@ export const createComment = async (request: Request, response: Response) => {
 
     // const ticket = await ticketRepository.findOne(request.body.ticket);
 
+    // TODO: Notification on new comment
     if (request.body.text.length <= 3) {
       response.status(400).send({ field: 'text', message: 'Not long enough' });
       return;

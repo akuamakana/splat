@@ -1,10 +1,10 @@
-import { Avatar, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Avatar, Icon, IconButton, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { BellIcon, SearchIcon } from '@chakra-ui/icons';
 import { Box, HStack, Spacer } from '@chakra-ui/layout';
-import { logout, useMe } from '../lib/splat-api';
+import { logout, useMe, useNotifications } from '../lib/splat-api';
 
 import { Loading } from '@components/Loading';
 import React from 'react';
-import { SearchIcon } from '@chakra-ui/icons';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 
@@ -13,6 +13,7 @@ interface NavbarProps {}
 const Navbar: React.FC<NavbarProps> = ({}) => {
   const router = useRouter();
   const { data, isSuccess, isLoading } = useMe();
+  const notifications = useNotifications();
   const useLogoutMutation = useMutation(logout, {
     onSuccess: () => {
       router.push('/login');
@@ -36,6 +37,18 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
           {/* Change to display only magnify glass on mobile */}
         </Box>
         <Spacer />
+        <Menu>
+          <MenuButton as={BellIcon} w={9} h={9} style={{ cursor: 'pointer' }} color={notifications.data ? 'orange.300' : 'gray.200'} />
+          {notifications.data && (
+            <MenuList>
+              {notifications.data.map((notification) => (
+                <MenuItem key={notification.id} onClick={() => router.push({ pathname: '/ticket/[id]', query: { id: notification.ticket } })}>
+                  {notification.message}
+                </MenuItem>
+              ))}
+            </MenuList>
+          )}
+        </Menu>
         <Menu>
           <MenuButton>
             <HStack>

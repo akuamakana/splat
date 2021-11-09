@@ -13,3 +13,5 @@ export const getNotifications = async (request: Request, response: Response) => 
     response.status(500).send({ error: error.message });
   }
 };
+
+// TODO: Delete notification
