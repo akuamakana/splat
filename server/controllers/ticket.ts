@@ -99,6 +99,7 @@ export const updateTicket = async (request: Request, response: Response) => {
     await ticketHistoryRepository.save(logs);
 
     // Notifications
+    // TODO: if req.session.userId === assigned_user | submitter then no notification
     const notificationRepository = getRepository(Notification);
     const notification = new Notification();
 
