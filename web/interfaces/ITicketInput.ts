@@ -5,4 +5,5 @@ export interface ITicketInput {
   priority: 'low' | 'medium' | 'high';
   type: 'bugs/errors' | 'feature requests' | 'other' | 'training';
   project: string;
+  assigned_user: string;
 }

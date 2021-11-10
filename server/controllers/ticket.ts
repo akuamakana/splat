@@ -80,6 +80,10 @@ export const updateTicket = async (request: Request, response: Response) => {
       response.status(404).send({ field: 'alert', message: 'No ticket found' });
       return;
     }
+    if (!request.body.assigned_user) {
+      response.status(400).send({ field: 'assigned_user', message: 'Assign a user' });
+      return;
+    }
     const _ticket = await ticketRepository.save({ ...ticket, ...request.body });
 
     // Ticket history logging
@@ -90,7 +94,7 @@ export const updateTicket = async (request: Request, response: Response) => {
         const log = new TicketHistory();
         log.type = `update ${key}`;
         log.field = key;
-        log.old = value;
+        log.old = value ? value : 'n/a';
         log.new = _ticket[key];
         log.ticket = ticket;
         logs.push(log);

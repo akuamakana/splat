@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+
 import { Project } from '../entities/Project';
 import { User } from '../entities/User';
+import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
 
 export const createProject = async (request: Request, response: Response) => {
@@ -65,15 +66,13 @@ export const deleteProject = async (_: Request, response: Response) => {
 
 export const getProjects = async (request: Request, response: Response) => {
   try {
-    const projectRepository = getRepository(Project);
-    const projects: Project[] = await projectRepository
-      .createQueryBuilder('project')
-      .leftJoinAndSelect('project.assigned_users', 'assigned_users')
-      .where(`assigned_users.id = ${request.session.userId}`)
-      .orderBy('project.updated_at', 'DESC')
-      .getMany();
+    const userRepository = getRepository(User);
 
-    response.status(200).send(projects);
+    const user = await userRepository.findOne(request.session.userId, { relations: ['projects', 'projects.assigned_users'] });
+
+    if (user) {
+      response.status(200).send(user.projects);
+    }
   } catch (error) {
     response.status(500).send({ error: error.message });
   }

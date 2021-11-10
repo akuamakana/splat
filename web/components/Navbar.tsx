@@ -52,10 +52,9 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
                     key={notification.id}
                     onClick={() => {
                       deleteNotificationsMutation.mutate([notification.id]);
-                      router.push({ pathname: '/ticket/[id]', query: { id: notification.ticket } });
                     }}
                   >
-                    {notification.message}
+                    <a href={`/ticket/${notification.ticket}`}>{notification.message}</a>
                   </MenuItem>
                 ))}
               </MenuList>

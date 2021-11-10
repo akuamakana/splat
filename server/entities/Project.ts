@@ -21,7 +21,7 @@ export class Project {
   @JoinTable()
   assigned_users: User[];
 
-  @OneToMany(() => Ticket, (ticket) => ticket.project, { onDelete: 'CASCADE' })
+  @OneToMany(() => Ticket, (ticket) => ticket.project, { onDelete: 'CASCADE', cascade: true })
   tickets: Ticket[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
