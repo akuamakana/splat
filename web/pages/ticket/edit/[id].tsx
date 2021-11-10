@@ -37,6 +37,7 @@ const EditTicket: NextPage = () => {
                 priority: ticket.data.priority,
                 type: ticket.data.type,
                 project: ticket?.data?.project?.id.toString(),
+                assigned_user: ticket.data?.assigned_user ? ticket.data?.assigned_user.id.toString() : '',
               } as ITicketInput
             }
             onSubmit={async (values: ITicketInput, { setFieldError, resetForm }) => {
@@ -51,13 +52,13 @@ const EditTicket: NextPage = () => {
               });
             }}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, values }) => (
               <Form>
-                <HStack mt={10} spacing={6}>
+                <HStack spacing={6} alignItems={'base'}>
                   <InputField name="title" label="Title" placeholder="Title..." />
                   <InputField name="description" label="Description" placeholder="Description..." />
                 </HStack>
-                <HStack mt={6} spacing={6}>
+                <HStack mt={6} spacing={6} alignItems={'base'}>
                   <SelectField name="status" label="Status">
                     <option value="open">Open</option>
                     <option value="in progress">In Progress</option>
@@ -68,14 +69,14 @@ const EditTicket: NextPage = () => {
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
                   </SelectField>
-                </HStack>
-                <HStack mt={6} spacing={6}>
                   <SelectField name="type" label="Type">
                     <option value="bugs/errors">Bugs/Errors</option>
                     <option value="feature requests">Feature Requests</option>
                     <option value="other">Other</option>
                     <option value="training">Training</option>
                   </SelectField>
+                </HStack>
+                <HStack mt={6} spacing={6} alignItems={'base'}>
                   <SelectField name="project" label="Project">
                     <option value="">Select a project...</option>
                     {projects?.data?.map((project) => (
@@ -83,6 +84,17 @@ const EditTicket: NextPage = () => {
                         {project.title}
                       </option>
                     ))}
+                  </SelectField>
+                  <SelectField name="assigned_user" label="Assignee">
+                    <option value={undefined}>Select a assignee...</option>
+                    {values.project &&
+                      projects.data
+                        ?.filter((e) => e.id === parseInt(values.project))[0]
+                        .assigned_users.map((assignee) => (
+                          <option key={assignee.id} value={assignee.id}>
+                            {assignee.username}
+                          </option>
+                        ))}
                   </SelectField>
                 </HStack>
                 <Flex mt={10}>
