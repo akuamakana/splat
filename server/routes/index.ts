@@ -1,9 +1,9 @@
 import { authRoute } from './auth';
 import { commentRoute } from './comment';
-import { graphRoute } from './graph';
 import { helloRoute } from './hello';
 import { notificationRoute } from './notification';
 import { projectRoute } from './project';
+import { reportRoute } from './report';
 import { ticketRoute } from './ticket';
 import { userRoute } from './user';
 
@@ -15,5 +15,5 @@ export const routes = {
   ticket: ticketRoute,
   comment: commentRoute,
   notification: notificationRoute,
-  graph: graphRoute,
+  report: reportRoute,
 };
