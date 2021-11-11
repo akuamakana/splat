@@ -1,6 +1,6 @@
 import { Express } from 'express';
-import { getTicketCountByStatus } from '../controllers/report';
+import { getTicketReport } from '../controllers/report';
 
 export const reportRoute = (app: Express) => {
-  app.get('/report', getTicketCountByStatus);
+  app.get('/report', getTicketReport);
 };

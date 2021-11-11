@@ -1,15 +1,16 @@
-import { Button } from '@chakra-ui/button';
 import { Box, Flex, Heading, Spacer } from '@chakra-ui/layout';
-import { Text, Link as CLink } from '@chakra-ui/react';
-import axios from 'axios';
+import { Link as CLink, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import { NextPage } from 'next';
-import Link from 'next/link';
-import router from 'next/router';
-import React from 'react';
-import InputField from '@components/InputField';
-import Wrapper from '@components/Wrapper';
+
+import { Button } from '@chakra-ui/button';
 import { IUserResponse } from '../interfaces/IUserResponse';
+import InputField from '@components/InputField';
+import Link from 'next/link';
+import { NextPage } from 'next';
+import React from 'react';
+import Wrapper from '@components/Wrapper';
+import axios from 'axios';
+import router from 'next/router';
 
 const Login: NextPage = () => {
   return (
@@ -25,7 +26,7 @@ const Login: NextPage = () => {
               try {
                 const res = await axios.post('http://localhost:3001/auth/login', values, { withCredentials: true });
                 if (res.status === 200) {
-                  router.push('/projects');
+                  router.push('/home');
                 }
               } catch (error: any) {
                 const _data: IUserResponse = error.response.data;
