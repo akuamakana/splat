@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Ticket } from '../entities/Ticket';
 import { getRepository } from 'typeorm';
 
-export const getTicketCountByStatus = async (request: Request, response: Response) => {
+export const getTicketReport = async (request: Request, response: Response) => {
   try {
     const ticketRepository = getRepository(Ticket);
     const counts = await ticketRepository
@@ -12,7 +12,7 @@ export const getTicketCountByStatus = async (request: Request, response: Respons
         `
         COUNT(*) AS total,
         SUM(case when status = 'open' then 1 else 0 end) AS open,
-        SUM(case when status = 'in progress' then 1 else 0 end) AS "in progress",
+        SUM(case when status = 'in progress' then 1 else 0 end) AS in_progress,
         SUM(case when priority = 'low' then 1 else 0 end) AS low,
         SUM(case when priority = 'medium' then 1 else 0 end) AS medium,
         SUM(case when priority = 'high' then 1 else 0 end) AS high,

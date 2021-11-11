@@ -4,6 +4,7 @@ import { INotification } from '@interfaces/INotification';
 import { IProject } from '@interfaces/IProject';
 import { ITicket } from '@interfaces/ITicket';
 import { ITicketInput } from '@interfaces/ITicketInput';
+import { ITicketReport } from '@interfaces/ITicketReport';
 import { IUser } from '@interfaces/IUser';
 import axios from 'axios';
 import constants from './constants';
@@ -33,6 +34,11 @@ const fetchUsers = async () => {
 
 const fetchTicket = async (id: string) => {
   const { data } = await _axios.get<ITicket>(`${constants.API_URL}/ticket/${id}`);
+  return data;
+};
+
+const fetchTicketReport = async () => {
+  const { data } = await _axios.get<ITicketReport>(`${constants.API_URL}/report`);
   return data;
 };
 
@@ -112,6 +118,10 @@ const fetchNotifications = async () => {
 
 export const useNotifications = () => {
   return useQuery<INotification[], Error>('notifications', fetchNotifications);
+};
+
+export const useTicketReport = () => {
+  return useQuery<ITicketReport, Error>('ticket report', fetchTicketReport);
 };
 
 export const deleteNotifications = async (ids: string[]) => {
