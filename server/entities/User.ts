@@ -3,6 +3,7 @@ import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGenerat
 import { Notification } from './Notification';
 import { Project } from './Project';
 import { Role } from './Role';
+import { Ticket } from './Ticket';
 
 @Entity()
 export class User {
@@ -21,13 +22,15 @@ export class User {
   @ManyToOne(() => Role, (role) => role.user, { nullable: false })
   role!: Role;
 
+  @ManyToMany(() => Ticket, (ticket) => ticket.assigned_user)
+  tickets: Ticket[];
+
   @ManyToMany(() => Project, (project) => project.assigned_users, { nullable: false })
   projects: Project[];
 
   @ManyToMany(() => Notification, (notification) => notification.user)
   notifications: Notification[];
 
-  @ManyToMany(() => Notification)
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at!: Date;
 
