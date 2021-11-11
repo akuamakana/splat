@@ -6,6 +6,7 @@ import { addComment, useTicket } from '@lib/splat-api';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
+import Head from 'next/head';
 import { ICommentInput } from '@interfaces/ICommentInput';
 import InputField from '@components/InputField';
 import { Loading } from '@components/Loading';
@@ -25,6 +26,10 @@ const Ticket: NextPage = () => {
   if (isSuccess && data) {
     return (
       <Content>
+        <Head>
+          <title>{`${data?.project?.title} - Ticket #${data.id}`}</title>
+          <meta property="og:title" content={`${data?.project?.title} - Ticket #${data.id}`} key="title" />
+        </Head>
         <Grid templateColumns={{ lg: '1fr 1fr' }} templateRows={'475px'} gap={6}>
           <Card heading={`#${data.id} Ticket Detail`} control={editTicketButton}>
             <Grid templateColumns={'auto auto'} gap={6}>
@@ -147,7 +152,7 @@ const Ticket: NextPage = () => {
             >
               <Form>
                 <HStack mt="4" alignItems="stretch">
-                  <InputField name="text" placeholder="Add comment..." size="sm"></InputField>
+                  <InputField name="text" placeholder="Add comment..."></InputField>
                   <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" colorScheme="telegram" size="sm">
                     Add
                   </IconButton>

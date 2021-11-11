@@ -43,7 +43,7 @@ export class Ticket {
   @JoinColumn()
   submitter!: User;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.tickets)
   @JoinColumn()
   assigned_user!: User;
 

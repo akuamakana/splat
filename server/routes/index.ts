@@ -1,5 +1,6 @@
 import { authRoute } from './auth';
 import { commentRoute } from './comment';
+import { graphRoute } from './graph';
 import { helloRoute } from './hello';
 import { notificationRoute } from './notification';
 import { projectRoute } from './project';
@@ -14,4 +15,5 @@ export const routes = {
   ticket: ticketRoute,
   comment: commentRoute,
   notification: notificationRoute,
+  graph: graphRoute,
 };
