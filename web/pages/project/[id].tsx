@@ -1,22 +1,88 @@
-import { AddIcon, EditIcon } from '@chakra-ui/icons';
-import { IconButton } from '@chakra-ui/react';
-import Card from '@components/Card';
-import { Loading } from '@components/Loading';
-import TicketItem from '@components/TicketItem';
-import TicketTable from '@components/TicketTable';
-import UserItem from '@components/UserItem';
-import UsersTable from '@components/UsersTable';
-import Content from '@layout/Content';
+import { AddIcon, EditIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { IconButton, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
+import { useEffect, useMemo, useState } from 'react';
 import { useProject, useTickets } from '@lib/splat-api';
+import { useSortBy, useTable } from 'react-table';
+
+import Card from '@components/Card';
+import Content from '@layout/Content';
+import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import { useClientRouter } from 'use-client-router';
-
 
 const Project: NextPage = () => {
   const router = useClientRouter();
   const id = router.query.id as string;
   const { data, isLoading, isSuccess } = useProject(id);
   const tickets = useTickets(router.query.id as string);
+  const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
+  const [userTableData, setUserTableData] = useState<any[]>([]);
+  const [ticketTableData, setTicketTableData] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setUserTableData(data.assigned_users);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (tickets.isSuccess) {
+      setTicketTableData(tickets.data);
+    }
+  }, [tickets.data]);
+
+  const userColumns = useMemo(
+    () => [
+      {
+        Header: 'ID',
+        accessor: 'id',
+        isNumeric: true,
+      },
+      {
+        Header: 'Username',
+        accessor: 'username',
+      },
+      { Header: 'Email', accessor: 'email' },
+      {
+        Header: 'Role',
+        accessor: 'role.name',
+      },
+    ],
+    []
+  );
+  const ticketColumns = useMemo(
+    () => [
+      {
+        Header: 'ID',
+        accessor: 'id',
+        isNumeric: true,
+      },
+      {
+        Header: 'Title',
+        accessor: 'title',
+      },
+      { Header: 'Status', accessor: 'status' },
+      {
+        Header: 'Priority',
+        accessor: 'priority',
+      },
+      {
+        Header: 'Type',
+        accessor: 'type',
+      },
+      {
+        Header: 'Submitter',
+        accessor: 'submitter.username',
+      },
+      {
+        Header: 'Project',
+        accessor: 'project.title',
+      },
+    ],
+    []
+  );
+  const assignedUserTable = useTable({ columns: userColumns, data: userTableData }, useSortBy);
+  const ticketTable = useTable({ columns: ticketColumns, data: ticketTableData }, useSortBy);
 
   if (isSuccess) {
     return (
@@ -29,13 +95,43 @@ const Project: NextPage = () => {
           }
         ></Card>
         <Card heading="Tickets" control={<IconButton aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create', query: { id: data?.id } })} icon={<AddIcon />} size="sm" />}>
-          {tickets.isSuccess && (
-            <TicketTable>
-              {tickets.data.map((ticket) => (
-                <TicketItem key={ticket.id} ticket={ticket} handleOnClick={() => router.push({ pathname: '/ticket/[id]', query: { id: ticket.id } })} />
+          <Table {...ticketTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+            <Thead>
+              {ticketTable.headerGroups.map((headerGroup) => (
+                <Tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <Th {...column.getHeaderProps(column.getSortByToggleProps())} isNumeric={column.isNumeric} style={{ textAlign: 'start', cursor: 'pointer' }}>
+                      {column.render('Header')}
+                      <chakra.span pl={4}>
+                        {column.isSorted ? column.isSortedDesc ? <TriangleDownIcon aria-label="sorted descending" /> : <TriangleUpIcon aria-label="sorted ascending" /> : null}
+                      </chakra.span>
+                    </Th>
+                  ))}
+                </Tr>
               ))}
-            </TicketTable>
-          )}
+            </Thead>
+            <Tbody {...ticketTable.getTableBodyProps()}>
+              {ticketTable.rows.map((row) => {
+                ticketTable.prepareRow(row);
+                return (
+                  <Tr
+                    {...row.getRowProps()}
+                    style={{ cursor: 'pointer' }}
+                    _hover={{
+                      background: 'gray.100',
+                    }}
+                    onClick={() => router.push({ pathname: '/ticket/[id]', query: { id: row.original.id } })}
+                  >
+                    {row.cells.map((cell) => (
+                      <Td style={{ textAlign: 'start' }} {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                        {cell.render('Cell')}
+                      </Td>
+                    ))}
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
         </Card>
         <Card
           control={
@@ -48,23 +144,42 @@ const Project: NextPage = () => {
           }
           heading="Assigned Users"
         >
-          {data?.assigned_users && (
-            <UsersTable>
-              {data.assigned_users.map((user) => (
-                <UserItem user={user} key={user.id} />
+          <Table {...assignedUserTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+            <Thead>
+              {assignedUserTable.headerGroups.map((headerGroup) => (
+                <Tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <Th {...column.getHeaderProps(column.getSortByToggleProps())} isNumeric={column.isNumeric} style={{ textAlign: 'start', cursor: 'pointer' }}>
+                      {column.render('Header')}
+                      <chakra.span pl={4}>
+                        {column.isSorted ? column.isSortedDesc ? <TriangleDownIcon aria-label="sorted descending" /> : <TriangleUpIcon aria-label="sorted ascending" /> : null}
+                      </chakra.span>
+                    </Th>
+                  ))}
+                </Tr>
               ))}
-            </UsersTable>
-          )}
+            </Thead>
+            <Tbody {...assignedUserTable.getTableBodyProps()}>
+              {assignedUserTable.rows.map((row) => {
+                assignedUserTable.prepareRow(row);
+                return (
+                  <Tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => (
+                      <Td style={{ textAlign: 'start' }} {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                        {cell.render('Cell')}
+                      </Td>
+                    ))}
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
         </Card>
       </Content>
     );
   }
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return <div>Loading</div>;
+  return <Loading />;
 };
 
 export default Project;
