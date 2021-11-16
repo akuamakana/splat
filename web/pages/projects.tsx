@@ -78,6 +78,7 @@ const Projects: NextPage = () => {
                     router.push({
                       pathname: '/project/[id]',
                       query: {
+                        // @ts-expect-error
                         id: row.original.id,
                       },
                     })
