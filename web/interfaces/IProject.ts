@@ -8,5 +8,5 @@ export interface IProject {
   created_at: string;
   updated_at: string;
   assigned_users: IUser[];
-  tickets: ITicket[];
+  tickets?: ITicket[];
 }

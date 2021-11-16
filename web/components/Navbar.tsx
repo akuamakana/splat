@@ -48,13 +48,10 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
             {notifications.data.length > 0 && (
               <MenuList>
                 {notifications.data.map((notification) => (
-                  <MenuItem
-                    key={notification.id}
-                    onClick={() => {
-                      deleteNotificationsMutation.mutate([notification.id]);
-                    }}
-                  >
-                    <a href={`/ticket/${notification.ticket}`}>{notification.message}</a>
+                  <MenuItem key={notification.id}>
+                    <a href={`/ticket/${notification.ticket}`} onClick={() => deleteNotificationsMutation.mutate([notification.id])}>
+                      {notification.message}
+                    </a>
                   </MenuItem>
                 ))}
               </MenuList>
