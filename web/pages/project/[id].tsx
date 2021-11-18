@@ -13,7 +13,7 @@ import { useClientRouter } from 'use-client-router';
 const Project: NextPage = () => {
   const router = useClientRouter();
   const id = router.query.id as string;
-  const { data, isLoading, isSuccess } = useProject(id);
+  const { data, isSuccess } = useProject(id);
   const tickets = useTickets(router.query.id as string);
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
   const [userTableData, setUserTableData] = useState<any[]>([]);
