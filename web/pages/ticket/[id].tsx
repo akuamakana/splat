@@ -4,10 +4,11 @@ import { Form, Formik } from 'formik';
 import { IconButton, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
 import { addComment, useTicket } from '@lib/splat-api';
 import { useEffect, useMemo, useState } from 'react';
-import { useSortBy, useTable } from 'react-table';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
+import { GlobalFilter } from '@components/GlobalFilter';
 import Head from 'next/head';
 import { IComment } from '@interfaces/IComment';
 import { ICommentInput } from '@interfaces/ICommentInput';
@@ -26,6 +27,8 @@ const Ticket: NextPage = () => {
   const addCommentMutation = useMutation((values: ICommentInput) => addComment(values));
   const [historyTableData, setHistoryTableData] = useState<ILog[]>([]);
   const [commentTableData, setCommentTableData] = useState<IComment[]>([]);
+  const formatDate = (date: string) => new Date(date).toLocaleString();
+  const editTicketButton = <IconButton aria-label="Edit Ticket" icon={<EditIcon />} onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />;
 
   useEffect(() => {
     if (isSuccess) {
@@ -33,10 +36,6 @@ const Ticket: NextPage = () => {
       setCommentTableData(data.comments);
     }
   }, [data]);
-
-  const formatDate = (date: string) => new Date(date).toLocaleString();
-
-  const editTicketButton = <IconButton aria-label="Edit Ticket" icon={<EditIcon />} onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />;
 
   const historyColumns = useMemo(
     () => [
@@ -94,9 +93,9 @@ const Ticket: NextPage = () => {
   );
 
   // @ts-expect-error
-  const historyTable = useTable({ columns: historyColumns, data: historyTableData }, useSortBy);
+  const commentsTable = useTable({ columns: commentColumns, data: commentTableData }, useFilters, useGlobalFilter, useSortBy);
   // @ts-expect-error
-  const commentsTable = useTable({ columns: commentColumns, data: commentTableData }, useSortBy);
+  const historyTable = useTable({ columns: historyColumns, data: historyTableData }, useFilters, useGlobalFilter, useSortBy);
 
   if (isSuccess && data) {
     return (
@@ -191,13 +190,17 @@ const Ticket: NextPage = () => {
             </Grid>
           </Card>
           <Card heading="Comments">
-            <Box maxHeight={'320px'} overflow="auto">
-              <Table {...commentsTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+            {
+              //@ts-expect-error
+              <GlobalFilter preGlobalFilteredRows={commentsTable.preGlobalFilteredRows} globalFilter={commentsTable.state.globalFilter} setGlobalFilter={commentsTable.setGlobalFilter} />
+            }
+            <Box maxHeight={'300px'} overflow="auto">
+              <Table {...commentsTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
                 <Thead>
                   {commentsTable.headerGroups.map((headerGroup) => (
                     <Tr {...headerGroup.getHeaderGroupProps()}>
                       {headerGroup.headers.map((column) => (
-                        <Th {...column.getHeaderProps(column.getSortByToggleProps())} isNumeric={column.isNumeric} style={{ textAlign: 'start', cursor: 'pointer' }}>
+                        <Th {...column.getHeaderProps(column.getSortByToggleProps())} style={{ textAlign: 'start', cursor: 'pointer' }}>
                           {column.render('Header')}
                           <chakra.span pl={4}>
                             {column.isSorted ? column.isSortedDesc ? <TriangleDownIcon aria-label="sorted descending" /> : <TriangleUpIcon aria-label="sorted ascending" /> : null}
@@ -213,7 +216,7 @@ const Ticket: NextPage = () => {
                     return (
                       <Tr {...row.getRowProps()}>
                         {row.cells.map((cell) => (
-                          <Td style={{ textAlign: 'start' }} {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                          <Td style={{ textAlign: 'start' }} {...cell.getCellProps()}>
                             {cell.render('Cell')}
                           </Td>
                         ))}
@@ -239,7 +242,7 @@ const Ticket: NextPage = () => {
             >
               <Form>
                 <HStack mt="4" alignItems="stretch">
-                  <InputField name="text" placeholder="Add comment..."></InputField>
+                  <InputField size={'sm'} name="text" placeholder="Add comment..." />
                   <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" colorScheme="telegram" size="sm">
                     Add
                   </IconButton>
@@ -249,13 +252,14 @@ const Ticket: NextPage = () => {
           </Card>
           <GridItem colSpan={{ lg: 2 }}>
             <Card heading="Ticket History">
+              {<GlobalFilter preGlobalFilteredRows={historyTable.preGlobalFilteredRows} globalFilter={historyTable.state.globalFilter} setGlobalFilter={historyTable.setGlobalFilter} />}
               <Box maxHeight={'320px'} overflow="auto">
-                <Table {...historyTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+                <Table {...historyTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
                   <Thead>
                     {historyTable.headerGroups.map((headerGroup) => (
                       <Tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
-                          <Th {...column.getHeaderProps(column.getSortByToggleProps())} isNumeric={column.isNumeric} style={{ textAlign: 'start', cursor: 'pointer' }}>
+                          <Th {...column.getHeaderProps(column.getSortByToggleProps())} style={{ textAlign: 'start', cursor: 'pointer' }}>
                             {column.render('Header')}
                             <chakra.span pl={4}>
                               {column.isSorted ? column.isSortedDesc ? <TriangleDownIcon aria-label="sorted descending" /> : <TriangleUpIcon aria-label="sorted ascending" /> : null}
@@ -271,7 +275,7 @@ const Ticket: NextPage = () => {
                       return (
                         <Tr {...row.getRowProps()}>
                           {row.cells.map((cell) => (
-                            <Td style={{ textAlign: 'start' }} {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                            <Td style={{ textAlign: 'start' }} {...cell.getCellProps()}>
                               {cell.render('Cell')}
                             </Td>
                           ))}

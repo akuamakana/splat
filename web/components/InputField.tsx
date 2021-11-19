@@ -3,11 +3,16 @@ import React, { InputHTMLAttributes } from 'react';
 
 import { useField } from 'formik';
 
-type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
-  label?: string;
-  name: string;
-  size?: string;
-};
+type Override<T1, T2> = Omit<T1, keyof T2> & T2;
+
+type InputFieldProps = Override<
+  InputHTMLAttributes<HTMLInputElement>,
+  {
+    label?: string;
+    name: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+  }
+>;
 
 const InputField: React.FC<InputFieldProps> = ({ label, size = 'md', ...props }) => {
   const [field, { error }] = useField(props);

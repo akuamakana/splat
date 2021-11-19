@@ -1,12 +1,13 @@
-import { Box, Button, Input, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
+import { Box, Button, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { useAsyncDebounce, useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 import { useEffect, useMemo, useState } from 'react';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 import { useMe, useUsers } from '@lib/splat-api';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
+import { GlobalFilter } from '@components/GlobalFilter';
 import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
@@ -35,29 +36,6 @@ const ManageUsers: NextPage = () => {
       setTableData(data);
     }
   }, [data]);
-
-  const GlobalFilter = ({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) => {
-    const count = preGlobalFilteredRows.length;
-    const [value, setValue] = useState(globalFilter);
-
-    const onChange = useAsyncDebounce((value) => {
-      setGlobalFilter(value || undefined);
-      console.log(value);
-    }, 200);
-
-    return (
-      <Input
-        size="sm"
-        autoFocus
-        value={value || ''}
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
-        }}
-        placeholder={`Search ${count} records...`}
-      />
-    );
-  };
 
   const defaultColumn = useMemo(
     () => ({
@@ -150,11 +128,9 @@ const ManageUsers: NextPage = () => {
       </Card>
       {data && (
         <Card heading="Users">
-          <Box mb={4}>
-            <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
-          </Box>
+          <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
           <Box>
-            <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+            <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
               <Thead>
                 {headerGroups.map((headerGroup) => (
                   <Tr {...headerGroup.getHeaderGroupProps()}>
