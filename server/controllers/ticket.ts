@@ -139,3 +139,19 @@ export const deleteTicket = async (request: Request, response: Response) => {
     response.status(500).send({ error: error.message });
   }
 };
+
+export const getAllTickets = async (request: Request, response: Response) => {
+  try {
+    const ticketRepository = getRepository(Ticket);
+    const tickets = await ticketRepository.find({
+      where: [{ assigned_user: request.session.userId, status: 'open' }, { status: 'in progress' }],
+      relations: ['project', 'submitter'],
+    });
+
+    if (tickets) {
+      response.status(200).send(tickets);
+    }
+  } catch (error) {
+    response.status(500).send({ error: error.message });
+  }
+};
