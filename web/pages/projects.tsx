@@ -1,10 +1,11 @@
 import { AddIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { IconButton, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
-import { useSortBy, useTable } from 'react-table';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
+import { GlobalFilter } from '@components/GlobalFilter';
 import type { NextPage } from 'next';
 import { useProjects } from '@lib/splat-api';
 import { useRouter } from 'next/router';
@@ -40,7 +41,12 @@ const Projects: NextPage = () => {
     ],
     []
   );
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: tableData }, useSortBy);
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, preGlobalFilteredRows, state, setGlobalFilter } = useTable(
+    { columns, data: tableData },
+    useFilters,
+    useGlobalFilter,
+    useSortBy
+  );
 
   if (isLoading || !tableData) {
     return <div>Loading...</div>;
@@ -49,7 +55,8 @@ const Projects: NextPage = () => {
   return (
     <Content>
       <Card heading="Projects" control={<IconButton aria-label="Create project" icon={<AddIcon />} size="sm" onClick={() => router.push('/project/create')} />}>
-        <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+        <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
+        <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
           <Thead>
             {headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()}>

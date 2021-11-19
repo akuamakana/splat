@@ -1,15 +1,15 @@
-import { VStack } from '@chakra-ui/layout';
 import { Box } from '@chakra-ui/react';
-import { SidebarLink } from '@components/SidebarLink';
-import { useMe } from '@lib/splat-api';
 import React from 'react';
+import { SidebarLink } from '@components/SidebarLink';
+import { VStack } from '@chakra-ui/layout';
+import { useMe } from '@lib/splat-api';
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
   const { data } = useMe();
   return (
-    <VStack textAlign="center" h="100%" bg="gray.700" boxShadow="sm" color="white">
+    <VStack textAlign="start" h="100%" bg="gray.700" boxShadow="sm" color="white">
       <Box h="61px"></Box>
       <SidebarLink href="/home">HOME</SidebarLink>
       <SidebarLink href="/projects">PROJECTS</SidebarLink>

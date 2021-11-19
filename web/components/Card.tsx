@@ -12,7 +12,7 @@ const Card: React.FC<CardProps> = ({ children, heading, description, control }) 
   return (
     <Box bgColor="white" boxShadow="sm" rounded="sm" p="6">
       <HStack alignItems="baseline">
-        <Box mb={description ? 0 : 6}>
+        <Box mb={description ? 0 : 4}>
           <Heading size="md" color="gray.700">
             {heading?.toUpperCase()}
           </Heading>

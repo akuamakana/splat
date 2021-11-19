@@ -2,11 +2,13 @@ import { Box, Button, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } f
 import { Form, Formik } from 'formik';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { useEffect, useMemo, useState } from 'react';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 import { useMe, useUsers } from '@lib/splat-api';
-import { useSortBy, useTable } from 'react-table';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
+import { GlobalFilter } from '@components/GlobalFilter';
+import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
 import axios from 'axios';
@@ -20,14 +22,14 @@ interface IRoleInput {
 }
 
 const ManageUsers: NextPage = () => {
+  const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
   const router = useRouter();
   const me = useMe();
   const { data, refetch, isSuccess, isLoading } = useUsers();
+  const [tableData, setTableData] = useState<any[]>([]);
   const updateRoleMutation = useMutation((values: IRoleInput) => {
     return axios.put(`${constants.API_URL}/user/${values.user ? values.user : '0'}`, values, { withCredentials: true });
   });
-
-  const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
 
   useEffect(() => {
     if (isSuccess) {
@@ -35,7 +37,13 @@ const ManageUsers: NextPage = () => {
     }
   }, [data]);
 
-  const [tableData, setTableData] = useState<any[]>([]);
+  const defaultColumn = useMemo(
+    () => ({
+      Filter: GlobalFilter,
+    }),
+    []
+  );
+
   const columns = useMemo(
     () => [
       {
@@ -56,15 +64,19 @@ const ManageUsers: NextPage = () => {
     []
   );
 
-  // TODO: Global filter
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: tableData }, useSortBy);
-
-  if (isLoading || !tableData) {
-    return <div>Loading...</div>;
-  }
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, preGlobalFilteredRows, setGlobalFilter } = useTable(
+    { columns, data: tableData, defaultColumn },
+    useFilters,
+    useGlobalFilter,
+    useSortBy
+  );
 
   if (me.data?.role && me.data.role?.id < 3) {
     router.push('/projects');
+  }
+
+  if (isLoading || !tableData) {
+    return <Loading />;
   }
 
   return (
@@ -116,8 +128,9 @@ const ManageUsers: NextPage = () => {
       </Card>
       {data && (
         <Card heading="Users">
+          <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
           <Box>
-            <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+            <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
               <Thead>
                 {headerGroups.map((headerGroup) => (
                   <Tr {...headerGroup.getHeaderGroupProps()}>

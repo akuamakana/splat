@@ -1078,6 +1078,13 @@
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.175.tgz"
   integrity sha512-XmdEOrKQ8a1Y/yxQFOMbC47G/V2VDO1GvMRnl4O75M4GW/abC5tnfzadQYkqEveqRM1dEJGFFegfPNA2vvx2iw==
 
+"@types/match-sorter@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/match-sorter/-/match-sorter-6.0.0.tgz#434355915f5fb5bfb5f7e1224cd9c4399879179c"
+  integrity sha512-/B8BLck7dy+vQQedYvrTw2f+U02KghNCMLocjRSWtHhCKE1OeoAmOWiLGAPs96qacT9bSJF4HmJNyijiy5bycA==
+  dependencies:
+    match-sorter "*"
+
 "@types/node@*":
   version "16.11.1"
   resolved "https://registry.npmjs.org/@types/node/-/node-16.11.1.tgz"
@@ -3123,7 +3130,7 @@ make-dir@^3.0.2:
   dependencies:
     semver "^6.0.0"
 
-match-sorter@^6.0.2:
+match-sorter@*, match-sorter@^6.0.2, match-sorter@^6.3.1:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/match-sorter/-/match-sorter-6.3.1.tgz#98cc37fda756093424ddf3cbc62bfe9c75b92bda"
   integrity sha512-mxybbo3pPNuA+ZuCUhm5bwNkXrJTbsk5VWbR5wiwz/GC6LIiegBGn2w3O08UG/jdbYLinw51fSQ5xNU1U3MgBw==

@@ -1,11 +1,12 @@
 import { AddIcon, EditIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { IconButton, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 import { useProject, useTickets } from '@lib/splat-api';
-import { useSortBy, useTable } from 'react-table';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
+import { GlobalFilter } from '@components/GlobalFilter';
 import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import { useClientRouter } from 'use-client-router';
@@ -81,8 +82,8 @@ const Project: NextPage = () => {
     ],
     []
   );
-  const assignedUserTable = useTable({ columns: userColumns, data: userTableData }, useSortBy);
-  const ticketTable = useTable({ columns: ticketColumns, data: ticketTableData }, useSortBy);
+  const ticketTable = useTable({ columns: ticketColumns, data: ticketTableData }, useFilters, useGlobalFilter, useSortBy);
+  const assignedUserTable = useTable({ columns: userColumns, data: userTableData }, useFilters, useGlobalFilter, useSortBy);
 
   if (isSuccess) {
     return (
@@ -95,7 +96,8 @@ const Project: NextPage = () => {
           }
         ></Card>
         <Card heading="Tickets" control={<IconButton aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create', query: { id: data?.id } })} icon={<AddIcon />} size="sm" />}>
-          <Table {...ticketTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+          <GlobalFilter preGlobalFilteredRows={ticketTable.preGlobalFilteredRows} globalFilter={ticketTable.state.globalFilter} setGlobalFilter={ticketTable.setGlobalFilter} />
+          <Table {...ticketTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
             <Thead>
               {ticketTable.headerGroups.map((headerGroup) => (
                 <Tr {...headerGroup.getHeaderGroupProps()}>
@@ -144,7 +146,8 @@ const Project: NextPage = () => {
           }
           heading="Assigned Users"
         >
-          <Table {...assignedUserTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'md' : 'xs'}>
+          <GlobalFilter preGlobalFilteredRows={assignedUserTable.preGlobalFilteredRows} globalFilter={assignedUserTable.state.globalFilter} setGlobalFilter={assignedUserTable.setGlobalFilter} />
+          <Table {...assignedUserTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
             <Thead>
               {assignedUserTable.headerGroups.map((headerGroup) => (
                 <Tr {...headerGroup.getHeaderGroupProps()}>
