@@ -18,7 +18,7 @@ const Content: React.FC<{}> = ({ children }) => {
 
   return (
     <>
-      <Grid templateColumns={{ lg: '250px auto' }} templateRows="fit-content(61px) 1fr" height="100vh" width="100vw">
+      <Grid templateColumns={'max-content auto'} templateRows="fit-content(61px) 1fr" height="100vh" width="100vw">
         {isLoading && (
           <GridItem rowSpan={2} colSpan={2}>
             <Loading />
@@ -26,7 +26,7 @@ const Content: React.FC<{}> = ({ children }) => {
         )}
         {isSuccess && (
           <>
-            <GridItem colSpan={1} rowSpan={2} display={{ base: 'none', lg: 'block' }}>
+            <GridItem colSpan={1} rowSpan={2}>
               <Sidebar />
             </GridItem>
             <GridItem rowSpan={1}>
