@@ -5,6 +5,7 @@ import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
+import { GlobalFilter } from '@components/GlobalFilter';
 import { ITicket } from '@interfaces/ITicket';
 import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
@@ -54,6 +55,7 @@ const Tickets: NextPage = () => {
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, preGlobalFilteredRows, state, setGlobalFilter } = useTable(
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'useGlobalFilter' does not exist on type '{}'.
     { columns: ticketColumns, data: tickets },
     useFilters,
     useGlobalFilter,
@@ -64,6 +66,7 @@ const Tickets: NextPage = () => {
     return (
       <Content>
         <Card heading="Tickets">
+          <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
           <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
             <Thead>
               {headerGroups.map((headerGroup) => (
@@ -93,7 +96,6 @@ const Tickets: NextPage = () => {
                       router.push({
                         pathname: '/project/[id]',
                         query: {
-                          // @ts-expect-error
                           id: row.original.id,
                         },
                       })
