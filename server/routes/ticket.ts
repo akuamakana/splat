@@ -1,4 +1,4 @@
-import { createTicket, deleteTicket, getTicket, getTickets, updateTicket } from '../controllers/ticket';
+import { createTicket, deleteTicket, getAllTickets, getTicket, getTickets, updateTicket } from '../controllers/ticket';
 
 import { Express } from 'express';
 import validateTicket from '../middleware/validateTicket';
@@ -14,4 +14,6 @@ export const ticketRoute = (app: Express) => {
   app.get('/tickets/:id', [verifyLoggedIn], getTickets);
 
   app.get('/ticket/:id', [verifyLoggedIn], getTicket);
+
+  app.get('/tickets', [verifyLoggedIn], getAllTickets);
 };

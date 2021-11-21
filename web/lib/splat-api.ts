@@ -107,6 +107,11 @@ const fetchTickets = async (id: string) => {
   return data;
 };
 
+const fetchAllTickets = async () => {
+  const { data } = await _axios.get<ITicket[]>(`${constants.API_URL}/tickets`);
+  return data;
+};
+
 export const useTickets = (id: string) => {
   return useQuery<ITicket[], Error>('tickets', () => fetchTickets(id));
 };
@@ -122,6 +127,10 @@ export const useNotifications = () => {
 
 export const useTicketReport = () => {
   return useQuery<ITicketReport, Error>('ticket report', fetchTicketReport);
+};
+
+export const useAllTickets = () => {
+  return useQuery<ITicket[], Error>('all tickets', fetchAllTickets);
 };
 
 export const deleteNotifications = async (ids: string[]) => {
