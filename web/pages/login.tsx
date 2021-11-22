@@ -61,6 +61,12 @@ const Login: NextPage = () => {
           <Link href="/register">Create an account</Link>
         </CLink>
       </Text>
+      <Text mt={2} textAlign={['center']}>
+        Forgot password?{' '}
+        <CLink color="blue.600" as="strong">
+          <Link href="/forgot-password">Reset password</Link>
+        </CLink>
+      </Text>
     </Wrapper>
   );
 };

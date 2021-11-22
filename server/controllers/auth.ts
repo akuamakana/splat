@@ -108,9 +108,36 @@ export const forgotPassword = async (request: Request, response: Response) => {
     const token = v4();
     redisClient.set(token, user.id.toString(), 'ex', 60 * 60 * 24);
 
-    sendEmail(request.body.email, `http://localhost:3000/user/change-password/${token}`);
+    sendEmail(request.body.email, `http://localhost:3000/change-password/${token}`);
 
     response.status(200).send({ message: 'Reset password link sent to email address. Link expires in 24 hours.' });
+  } catch (error) {
+    logger.error(error);
+    response.status(500).send({ message: error.message });
+  }
+};
+
+export const changePassword = async (request: Request, response: Response) => {
+  try {
+    const userRepository = getRepository(User);
+    const userId = await redisClient.get(request.params.token);
+
+    if (!userId) {
+      response.status(404).send({ message: 'Token has expired' });
+      return;
+    }
+
+    const user = await userRepository.findOne(userId);
+
+    if (!user) {
+      response.status(404).send({ message: 'Token has expired' });
+      return;
+    }
+
+    user.password = await argon2.hash(request.body.password);
+    await userRepository.save(user);
+    await redisClient.del(request.params.token);
+    response.status(200).send({ message: 'Password successfully changed.' });
   } catch (error) {
     logger.error(error);
     response.status(500).send({ message: error.message });

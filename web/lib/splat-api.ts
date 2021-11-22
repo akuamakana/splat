@@ -141,3 +141,8 @@ export const deleteNotifications = async (ids: string[]) => {
   const { data } = await _axios.delete<Boolean>(`${constants.API_URL}/notifications?${_ids.join('')}`);
   return data;
 };
+
+export const changePassword = async (values: { password: string }) => {
+  const { data } = await _axios.put<Boolean>(`${constants.API_URL}/auth/forgot-password`, values);
+  return data;
+};
