@@ -1,4 +1,4 @@
-import { HStack, Icon, Link, Spacer } from '@chakra-ui/react';
+import { HStack, Icon, Link } from '@chakra-ui/react';
 
 import NextLink from 'next/link';
 import React from 'react';

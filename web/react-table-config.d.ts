@@ -29,11 +29,11 @@ declare module 'react-table' {
 
   export interface ColumnInterface<D extends Record<string, unknown> = Record<string, unknown>> extends UseFiltersColumnOptions<D>, UseGlobalFiltersColumnOptions<D>, UseSortByColumnOptions<D> {}
 
-  // export interface ColumnInstance<D extends Record<string, unknown> = Record<string, unknown>>
-  //   extends UseFiltersColumnProps<D>,
-  //     UseGroupByColumnProps<D>,
-  //     UseResizeColumnsColumnProps<D>,
-  //     UseSortByColumnProps<D> {}
+  export interface ColumnInstance<D extends Record<string, unknown> = Record<string, unknown>>
+    extends UseFiltersColumnProps<D>,
+      UseGroupByColumnProps<D>,
+      UseResizeColumnsColumnProps<D>,
+      UseSortByColumnProps<D> {}
 
   // export interface Cell<D extends Record<string, unknown> = Record<string, unknown>, V = any> extends UseGroupByCellProps<D>, UseRowStateCellProps<D> {}
 
