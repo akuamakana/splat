@@ -3,15 +3,15 @@ import { Request, Response } from 'express';
 import { Comment } from '../entities/Comment';
 import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
+import { Notification } from '../entities/Notification';
+import { Ticket } from '../entities/Ticket';
 
 export const createComment = async (request: Request, response: Response) => {
   try {
     const commentRepository = getRepository(Comment);
     const comment = new Comment();
 
-    // const ticketRepository = getRepository(Ticket);
-
-    // const ticket = await ticketRepository.findOne(request.body.ticket);
+    const ticket = await getRepository(Ticket).findOne(request.body.ticket, { relations: ['assigned_user', 'submitter'] });
 
     // TODO: Notification on new comment
     if (request.body.text.length <= 3) {
@@ -24,6 +24,16 @@ export const createComment = async (request: Request, response: Response) => {
     comment.ticket = request.body.ticket;
 
     await commentRepository.save(comment);
+
+    const notificationRepository = getRepository(Notification);
+    const notification = new Notification();
+
+    notification.message = `Comment added to ticket #${request.body.ticket}`;
+    notification.ticket = request.body.ticket;
+    notification.user = ticket?.assigned_user;
+
+    await notificationRepository.save(notification);
+
     logger.info(`Comment saved with id: ${comment.id}`);
     response.status(200).send(comment);
   } catch (error) {
