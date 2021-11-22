@@ -10,7 +10,7 @@ import React from 'react';
 import { useMutation } from 'react-query';
 
 const ForgotPassword: NextPage = () => {
-  const changePasswordMutation = useMutation((values: { password: string }) => changePassword(values));
+  const changePasswordMutation = useMutation((values: { password: string; token: string }) => changePassword(values));
   return (
     <AuthLayout>
       <Formik
@@ -21,7 +21,7 @@ const ForgotPassword: NextPage = () => {
             return;
           }
           changePasswordMutation.mutate(
-            { password: values.passwordConfirm },
+            { password: values.passwordConfirm, token: router.query.token as string },
             {
               onSuccess: () => {
                 router.push('/login');

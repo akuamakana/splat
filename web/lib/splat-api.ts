@@ -142,7 +142,12 @@ export const deleteNotifications = async (ids: string[]) => {
   return data;
 };
 
-export const changePassword = async (values: { password: string }) => {
-  const { data } = await _axios.put<Boolean>(`${constants.API_URL}/auth/forgot-password`, values);
+export const changePassword = async (values: { password: string; token: string }) => {
+  const { data } = await _axios.put<Boolean>(`${constants.API_URL}/auth/change-password/${values.token}`, { password: values.password });
+  return data;
+};
+
+export const forgotPassword = async (values: { email: string }) => {
+  const { data } = await _axios.post<{ message: string }>(`${constants.API_URL}/auth/forgot-password`, values);
   return data;
 };

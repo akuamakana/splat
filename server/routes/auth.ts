@@ -13,5 +13,5 @@ export const authRoute = (app: Express) => {
 
   app.post('/auth/forgot-password', forgotPassword);
 
-  app.post('/auth/change-password/:token', changePassword);
+  app.put('/auth/change-password/:token', changePassword);
 };

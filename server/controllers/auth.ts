@@ -64,7 +64,7 @@ export const register = async (request: Request, response: Response) => {
 export const login = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
-    const user = await userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where({ username: request.body.password }).getOne();
+    const user = await userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where({ username: request.body.username }).getOne();
 
     if (!user) {
       response.status(404).send({ field: 'username', message: 'User not found' });
@@ -133,8 +133,6 @@ export const changePassword = async (request: Request, response: Response) => {
       response.status(404).send({ message: 'Token has expired' });
       return;
     }
-
-    // test
 
     user.password = await argon2.hash(request.body.password);
     await userRepository.save(user);

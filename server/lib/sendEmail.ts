@@ -14,9 +14,9 @@ const sendEmail = async (email: string, url: string) => {
   const mailOptions = {
     from: '"Fred Foo 👻" <foo@example.com>', // sender address
     to: email, // list of receivers
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world?', // plain text body
-    html: `<a href="${url}">${url}</a>`, // html body
+    subject: 'Password Reset Request for Splat', // Subject line
+    text: 'Reset password for Splat', // plain text body
+    html: `<a href="${url}">Reset your password using this link ${url}</a>`, // html body
   };
 
   transporter.sendMail(mailOptions, (_, info) => {

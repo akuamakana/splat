@@ -4,7 +4,7 @@ import React from 'react';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
-  additionalLinks?: React.ReactNode;
+  additionalLinks?: JSX.Element;
 }
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children, additionalLinks }) => {
