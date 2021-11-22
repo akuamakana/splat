@@ -2,17 +2,23 @@ import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/rea
 import { useField } from 'formik';
 import React, { InputHTMLAttributes } from 'react';
 
-type SelectFieldProps = InputHTMLAttributes<HTMLInputElement> & {
-  label: string;
-  name: string;
-};
+type Override<T1, T2> = Omit<T1, keyof T2> & T2;
 
-const SelectField: React.FC<SelectFieldProps> = ({ children, label, ...props }) => {
+type SelectFieldProps = Override<
+  InputHTMLAttributes<HTMLSelectElement>,
+  {
+    label: string;
+    name: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+  }
+>;
+
+const SelectField: React.FC<SelectFieldProps> = ({ children, label, size = 'md', ...props }) => {
   const [field, { error }, { setValue }] = useField(props);
   return (
     <FormControl isInvalid={!!error}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
-      <Select {...field} id={field.name} name={field.name} onChange={(option) => setValue(option.target.value)}>
+      <Select {...field} id={field.name} size={size} name={field.name} onChange={(option) => setValue(option.target.value)}>
         {children}
       </Select>
       {error && <FormErrorMessage>{error}</FormErrorMessage>}
