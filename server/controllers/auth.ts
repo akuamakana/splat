@@ -134,6 +134,8 @@ export const changePassword = async (request: Request, response: Response) => {
       return;
     }
 
+    // test
+
     user.password = await argon2.hash(request.body.password);
     await userRepository.save(user);
     await redisClient.del(request.params.token);
