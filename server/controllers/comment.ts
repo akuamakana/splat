@@ -5,6 +5,7 @@ import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
 import { Notification } from '../entities/Notification';
 import { Ticket } from '../entities/Ticket';
+import createNotification from '../lib/createNotification';
 
 export const createComment = async (request: Request, response: Response) => {
   try {
@@ -13,28 +14,27 @@ export const createComment = async (request: Request, response: Response) => {
 
     const ticket = await getRepository(Ticket).findOne(request.body.ticket, { relations: ['assigned_user', 'submitter'] });
 
-    // TODO: Notification on new comment
     if (request.body.text.length <= 3) {
       response.status(400).send({ field: 'text', message: 'Not long enough' });
+      return;
+    }
+    if (!ticket) {
+      response.status(404).send({ field: 'ticket', message: 'No ticket found' });
       return;
     }
 
     comment.text = request.body.text;
     comment.submitter = request.session.userId as any;
-    comment.ticket = request.body.ticket;
+    comment.ticket = ticket;
 
     await commentRepository.save(comment);
+    logger.info(`Comment saved with id: ${comment.id}`);
 
     const notificationRepository = getRepository(Notification);
-    const notification = new Notification();
+    const notifications = createNotification(`Comment added to ticket #${request.body.ticket}`, ticket, request.session.userId);
 
-    notification.message = `Comment added to ticket #${request.body.ticket}`;
-    notification.ticket = request.body.ticket;
-    notification.user = ticket?.assigned_user;
+    await notificationRepository.save(notifications);
 
-    await notificationRepository.save(notification);
-
-    logger.info(`Comment saved with id: ${comment.id}`);
     response.status(200).send(comment);
   } catch (error) {
     response.status(500).send({ error: error.message });
