@@ -138,6 +138,6 @@ export const deleteNotifications = async (ids: string[]) => {
   for (let i = 0; i < ids.length; i++) {
     _ids.push(`id=${ids[i]}&`);
   }
-  const { data } = await _axios.delete<Boolean>(`${constants.API_URL}/notifications?${_ids}`);
+  const { data } = await _axios.delete<Boolean>(`${constants.API_URL}/notifications?${_ids.join('')}`);
   return data;
 };
