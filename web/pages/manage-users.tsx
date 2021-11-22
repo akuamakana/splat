@@ -118,7 +118,7 @@ const ManageUsers: NextPage = () => {
                     <option value="4">Admin</option>
                   </SelectField>
                 </Box>
-                <Button type="submit" isLoading={updateRoleMutation.isLoading} mt={6} colorScheme={'blue'}>
+                <Button type="submit" isLoading={updateRoleMutation.isLoading} mt={6}>
                   Submit
                 </Button>
               </Form>

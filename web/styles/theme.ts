@@ -24,6 +24,9 @@ const theme = extendTheme({
       baseStyle: {
         borderRadius: 'sm',
       },
+      defaultProps: {
+        colorScheme: 'brand',
+      },
     },
     Input: {
       baseStyle: {
