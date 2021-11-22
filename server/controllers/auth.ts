@@ -6,6 +6,35 @@ import { Role } from '../entities/Role';
 import { User } from '../entities/User';
 import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
+import * as nodemailer from 'nodemailer';
+import { v4 } from 'uuid';
+import redisClient from '../lib/redisClient';
+import sendEmail from '../lib/sendEmail';
+
+// const sendEmail = async (email: string, token: string) => {
+//   let transporter = nodemailer.createTransport({
+//     host: 'smtp.ethereal.email',
+//     port: 587,
+//     secure: false, // true for 465, false for other ports
+//     auth: {
+//       user: 'sq7thzxqdez35djy@ethereal.email', // generated ethereal user
+//       pass: 'Uu2jRB9JYkvnhTZHF8', // generated ethereal password
+//     },
+//   });
+
+//   transporter.sendMail(
+//     {
+//       from: 'sender@server.com',
+//       to: 'receiver@sender.com',
+//       subject: 'Message title',
+//       text: 'Plaintext version of the message',
+//       html: `Email is: ${email} and token is ${token}`,
+//     },
+//     (_, info) => {
+//       console.log('sent email: ', info);
+//     }
+//   );
+// };
 
 export const register = async (request: Request, response: Response) => {
   try {
@@ -64,4 +93,26 @@ export const logout = async (request: Request, response: Response) => {
     response.clearCookie('zid');
     response.clearCookie('userId').send(true);
   });
+};
+
+export const forgotPassword = async (request: Request, response: Response) => {
+  try {
+    const userRepository = getRepository(User);
+    const user = await userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.email').where({ email: request.body.email }).getOne();
+
+    if (!user) {
+      response.status(200).send({ message: 'Reset password link sent to email address. Link expires in 24 hours.' });
+      return;
+    }
+
+    const token = v4();
+    redisClient.set(token, user.id.toString(), 'ex', 60 * 60 * 24);
+
+    sendEmail(request.body.email, `http://localhost:3000/user/change-password/${token}`);
+
+    response.status(200).send({ message: 'Reset password link sent to email address. Link expires in 24 hours.' });
+  } catch (error) {
+    logger.error(error);
+    response.status(500).send({ message: error.message });
+  }
 };

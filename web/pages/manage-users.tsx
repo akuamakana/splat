@@ -100,7 +100,7 @@ const ManageUsers: NextPage = () => {
             >
               <Form>
                 <Box>
-                  <SelectField name="user" label="Users">
+                  <SelectField size="sm" name="user" label="Users">
                     <option>Select user...</option>
                     {data.map((user) => (
                       <option key={user.id} value={user.id}>
@@ -110,7 +110,7 @@ const ManageUsers: NextPage = () => {
                   </SelectField>
                 </Box>
                 <Box mt={6}>
-                  <SelectField name="role" label="Select Role">
+                  <SelectField size="sm" name="role" label="Select Role">
                     <option>Select role...</option>
                     <option value="1">Submitter</option>
                     <option value="2">Developer</option>

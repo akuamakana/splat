@@ -55,7 +55,7 @@ const EditProject: NextPage = () => {
           >
             {({ isSubmitting }) => (
               <Form>
-                <Box mt={10}>
+                <Box>
                   <InputField name="title" label="Title" placeholder="Title..." />
                 </Box>
                 <Box mt={6}>
