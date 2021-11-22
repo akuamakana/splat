@@ -55,7 +55,7 @@ const Tickets: NextPage = () => {
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, preGlobalFilteredRows, state, setGlobalFilter } = useTable(
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'useGlobalFilter' does not exist on type '{}'.
+    // @ts-expect-error
     { columns: ticketColumns, data: tickets },
     useFilters,
     useGlobalFilter,
@@ -94,7 +94,7 @@ const Tickets: NextPage = () => {
                     }}
                     onClick={() =>
                       router.push({
-                        pathname: '/project/[id]',
+                        pathname: '/ticket/[id]',
                         query: {
                           id: row.original.id,
                         },

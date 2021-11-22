@@ -32,23 +32,15 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
   if (isSuccess) {
     return (
       <HStack py="2" px="6" color="gray" bgColor="white" boxShadow="sm" zIndex="sticky" height={'max-content'}>
-        <Box>
-          <InputGroup size={'sm'}>
-            <InputLeftElement pointerEvents="none" size>
-              <SearchIcon color="gray.300" />
-            </InputLeftElement>
-            <Input placeholder="Search..." />
-          </InputGroup>
-          {/* Change to display only magnify glass on mobile */}
-        </Box>
         <Spacer />
         {notifications.isSuccess && (
           <Menu>
             <MenuButton as={BellIcon} w={9} h={9} style={{ cursor: notifications?.data.length > 0 ? 'pointer' : '' }} color={notifications?.data.length > 0 ? 'orange.300' : 'gray.200'} />
             {notifications.data.length > 0 && (
               <MenuList>
+                <MenuItem onClick={() => deleteNotificationsMutation.mutate(notifications.data.map((notification) => notification.id))}>Mark All As Seen</MenuItem>
                 {notifications.data.map((notification) => (
-                  <MenuItem key={notification.id}>
+                  <MenuItem color={'black'} key={notification.id}>
                     <a href={`/ticket/${notification.ticket}`} onClick={() => deleteNotificationsMutation.mutate([notification.id])}>
                       {notification.message}
                     </a>
