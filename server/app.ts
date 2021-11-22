@@ -8,9 +8,9 @@ import cors from 'cors';
 import { createConnection } from 'typeorm';
 import express from 'express';
 import logger from './lib/logger';
-import redis from 'redis';
 import { routes } from './routes';
 import session from 'express-session';
+import redisClient from './lib/redisClient';
 
 var corsOptions = {
   origin: 'http://localhost:3000',
@@ -23,7 +23,6 @@ const main = async () => {
   createConnection();
 
   const RedisStore = connectRedis(session);
-  const redisClient = redis.createClient();
 
   app.use(
     session({
