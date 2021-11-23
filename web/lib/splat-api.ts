@@ -153,7 +153,7 @@ export const forgotPassword = async (values: { email: string }) => {
   return data;
 };
 
-export const login = async (values: IUserInput) => {
+export const login = async (values: { usernameOrEmail: string; password: string }) => {
   const { data } = await _axios.post(`${constants.API_URL}/auth/login`, values);
   return data;
 };
