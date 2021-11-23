@@ -38,7 +38,7 @@ const CreateTicket: NextPage = () => {
           >
             {({ isSubmitting }) => (
               <Form>
-                <HStack mt={10} spacing={6} alignItems={'base'}>
+                <HStack spacing={6} alignItems={'base'}>
                   <InputField name="title" label="Title" placeholder="Title..." />
                   <InputField name="description" label="Description" placeholder="Description..." />
                 </HStack>
@@ -72,10 +72,10 @@ const CreateTicket: NextPage = () => {
                 </HStack>
                 <Flex mt={10}>
                   <Spacer />
-                  <Button mx={2} w="150px" onClick={() => router.back()} isLoading={isSubmitting} colorScheme="blue">
+                  <Button mx={2} w="150px" onClick={() => router.back()} isLoading={isSubmitting} colorScheme="gray">
                     Cancel
                   </Button>
-                  <Button mx={2} w="150px" type="submit" isLoading={isSubmitting} colorScheme="blue">
+                  <Button mx={2} w="150px" type="submit" isLoading={isSubmitting}>
                     Submit
                   </Button>
                 </Flex>

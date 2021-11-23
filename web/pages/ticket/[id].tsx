@@ -28,7 +28,7 @@ const Ticket: NextPage = () => {
   const [historyTableData, setHistoryTableData] = useState<ILog[]>([]);
   const [commentTableData, setCommentTableData] = useState<IComment[]>([]);
   const formatDate = (date: string) => new Date(date).toLocaleString();
-  const editTicketButton = <IconButton aria-label="Edit Ticket" icon={<EditIcon />} onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />;
+  const editTicketButton = <IconButton aria-label="Edit Ticket" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />;
 
   useEffect(() => {
     if (isSuccess) {
@@ -240,7 +240,7 @@ const Ticket: NextPage = () => {
               <Form>
                 <HStack mt="4" alignItems="stretch">
                   <InputField size={'sm'} name="text" placeholder="Add comment..." />
-                  <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" colorScheme="telegram" size="sm">
+                  <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" size="sm">
                     Add
                   </IconButton>
                 </HStack>

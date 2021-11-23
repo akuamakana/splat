@@ -14,12 +14,12 @@ import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import { useClientRouter } from 'use-client-router';
 import { useMutation } from 'react-query';
+import { useToast } from '@chakra-ui/react';
 
 const EditUsersProject: NextPage = () => {
   const router = useClientRouter();
-  const [error, setError] = useState<IFieldError | null>(null);
-  const [success, setSuccess] = useState<IFieldError | null>(null);
   const [currentUsers, setCurrentUsers] = useState<IUser[]>([]);
+  const toast = useToast();
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
   const currentProject = useProject(router.query.id as string);
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
@@ -28,16 +28,53 @@ const EditUsersProject: NextPage = () => {
     onSuccess: (response) => {
       _allUsers.refetch();
       currentProject.refetch();
-      setSuccess(response);
-      setTimeout(() => {
-        setSuccess(null);
-      }, 3000);
+      toast({
+        variant: 'subtle',
+        title: 'Success',
+        description: response.message,
+        status: 'success',
+        isClosable: true,
+        duration: 3000,
+        position: 'top',
+      });
     },
-    onError: (_error: any) => {
-      setError(_error.response.data);
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
+    onError: (error: any) => {
+      toast({
+        variant: 'subtle',
+        title: 'Error',
+        description: error.response.data.message,
+        status: 'error',
+        isClosable: true,
+        duration: 3000,
+        position: 'top',
+      });
+    },
+  });
+
+  const deleteUserMutation = useMutation((uid: string) => removeUserFromProject(router.query.id as string, uid), {
+    onSuccess: (response) => {
+      _allUsers.refetch();
+      currentProject.refetch();
+      toast({
+        variant: 'subtle',
+        title: 'Success',
+        description: response.message,
+        status: 'success',
+        isClosable: true,
+        duration: 3000,
+        position: 'top',
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        variant: 'subtle',
+        title: 'Error',
+        description: error.response.data.message,
+        status: 'error',
+        isClosable: true,
+        duration: 3000,
+        position: 'top',
+      });
     },
   });
 
@@ -56,23 +93,6 @@ const EditUsersProject: NextPage = () => {
       setAllUsers(remainingUsers);
     }
   }, [_allUsers.data, currentProject.data]);
-
-  const deleteUserMutation = useMutation((uid: string) => removeUserFromProject(router.query.id as string, uid), {
-    onSuccess: (response) => {
-      _allUsers.refetch();
-      currentProject.refetch();
-      setSuccess(response);
-      setTimeout(() => {
-        setSuccess(null);
-      }, 3000);
-    },
-    onError: (_error: any) => {
-      setError(_error.response.data);
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
-    },
-  });
 
   const userColumns = useMemo(
     () => [
@@ -117,19 +137,6 @@ const EditUsersProject: NextPage = () => {
   if (currentProject.data && _allUsers.data) {
     return (
       <Content>
-        {/* TODO: Change alerts to Toast */}
-        {error && (
-          <Alert status="error">
-            <AlertIcon />
-            {error.message}
-          </Alert>
-        )}
-        {success && (
-          <Alert status="success">
-            <AlertIcon />
-            {success.message}
-          </Alert>
-        )}
         <Grid templateColumns={{ lg: 'auto auto' }} gap={6}>
           <Card heading="remove">
             <GlobalFilter globalFilter={currentUsersTable.state.globalFilter} preGlobalFilteredRows={currentUsersTable.preGlobalFilteredRows} setGlobalFilter={currentUsersTable.setGlobalFilter} />
