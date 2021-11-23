@@ -15,8 +15,8 @@ interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
   const state = useState(globalState);
-
   const { data } = useMe();
+
   return (
     <VStack transition={'width 0.2s'} textAlign="start" width={state.get().isSideBarOpen ? '250px' : '70px'} h="100%" bg="brand.500" boxShadow="sm" color="white" spacing={'0'}>
       <HStack h="61px" w="100%" alignItems={'center'} px="3">

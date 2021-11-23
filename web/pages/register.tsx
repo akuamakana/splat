@@ -1,39 +1,49 @@
 import { Button } from '@chakra-ui/button';
-import { Box, Flex, Heading, Spacer } from '@chakra-ui/layout';
-import { Text, Link as CLink } from '@chakra-ui/react';
-import axios from 'axios';
-import { Form, Formik } from 'formik';
-import React from 'react';
+import { Box, Flex, HStack, Spacer } from '@chakra-ui/layout';
+import { Link as CLink, Text } from '@chakra-ui/react';
 import InputField from '@components/InputField';
-import Wrapper from '@components/Wrapper';
-import Link from 'next/link';
-import router from 'next/router';
-import { NextPage } from 'next';
-import { IUserResponse } from '../interfaces/IUserResponse';
+import { IUserInput } from '@interfaces/IUserInput';
 import AuthLayout from '@layout/AuthLayout';
 import { register } from '@lib/splat-api';
+import { Form, Formik } from 'formik';
+import { NextPage } from 'next';
+import Link from 'next/link';
+import router from 'next/router';
+import React from 'react';
 import { useMutation } from 'react-query';
-import { IUserInput } from '@interfaces/IUserInput';
 
 const Register: NextPage = () => {
   const registerMutation = useMutation((values: IUserInput) => register(values));
 
   const additionalLinks = (
-    <Text mt={6} textAlign={['center']}>
-      Alrady have an account?{' '}
-      <CLink as="strong" color="brand.600">
-        <Link href="/login">
-          <a>Login</a>
-        </Link>
-      </CLink>
-    </Text>
+    <>
+      <Text mt={6} textAlign={['center']}>
+        Already have an account?{' '}
+        <CLink as="strong" color="brand.600">
+          <Link href="/login">
+            <a>Login</a>
+          </Link>
+        </CLink>
+      </Text>
+      <Text mt={2} textAlign={['center']}>
+        Forgot password?{' '}
+        <CLink color="brand.600" as="strong">
+          <Link href="/forgot-password">Reset password</Link>
+        </CLink>
+      </Text>
+    </>
   );
 
   return (
     <AuthLayout additionalLinks={additionalLinks}>
       <Formik
-        initialValues={{ username: '', password: '', email: '' }}
+        initialValues={{ username: '', password: '', confirmPassword: '', email: '', firstName: '', lastName: '' }}
         onSubmit={async (values: IUserInput, { setFieldError }) => {
+          if (values.password !== values.confirmPassword) {
+            setFieldError('confirmPassword', 'Passwords do not match');
+            return;
+          }
+
           registerMutation.mutate(values, {
             onSuccess: () => {
               router.push('/login');
@@ -46,12 +56,21 @@ const Register: NextPage = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <InputField name="email" label="Email" placeholder="email" />
+            <HStack>
+              <InputField name="firstName" label="First Name" placeholder="First Name" />
+              <InputField name="lastName" label="Last Name" placeholder="Last Name" />
+            </HStack>
             <Box mt={6}>
-              <InputField name="username" label="Username" placeholder="username" />
+              <InputField name="email" label="Email" placeholder="Email" />
             </Box>
             <Box mt={6}>
-              <InputField name="password" label="Password" placeholder="password" type="password" />
+              <InputField name="username" label="Username" placeholder="Username" />
+            </Box>
+            <Box mt={6}>
+              <InputField name="password" label="Password" placeholder="Password" type="password" />
+            </Box>
+            <Box mt={6}>
+              <InputField name="confirmPassword" label="Confirm Password" placeholder="Confirm Password" type="password" />
             </Box>
             <Flex mt={12}>
               <Spacer />
