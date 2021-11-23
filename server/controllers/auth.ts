@@ -30,10 +30,11 @@ export const register = async (request: Request, response: Response) => {
 export const login = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
-    const user = await userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where({ username: request.body.username }).getOne();
+    const selection = request.body.usernameOrEmail.includes('@') ? { email: request.body.usernameOrEmail } : { username: request.body.usernameOrEmail };
+    const user = await userRepository.createQueryBuilder('User').select(['User.username', 'User.id']).addSelect('User.password').where(selection).getOne();
 
     if (!user) {
-      response.status(404).send({ field: 'username', message: 'User not found' });
+      response.status(404).send({ field: 'usernameOrEmail', message: 'User not found' });
       return;
     }
 

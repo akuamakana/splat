@@ -17,7 +17,7 @@ import { useMutation } from 'react-query';
 import { IUserInput } from '@interfaces/IUserInput';
 
 const Login: NextPage = () => {
-  const loginMutation = useMutation((values: IUserInput) => login(values));
+  const loginMutation = useMutation((values: { usernameOrEmail: string; password: string }) => login(values));
   const additionalLinks = (
     <>
       <Text mt={6} textAlign={['center']}>
@@ -37,8 +37,8 @@ const Login: NextPage = () => {
   return (
     <AuthLayout additionalLinks={additionalLinks}>
       <Formik
-        initialValues={{ username: '', password: '' }}
-        onSubmit={async (values: IUserInput, { setFieldError }) => {
+        initialValues={{ usernameOrEmail: '', password: '' }}
+        onSubmit={async (values: { usernameOrEmail: string; password: string }, { setFieldError }) => {
           loginMutation.mutate(values, {
             onSuccess: () => {
               router.push('/home');
@@ -52,10 +52,10 @@ const Login: NextPage = () => {
         {({ isSubmitting }) => (
           <Form>
             <Box>
-              <InputField name="username" label="Username" placeholder="username" />
+              <InputField name="usernameOrEmail" label="Username or Email" placeholder="Username or Email" />
             </Box>
             <Box mt={6}>
-              <InputField name="password" label="Password" placeholder="password" type="password" />
+              <InputField name="password" label="Password" placeholder="Password" type="password" />
             </Box>
             <Flex mt={12}>
               <Spacer />
