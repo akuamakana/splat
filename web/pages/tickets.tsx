@@ -1,22 +1,22 @@
-import { Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
-import { ChevronRightIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { useEffect, useMemo, useState } from 'react';
-import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
-
+import { AddIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { chakra, IconButton, Table, Tbody, Td, Th, Thead, Tr, useMediaQuery } from '@chakra-ui/react';
 import Card from '@components/Card';
-import Content from '@layout/Content';
 import { GlobalFilter } from '@components/GlobalFilter';
-import { ITicket } from '@interfaces/ITicket';
 import { Loading } from '@components/Loading';
+import { ITicket } from '@interfaces/ITicket';
+import Content from '@layout/Content';
+import { useAllTickets } from '@lib/splat-api';
 import { NextPage } from 'next';
 import router from 'next/router';
-import { useAllTickets } from '@lib/splat-api';
-import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 
 const Tickets: NextPage = () => {
   const allTickets = useAllTickets();
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
+
+  const createTicketButton = <IconButton aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create' })} icon={<AddIcon />} size="sm" />;
 
   useEffect(() => {
     if (allTickets.isSuccess) {
@@ -66,7 +66,7 @@ const Tickets: NextPage = () => {
   if (allTickets.isSuccess) {
     return (
       <Content>
-        <Card heading="Tickets">
+        <Card heading="Tickets" control={createTicketButton}>
           <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
           <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
             <Thead>
