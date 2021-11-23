@@ -32,7 +32,7 @@ const ManageUsers: NextPage = () => {
   });
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       setTableData(data);
     }
   }, [data]);

@@ -62,7 +62,7 @@ const CreateTicket: NextPage = () => {
                     <option value="training">Training</option>
                   </SelectField>
                   <SelectField name="project" label="Project">
-                    <option value="">Select a project...</option>
+                    <option>Select a project...</option>
                     {projects?.data?.map((project) => (
                       <option key={project.id} value={project.id}>
                         {project.title}

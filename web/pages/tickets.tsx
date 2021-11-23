@@ -1,5 +1,5 @@
-import { Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
+import { ChevronRightIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { useEffect, useMemo, useState } from 'react';
 import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 
@@ -11,6 +11,7 @@ import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import router from 'next/router';
 import { useAllTickets } from '@lib/splat-api';
+import Link from 'next/link';
 
 const Tickets: NextPage = () => {
   const allTickets = useAllTickets();

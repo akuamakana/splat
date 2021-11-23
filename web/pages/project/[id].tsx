@@ -1,14 +1,13 @@
 import { AddIcon, EditIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { IconButton, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
-import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
-import { useProject, useTickets } from '@lib/splat-api';
-
+import { chakra, IconButton, Table, Tbody, Td, Th, Thead, Tr, useMediaQuery } from '@chakra-ui/react';
 import Card from '@components/Card';
-import Content from '@layout/Content';
 import { GlobalFilter } from '@components/GlobalFilter';
 import { Loading } from '@components/Loading';
+import Content from '@layout/Content';
+import { useProject, useTickets } from '@lib/splat-api';
 import { NextPage } from 'next';
+import { useEffect, useMemo, useState } from 'react';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 import { useClientRouter } from 'use-client-router';
 
 const Project: NextPage = () => {
@@ -20,14 +19,24 @@ const Project: NextPage = () => {
   const [userTableData, setUserTableData] = useState<any[]>([]);
   const [ticketTableData, setTicketTableData] = useState<any[]>([]);
 
+  const editProjectButton = (
+    <IconButton aria-label="Edit project" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/project/edit/[id]', query: { id: data ? data.id : router.query.id } })} />
+  );
+
+  const editUsersButton = (
+    <IconButton aria-label="Create project" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/project/edit/users/[id]', query: { id: data ? data.id : router.query.id } })} />
+  );
+
+  const createTicketButton = <IconButton aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create', query: { id: data?.id } })} icon={<AddIcon />} size="sm" />;
+
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       setUserTableData(data.assigned_users);
     }
   }, [data]);
 
   useEffect(() => {
-    if (tickets.isSuccess) {
+    if (tickets.isSuccess && tickets.data) {
       setTicketTableData(tickets.data);
     }
   }, [tickets.data]);
@@ -88,14 +97,8 @@ const Project: NextPage = () => {
   if (isSuccess) {
     return (
       <Content>
-        <Card
-          heading={data ? data?.title : ''}
-          description={data?.description}
-          control={
-            <IconButton aria-label="Create project" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/project/edit/[id]', query: { id: data ? data.id : router.query.id } })} />
-          }
-        ></Card>
-        <Card heading="Tickets" control={<IconButton aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create', query: { id: data?.id } })} icon={<AddIcon />} size="sm" />}>
+        <Card heading={data ? data?.title : ''} description={data?.description} control={editProjectButton}></Card>
+        <Card heading="Tickets" control={createTicketButton}>
           <GlobalFilter preGlobalFilteredRows={ticketTable.preGlobalFilteredRows} globalFilter={ticketTable.state.globalFilter} setGlobalFilter={ticketTable.setGlobalFilter} />
           <Table {...ticketTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
             <Thead>
@@ -135,17 +138,7 @@ const Project: NextPage = () => {
             </Tbody>
           </Table>
         </Card>
-        <Card
-          control={
-            <IconButton
-              aria-label="Create project"
-              icon={<EditIcon />}
-              size="sm"
-              onClick={() => router.push({ pathname: '/project/edit/users/[id]', query: { id: data ? data.id : router.query.id } })}
-            />
-          }
-          heading="Assigned Users"
-        >
+        <Card control={editUsersButton} heading="Assigned Users">
           <GlobalFilter preGlobalFilteredRows={assignedUserTable.preGlobalFilteredRows} globalFilter={assignedUserTable.state.globalFilter} setGlobalFilter={assignedUserTable.setGlobalFilter} />
           <Table {...assignedUserTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
             <Thead>

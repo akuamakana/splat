@@ -5,11 +5,9 @@ import Card from '@components/Card';
 import Content from '@layout/Content';
 import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useTicketReport } from '@lib/splat-api';
 
 const Home: NextPage = () => {
-  const router = useRouter();
   const { data, isSuccess, isLoading } = useTicketReport();
 
   const statusData = [

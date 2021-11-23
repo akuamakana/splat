@@ -1,5 +1,5 @@
 import { BellIcon } from '@chakra-ui/icons';
-import { Box, HStack, Spacer } from '@chakra-ui/layout';
+import { Box, Heading, HStack, Spacer } from '@chakra-ui/layout';
 import { Avatar, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { Loading } from '@components/Loading';
 import { useRouter } from 'next/router';
@@ -28,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
     <Loading />;
   }
 
-  if (isSuccess) {
+  if (isSuccess && data) {
     return (
       <HStack py="2" px="6" color="gray" bgColor="white" boxShadow="sm" zIndex="sticky" height={'max-content'}>
         <Spacer />
@@ -52,22 +52,16 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
         <Menu>
           <MenuButton>
             <HStack>
-              <Avatar size={'sm'} name={data?.firstName} />
+              <Avatar size={'sm'} borderRadius={'sm'} name={data?.firstName} />
               <Box px="2" textAlign="left" display={{ base: 'none', lg: 'block' }}>
-                <Text fontSize="sm" as="strong">
+                <Heading fontSize="sm" as="strong">
                   {`${data.firstName} ${data.lastName}`}
-                </Text>
+                </Heading>
                 <Text fontSize="sm">{data?.role}</Text>
               </Box>
             </HStack>
           </MenuButton>
           <MenuList color="black">
-            <MenuItem minH="48px">
-              <Text fontSize="sm">Notifications</Text>
-            </MenuItem>
-            <MenuItem minH="48px">
-              <Text fontSize="sm">Settings</Text>
-            </MenuItem>
             <MenuItem minH="48px" onClick={() => useLogoutMutation.mutate()} color="red">
               <Text fontSize="sm">Logout</Text>
             </MenuItem>

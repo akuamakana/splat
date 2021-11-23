@@ -6,7 +6,7 @@ import { NextPage } from 'next';
 const Index: NextPage = () => {
   return (
     <Content>
-      <Card>
+      <Card heading="index">
         <Loading />
       </Card>
     </Content>

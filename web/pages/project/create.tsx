@@ -41,7 +41,7 @@ const CreateProject: NextPage = () => {
               <Box mt={6}>
                 <InputField name="description" label="Description" placeholder="Description..." />
               </Box>
-              <Flex mt={12}>
+              <Flex mt={10}>
                 <Spacer />
                 <Button mx={2} onClick={() => router.push({ pathname: '/projects' })} isLoading={isSubmitting} colorScheme={'gray'}>
                   Cancel

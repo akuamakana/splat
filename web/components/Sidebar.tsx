@@ -9,6 +9,7 @@ import { SidebarLink } from '@components/SidebarLink';
 import { VscArrowSwap } from 'react-icons/vsc';
 import { useMe } from '@lib/splat-api';
 import { useState } from '@hookstate/core';
+import NextLink from 'next/link';
 import globalState from '@lib/global-state';
 
 interface SidebarProps {}
@@ -19,17 +20,21 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
 
   return (
     <VStack transition={'width 0.2s'} textAlign="start" width={state.get().isSideBarOpen ? '250px' : '70px'} h="100%" bg="brand.500" boxShadow="sm" color="white" spacing={'0'}>
-      <HStack h="61px" w="100%" alignItems={'center'} px="3">
-        <Heading as={'a'} display={state.get().isSideBarOpen ? 'block' : 'none'} cursor={'pointer'} href="/home">
-          Splat
-        </Heading>
-        {state.get().isSideBarOpen && <Spacer />}
+      <HStack h="61px" w="100%" alignItems={'center'} justifyContent={'center'} px="3">
+        {state.get().isSideBarOpen && (
+          <>
+            <Heading display={state.get().isSideBarOpen ? 'block' : 'none'} cursor={'pointer'}>
+              <NextLink href="/home">SPLAT</NextLink>
+            </Heading>
+            <Spacer />
+          </>
+        )}
         <Icon
           ml={0}
           as={VscArrowSwap}
           cursor={'pointer'}
           alignItems={'center'}
-          boxSize={7}
+          boxSize={6}
           _hover={{ bg: 'brand.500' }}
           onClick={() => state.set((p) => ({ isSideBarOpen: !p.isSideBarOpen }))}
           aria-label="toggle sidebar"
