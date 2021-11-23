@@ -46,7 +46,7 @@ const Project: NextPage = () => {
       { Header: 'Email', accessor: 'email' },
       {
         Header: 'Role',
-        accessor: 'role.name',
+        accessor: 'role',
       },
     ],
     []

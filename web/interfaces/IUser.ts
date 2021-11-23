@@ -4,8 +4,7 @@ export interface IUser {
   id: number;
   created_at: string;
   updated_at: string;
-  role?: {
-    id: number;
-    name: string;
-  };
+  role: 'SUBMITTER' | 'DEV' | 'MANAGER' | 'ADMIN';
+  firstName: string;
+  lastName: string;
 }

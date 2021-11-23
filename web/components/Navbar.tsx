@@ -1,12 +1,11 @@
-import { Avatar, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
-import { BellIcon, SearchIcon } from '@chakra-ui/icons';
+import { BellIcon } from '@chakra-ui/icons';
 import { Box, HStack, Spacer } from '@chakra-ui/layout';
-import { deleteNotifications, logout, useMe, useNotifications } from '../lib/splat-api';
-
+import { Avatar, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { Loading } from '@components/Loading';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useMutation } from 'react-query';
-import { useRouter } from 'next/router';
+import { deleteNotifications, logout, useMe, useNotifications } from '../lib/splat-api';
 
 interface NavbarProps {}
 
@@ -53,12 +52,12 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
         <Menu>
           <MenuButton>
             <HStack>
-              <Avatar size={'sm'} name={data?.email} />
+              <Avatar size={'sm'} name={data?.firstName} />
               <Box px="2" textAlign="left" display={{ base: 'none', lg: 'block' }}>
                 <Text fontSize="sm" as="strong">
-                  {data?.email}
+                  {`${data.firstName} ${data.lastName}`}
                 </Text>
-                <Text fontSize="sm">{data?.role?.name}</Text>
+                <Text fontSize="sm">{data?.role}</Text>
               </Box>
             </HStack>
           </MenuButton>

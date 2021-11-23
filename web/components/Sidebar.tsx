@@ -37,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
         />
       </HStack>
       <SidebarLink iconOnly={state.get().isSideBarOpen} href="/home" label="Home" icon={FaHome} />
-      {data?.role && data?.role?.id > 3 && <SidebarLink iconOnly={state.get().isSideBarOpen} href="/manage-users" label="Manage Users" icon={HiUsers} />}
+      {data && ['ADMIN', 'MANAGER'].includes(data.role) && <SidebarLink iconOnly={state.get().isSideBarOpen} href="/manage-users" label="Manage Users" icon={HiUsers} />}
       <SidebarLink iconOnly={state.get().isSideBarOpen} href="/projects" label="Projects" icon={CgNotes} />
       <SidebarLink iconOnly={state.get().isSideBarOpen} href="/tickets" label="Tickets" icon={FaTicketAlt} />
     </VStack>

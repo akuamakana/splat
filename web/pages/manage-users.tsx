@@ -1,4 +1,4 @@
-import { Box, Button, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
+import { Box, Button, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery, HStack, Spacer } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { useEffect, useMemo, useState } from 'react';
@@ -58,7 +58,7 @@ const ManageUsers: NextPage = () => {
       { Header: 'Email', accessor: 'email' },
       {
         Header: 'Role',
-        accessor: 'role.name',
+        accessor: 'role',
       },
     ],
     []
@@ -112,15 +112,18 @@ const ManageUsers: NextPage = () => {
                 <Box mt={6}>
                   <SelectField size="sm" name="role" label="Select Role">
                     <option>Select role...</option>
-                    <option value="1">Submitter</option>
-                    <option value="2">Developer</option>
-                    <option value="3">Manager</option>
-                    <option value="4">Admin</option>
+                    <option value="SUBMITTER">Submitter</option>
+                    <option value="DEV">Developer</option>
+                    <option value="MANAGER">Manager</option>
+                    <option value="ADMIN">Admin</option>
                   </SelectField>
                 </Box>
-                <Button type="submit" isLoading={updateRoleMutation.isLoading} mt={6}>
-                  Submit
-                </Button>
+                <HStack mt={6}>
+                  <Spacer />
+                  <Button type="submit" isLoading={updateRoleMutation.isLoading}>
+                    Submit
+                  </Button>
+                </HStack>
               </Form>
             </Formik>
           </>
