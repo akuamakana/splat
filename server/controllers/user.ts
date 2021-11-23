@@ -1,6 +1,5 @@
 import { Request, Response } from 'express-serve-static-core';
 import { getRepository } from 'typeorm';
-import { Role } from '../entities/Role';
 import { User } from '../entities/User';
 import logger from '../lib/logger';
 
@@ -20,7 +19,6 @@ export const me = async (request: Request, response: Response) => {
   }
 };
 
-// TODO: Refactor for enum
 export const changeRole = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
