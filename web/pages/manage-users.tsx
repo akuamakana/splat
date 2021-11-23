@@ -71,7 +71,7 @@ const ManageUsers: NextPage = () => {
     useSortBy
   );
 
-  if (me.data?.role && me.data.role?.id < 3) {
+  if (me.data?.role && me.data.role !== 'ADMIN') {
     router.push('/projects');
   }
 
