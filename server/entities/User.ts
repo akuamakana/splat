@@ -1,10 +1,10 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Notification } from './Notification';
 import { Project } from './Project';
 import { Ticket } from './Ticket';
 
-enum Role {
+export enum Role {
   ADMIN = 'ADMIN',
   MANAGER = 'MANAGER',
   DEV = 'DEV',
@@ -31,7 +31,7 @@ export class User {
   @Column({ nullable: false })
   lastName!: string;
 
-  @Column({ nullable: false, type: 'enum', enum: Role, default: Role.DEV })
+  @Column({ nullable: false, type: 'enum', enum: Role, default: Role.MANAGER })
   role: Role;
 
   @ManyToMany(() => Ticket, (ticket) => ticket.assigned_user, { cascade: true })
