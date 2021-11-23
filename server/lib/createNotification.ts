@@ -3,7 +3,7 @@ import { Ticket } from '../entities/Ticket';
 const createNotification = (message: string, ticket: Ticket, user: number): Notification[] => {
   const notifications: Notification[] = [];
 
-  if (user !== ticket.assigned_user.id) {
+  if (ticket.assigned_user && user !== ticket.assigned_user.id) {
     const notification = new Notification();
     notification.message = message;
     notification.ticket = ticket.id;

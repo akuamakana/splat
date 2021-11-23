@@ -1,4 +1,4 @@
-import { HStack, Icon, Link } from '@chakra-ui/react';
+import { Heading, HStack, Icon, Link } from '@chakra-ui/react';
 
 import NextLink from 'next/link';
 import React from 'react';
@@ -29,7 +29,7 @@ export const SidebarLink: React.FC<SidebarLinkProps> = ({ href, label, icon, ico
         bgColor={isActive ? 'brand.600' : ''}
       >
         <HStack justifyContent={iconOnly ? 'space-between' : 'space-around'}>
-          {iconOnly && <span>{label}</span>}
+          {iconOnly && <Heading size={'xs'}>{label}</Heading>}
           <Icon as={icon} />
         </HStack>
       </Link>

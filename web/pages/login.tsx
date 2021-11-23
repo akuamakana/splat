@@ -1,20 +1,16 @@
-import { Box, Flex, Heading, Spacer } from '@chakra-ui/layout';
-import { Link as CLink, Text } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
-
 import { Button } from '@chakra-ui/button';
-import { IUserResponse } from '../interfaces/IUserResponse';
+import { Box, Flex, Spacer } from '@chakra-ui/layout';
+import { Link as CLink, Text } from '@chakra-ui/react';
 import InputField from '@components/InputField';
-import Link from 'next/link';
-import { NextPage } from 'next';
-import React from 'react';
-import Wrapper from '@components/Wrapper';
-import axios from 'axios';
-import router from 'next/router';
 import AuthLayout from '@layout/AuthLayout';
 import { login } from '@lib/splat-api';
+import { Form, Formik } from 'formik';
+import { NextPage } from 'next';
+import Link from 'next/link';
+import router from 'next/router';
+import React from 'react';
 import { useMutation } from 'react-query';
-import { IUserInput } from '@interfaces/IUserInput';
+
 
 const Login: NextPage = () => {
   const loginMutation = useMutation((values: { usernameOrEmail: string; password: string }) => login(values));

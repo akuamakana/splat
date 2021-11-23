@@ -1,20 +1,17 @@
-import { Alert, AlertIcon, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { addUserToProject, removeUserFromProject, useProject, useUsers } from '@lib/splat-api';
-import { useEffect, useMemo, useState } from 'react';
-import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
-
-import Card from '@components/Card';
-import Content from '@layout/Content';
-import { GlobalFilter } from '@components/GlobalFilter';
 import { Grid } from '@chakra-ui/layout';
-import { IFieldError } from '@interfaces/IFieldError';
-import { IUser } from '@interfaces/IUser';
+import { chakra, Table, Tbody, Td, Th, Thead, Tr, useMediaQuery, useToast } from '@chakra-ui/react';
+import Card from '@components/Card';
+import { GlobalFilter } from '@components/GlobalFilter';
 import { Loading } from '@components/Loading';
+import { IUser } from '@interfaces/IUser';
+import Content from '@layout/Content';
+import { addUserToProject, removeUserFromProject, useProject, useUsers } from '@lib/splat-api';
 import { NextPage } from 'next';
-import { useClientRouter } from 'use-client-router';
+import { useEffect, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
-import { useToast } from '@chakra-ui/react';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
+import { useClientRouter } from 'use-client-router';
 
 const EditUsersProject: NextPage = () => {
   const router = useClientRouter();

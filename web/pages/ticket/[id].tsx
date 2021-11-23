@@ -22,7 +22,6 @@ import { useMutation } from 'react-query';
 const Ticket: NextPage = () => {
   const router = useClientRouter();
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
-
   const { data, isSuccess, refetch } = useTicket(router.query.id as string);
   const addCommentMutation = useMutation((values: ICommentInput) => addComment(values));
   const [historyTableData, setHistoryTableData] = useState<ILog[]>([]);
@@ -31,7 +30,7 @@ const Ticket: NextPage = () => {
   const editTicketButton = <IconButton aria-label="Edit Ticket" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />;
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       setHistoryTableData(data.logs);
       setCommentTableData(data.comments);
     }

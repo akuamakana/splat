@@ -1,5 +1,6 @@
 import '@fontsource/nunito/400.css';
 import '@fontsource/nunito/700.css';
+import '@fontsource/raleway/700.css';
 import '../styles/globals.css';
 
 import { QueryClient, QueryClientProvider } from 'react-query';

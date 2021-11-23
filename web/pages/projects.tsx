@@ -13,16 +13,16 @@ import { useRouter } from 'next/router';
 const Projects: NextPage = () => {
   const router = useRouter();
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
-
   const { data, isSuccess, isLoading } = useProjects();
+  const [tableData, setTableData] = useState<any[]>([]);
+  const createProjectButton = <IconButton aria-label="Create project" icon={<AddIcon />} size="sm" onClick={() => router.push('/project/create')} />;
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       setTableData(data);
     }
   }, [data]);
 
-  const [tableData, setTableData] = useState<any[]>([]);
   const columns = useMemo(
     () => [
       {
@@ -41,6 +41,7 @@ const Projects: NextPage = () => {
     ],
     []
   );
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, preGlobalFilteredRows, state, setGlobalFilter } = useTable(
     { columns, data: tableData },
     useFilters,
@@ -54,7 +55,7 @@ const Projects: NextPage = () => {
 
   return (
     <Content>
-      <Card heading="Projects" control={<IconButton aria-label="Create project" icon={<AddIcon />} size="sm" onClick={() => router.push('/project/create')} />}>
+      <Card heading="Projects" control={createProjectButton}>
         <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
         <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
           <Thead>
@@ -85,7 +86,6 @@ const Projects: NextPage = () => {
                     router.push({
                       pathname: '/project/[id]',
                       query: {
-                        // @ts-expect-error
                         id: row.original.id,
                       },
                     })
