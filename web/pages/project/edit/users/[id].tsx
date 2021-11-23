@@ -91,7 +91,7 @@ const EditUsersProject: NextPage = () => {
       },
       {
         Header: 'Role',
-        accessor: 'role.name',
+        accessor: 'role',
       },
     ],
     []
