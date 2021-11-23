@@ -18,7 +18,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ children, label, size = 'md',
   return (
     <FormControl isInvalid={!!error}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
-      <Select {...field} id={field.name} size={size} name={field.name} onChange={(option) => setValue(option.target.value)}>
+      <Select rounded={'sm'} {...field} id={field.name} size={size} name={field.name} onChange={(option) => setValue(option.target.value)}>
         {children}
       </Select>
       {error && <FormErrorMessage>{error}</FormErrorMessage>}

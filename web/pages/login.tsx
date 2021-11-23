@@ -11,57 +11,63 @@ import React from 'react';
 import Wrapper from '@components/Wrapper';
 import axios from 'axios';
 import router from 'next/router';
+import AuthLayout from '@layout/AuthLayout';
+import { login } from '@lib/splat-api';
+import { useMutation } from 'react-query';
+import { IUserInput } from '@interfaces/IUserInput';
 
 const Login: NextPage = () => {
-  return (
-    <Wrapper variant="small">
-      <Box style={{ overflow: 'hidden' }} boxShadow="md" rounded="sm" bg="white">
-        <Box py={6} mb={3} bg="blue.500" color="white" textAlign={['center']}>
-          <Heading>SPLAT</Heading>
-        </Box>
-        <Box px={8} py={12}>
-          <Formik
-            initialValues={{ username: '', password: '' }}
-            onSubmit={async (values, { setFieldError }) => {
-              try {
-                const res = await axios.post('http://localhost:3001/auth/login', values, { withCredentials: true });
-                if (res.status === 200) {
-                  router.push('/home');
-                }
-              } catch (error: any) {
-                const _data: IUserResponse = error.response.data;
-                const { field, message } = _data;
-                setFieldError(field, message);
-              }
-            }}
-          >
-            {({ isSubmitting }) => (
-              <Form>
-                <Box>
-                  <InputField name="username" label="Username" placeholder="username" />
-                </Box>
-                <Box mt={6}>
-                  <InputField name="password" label="Password" placeholder="password" type="password" />
-                </Box>
-                <Flex mt={12}>
-                  <Spacer />
-                  <Button type="submit" isLoading={isSubmitting} colorScheme="blue">
-                    Login
-                  </Button>
-                  <Spacer />
-                </Flex>
-              </Form>
-            )}
-          </Formik>
-        </Box>
-      </Box>
+  const loginMutation = useMutation((values: IUserInput) => login(values));
+  const additionalLinks = (
+    <>
       <Text mt={6} textAlign={['center']}>
         New here?{' '}
-        <CLink color="blue.600" as="strong">
+        <CLink color="brand.600" as="strong">
           <Link href="/register">Create an account</Link>
         </CLink>
       </Text>
-    </Wrapper>
+      <Text mt={2} textAlign={['center']}>
+        Forgot password?{' '}
+        <CLink color="brand.600" as="strong">
+          <Link href="/forgot-password">Reset password</Link>
+        </CLink>
+      </Text>
+    </>
+  );
+  return (
+    <AuthLayout additionalLinks={additionalLinks}>
+      <Formik
+        initialValues={{ username: '', password: '' }}
+        onSubmit={async (values: IUserInput, { setFieldError }) => {
+          loginMutation.mutate(values, {
+            onSuccess: () => {
+              router.push('/home');
+            },
+            onError: (error: any) => {
+              setFieldError(error.response.data.field, error.response.data.message);
+            },
+          });
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <Box>
+              <InputField name="username" label="Username" placeholder="username" />
+            </Box>
+            <Box mt={6}>
+              <InputField name="password" label="Password" placeholder="password" type="password" />
+            </Box>
+            <Flex mt={12}>
+              <Spacer />
+              <Button type="submit" isLoading={isSubmitting}>
+                Login
+              </Button>
+              <Spacer />
+            </Flex>
+          </Form>
+        )}
+      </Formik>
+    </AuthLayout>
   );
 };
 

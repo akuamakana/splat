@@ -1,9 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
+import { getRepository } from 'typeorm';
+import { Role, User } from '../entities/User';
 
-const verifyRole = (num: number) => {
-  return async (_: Request, response: Response, next: NextFunction) => {
-    if (!response.locals.userRole || response.locals.userRole < num) {
-      response.status(401).send({ message: 'insufficient rights' });
+const verifyRole = (roles: Role[]) => {
+  return async (request: Request, response: Response, next: NextFunction) => {
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne(request.session.userId);
+    if (user && !roles.includes(user.role)) {
+      response.status(403).send({ message: 'Forbidden' });
       return;
     }
     next();

@@ -190,10 +190,7 @@ const Ticket: NextPage = () => {
             </Grid>
           </Card>
           <Card heading="Comments">
-            {
-              //@ts-expect-error
-              <GlobalFilter preGlobalFilteredRows={commentsTable.preGlobalFilteredRows} globalFilter={commentsTable.state.globalFilter} setGlobalFilter={commentsTable.setGlobalFilter} />
-            }
+            <GlobalFilter preGlobalFilteredRows={commentsTable.preGlobalFilteredRows} globalFilter={commentsTable.state.globalFilter} setGlobalFilter={commentsTable.setGlobalFilter} />
             <Box maxHeight={'300px'} overflow="auto">
               <Table {...commentsTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
                 <Thead>

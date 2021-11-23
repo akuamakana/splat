@@ -19,6 +19,28 @@ const theme = extendTheme({
       '900': '#000000',
     },
   },
+  components: {
+    Button: {
+      baseStyle: {
+        borderRadius: 'sm',
+      },
+      defaultProps: {
+        colorScheme: 'brand',
+      },
+    },
+    Input: {
+      baseStyle: {
+        size: 'sm',
+        borderRadius: 'sm',
+      },
+    },
+    Select: {
+      baseStyle: {
+        size: 'sm',
+        borderRadius: 'sm',
+      },
+    },
+  },
 });
 
 export default theme;

@@ -9,6 +9,7 @@ import { IUser } from '@interfaces/IUser';
 import axios from 'axios';
 import constants from './constants';
 import { useQuery } from 'react-query';
+import { IUserInput } from '@interfaces/IUserInput';
 
 const _axios = axios.create({ withCredentials: true });
 
@@ -139,5 +140,25 @@ export const deleteNotifications = async (ids: string[]) => {
     _ids.push(`id=${ids[i]}&`);
   }
   const { data } = await _axios.delete<Boolean>(`${constants.API_URL}/notifications?${_ids.join('')}`);
+  return data;
+};
+
+export const changePassword = async (values: { password: string; token: string }) => {
+  const { data } = await _axios.put<Boolean>(`${constants.API_URL}/auth/change-password/${values.token}`, { password: values.password });
+  return data;
+};
+
+export const forgotPassword = async (values: { email: string }) => {
+  const { data } = await _axios.post<{ message: string }>(`${constants.API_URL}/auth/forgot-password`, values);
+  return data;
+};
+
+export const login = async (values: IUserInput) => {
+  const { data } = await _axios.post(`${constants.API_URL}/auth/login`, values);
+  return data;
+};
+
+export const register = async (values: IUserInput) => {
+  const { data } = await _axios.post(`${constants.API_URL}/auth/register`, values);
   return data;
 };

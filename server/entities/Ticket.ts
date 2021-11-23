@@ -5,19 +5,19 @@ import { Project } from './Project';
 import { TicketHistory } from './TicketHistory';
 import { User } from './User';
 
-export enum TicketStatus {
+enum TicketStatus {
   OPEN = 'open',
   IN_PROGRESS = 'in progress',
   CLOSED = 'closed',
 }
 
-export enum TicketPriority {
+enum TicketPriority {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
 }
 
-export enum TicketType {
+enum TicketType {
   BUGS = 'bugs/errors',
   FEATURES = 'feature requests',
   OTHER = 'other',

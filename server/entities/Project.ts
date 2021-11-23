@@ -14,10 +14,10 @@ export class Project {
   @Column({ nullable: false })
   description!: string;
 
-  @ManyToOne(() => User, { nullable: false })
+  @ManyToOne(() => User, { nullable: false, cascade: true })
   user!: User;
 
-  @ManyToMany(() => User, (user) => user.projects, { nullable: false })
+  @ManyToMany(() => User, (user) => user.projects, { nullable: false, onDelete: 'CASCADE' })
   @JoinTable()
   assigned_users: User[];
 
