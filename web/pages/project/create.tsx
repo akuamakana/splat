@@ -43,13 +43,12 @@ const CreateProject: NextPage = () => {
               </Box>
               <Flex mt={12}>
                 <Spacer />
-                <Button mx={2} onClick={() => router.push({ pathname: '/projects' })} isLoading={isSubmitting} colorScheme="blue">
+                <Button mx={2} onClick={() => router.push({ pathname: '/projects' })} isLoading={isSubmitting} colorScheme={'gray'}>
                   Cancel
                 </Button>
-                <Button mx={2} type="submit" isLoading={isSubmitting} colorScheme="blue">
+                <Button mx={2} type="submit" isLoading={isSubmitting}>
                   Submit
                 </Button>
-                <Spacer />
               </Flex>
             </Form>
           )}

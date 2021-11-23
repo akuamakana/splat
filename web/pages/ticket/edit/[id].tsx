@@ -99,13 +99,13 @@ const EditTicket: NextPage = () => {
                 </HStack>
                 <Flex mt={10}>
                   <Spacer />
-                  <Button mx={2} w="150px" onClick={() => router.back()} isLoading={isSubmitting} colorScheme="blue">
-                    Cancel
-                  </Button>
                   <Button mx={2} w="150px" onClick={() => deleteTicketMutation.mutate(ticket.data.id)} isLoading={isSubmitting} colorScheme="red">
                     Delete
                   </Button>
-                  <Button mx={2} w="150px" type="submit" isLoading={isSubmitting} colorScheme="blue">
+                  <Button mx={2} w="150px" onClick={() => router.back()} isLoading={isSubmitting} colorScheme="gray">
+                    Cancel
+                  </Button>
+                  <Button mx={2} w="150px" type="submit" isLoading={isSubmitting}>
                     Submit
                   </Button>
                 </Flex>

@@ -43,7 +43,7 @@ const ForgotPassword: NextPage = () => {
             </Box>
             <Flex mt={12}>
               <Spacer />
-              <Button type="submit" isLoading={isSubmitting} colorScheme="blue">
+              <Button type="submit" isLoading={isSubmitting}>
                 Submit
               </Button>
               <Spacer />

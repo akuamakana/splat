@@ -63,16 +63,15 @@ const EditProject: NextPage = () => {
                 </Box>
                 <Flex mt={12}>
                   <Spacer />
-                  <Button mx={2} onClick={() => router.push({ pathname: '/project/[id]', query: { id: router.query.id } })} isLoading={isSubmitting} colorScheme="blue">
-                    Cancel
-                  </Button>
-                  <Button mx={2} type="submit" isLoading={isSubmitting} colorScheme="blue">
-                    Submit
-                  </Button>
                   <Button mx={2} onClick={() => deleteProjectMutation.mutate()} isLoading={isSubmitting} colorScheme="red">
                     Delete
                   </Button>
-                  <Spacer />
+                  <Button mx={2} onClick={() => router.push({ pathname: '/project/[id]', query: { id: router.query.id } })} isLoading={isSubmitting} colorScheme="gray">
+                    Cancel
+                  </Button>
+                  <Button mx={2} type="submit" isLoading={isSubmitting}>
+                    Submit
+                  </Button>
                 </Flex>
               </Form>
             )}
