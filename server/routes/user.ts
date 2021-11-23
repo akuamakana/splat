@@ -5,7 +5,12 @@ import verifyRole from '../middleware/verifyRole';
 import { changeRole, getUsers } from '../controllers/user';
 
 export const userRoute = (app: Express) => {
-  app.get('/user', [verifyLoggedIn, verifyRole(3)], getUsers);
+  app.get('/user', [verifyLoggedIn], getUsers);
   app.get('/user/me', [verifyLoggedIn], me);
-  app.put('/user/:id', [verifyLoggedIn, verifyRole(4)], changeRole);
+  app.put('/user/:id', [verifyLoggedIn], changeRole);
 };
+// export const userRoute = (app: Express) => {
+//   app.get('/user', [verifyLoggedIn, verifyRole(3)], getUsers);
+//   app.get('/user/me', [verifyLoggedIn], me);
+//   app.put('/user/:id', [verifyLoggedIn, verifyRole(4)], changeRole);
+// };

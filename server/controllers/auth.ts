@@ -1,56 +1,23 @@
 import * as argon2 from 'argon2';
-
 import { Request, Response } from 'express';
-
+import { getRepository } from 'typeorm';
+import { v4 } from 'uuid';
 import { Role } from '../entities/Role';
 import { User } from '../entities/User';
-import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
-import * as nodemailer from 'nodemailer';
-import { v4 } from 'uuid';
 import redisClient from '../lib/redisClient';
 import sendEmail from '../lib/sendEmail';
-
-// const sendEmail = async (email: string, token: string) => {
-//   let transporter = nodemailer.createTransport({
-//     host: 'smtp.ethereal.email',
-//     port: 587,
-//     secure: false, // true for 465, false for other ports
-//     auth: {
-//       user: 'sq7thzxqdez35djy@ethereal.email', // generated ethereal user
-//       pass: 'Uu2jRB9JYkvnhTZHF8', // generated ethereal password
-//     },
-//   });
-
-//   transporter.sendMail(
-//     {
-//       from: 'sender@server.com',
-//       to: 'receiver@sender.com',
-//       subject: 'Message title',
-//       text: 'Plaintext version of the message',
-//       html: `Email is: ${email} and token is ${token}`,
-//     },
-//     (_, info) => {
-//       console.log('sent email: ', info);
-//     }
-//   );
-// };
 
 export const register = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
     const user = new User();
-    const roleRepository = getRepository(Role);
-    const role = await roleRepository.findOne(request.body.role);
-
-    if (!role) {
-      throw new Error('Role not found');
-    }
 
     user.username = request.body.username;
     user.password = await argon2.hash(request.body.password);
     user.email = request.body.email;
-    user.role = role;
+    user.firstName = request.body.firstName;
+    user.lastName = request.body.lastName;
 
     await userRepository.save(user);
     logger.info('Saved a new user with id: ' + user.id);

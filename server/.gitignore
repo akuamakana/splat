@@ -10,4 +10,4 @@ ormconfig.json
 logs/
 dist/
 *.sql
-dump.rdb
+*.rdb

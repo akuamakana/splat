@@ -2,8 +2,14 @@ import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGenerat
 
 import { Notification } from './Notification';
 import { Project } from './Project';
-import { Role } from './Role';
 import { Ticket } from './Ticket';
+
+enum Role {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  DEV = 'DEV',
+  SUBMITTER = 'SUBMITTER',
+}
 
 @Entity()
 export class User {
@@ -19,13 +25,19 @@ export class User {
   @Column({ nullable: false })
   email!: string;
 
-  @ManyToOne(() => Role, (role) => role.user, { nullable: false })
-  role!: Role;
+  @Column({ nullable: false })
+  firstName!: string;
 
-  @ManyToMany(() => Ticket, (ticket) => ticket.assigned_user)
+  @Column({ nullable: false })
+  lastName!: string;
+
+  @Column({ nullable: false, type: 'enum', enum: Role, default: Role.DEV })
+  role: Role;
+
+  @ManyToMany(() => Ticket, (ticket) => ticket.assigned_user, { cascade: true })
   tickets: Ticket[];
 
-  @ManyToMany(() => Project, (project) => project.assigned_users, { nullable: false })
+  @ManyToMany(() => Project, (project) => project.assigned_users, { nullable: false, onDelete: 'CASCADE' })
   projects: Project[];
 
   @ManyToMany(() => Notification, (notification) => notification.user)

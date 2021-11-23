@@ -8,13 +8,12 @@ const verifyLoggedIn = async (request: Request, response: Response, next: NextFu
     return;
   }
   const userRepository = getRepository(User);
-  const user = await userRepository.findOne(request.session.userId, { relations: ['role'] });
+  const user = await userRepository.findOne(request.session.userId);
   if (!user) {
     response.status(401).send();
     return;
   }
   response.locals.user = user;
-  response.locals.userRole = user.role.id;
   next();
 };
 

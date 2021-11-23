@@ -7,7 +7,7 @@ import logger from '../lib/logger';
 export const me = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
-    const user: any = await userRepository.findOne(request.session.userId, { relations: ['role', 'projects'] });
+    const user: any = await userRepository.findOne(request.session.userId, { relations: ['projects'] });
     if (!user) {
       response.status(401).send();
       return;
@@ -20,6 +20,7 @@ export const me = async (request: Request, response: Response) => {
   }
 };
 
+// TODO: Refactor for enum
 export const changeRole = async (request: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
@@ -47,7 +48,7 @@ export const changeRole = async (request: Request, response: Response) => {
       response.status(404).send({ field: 'role', message: 'Role not found' });
       return;
     }
-    user.role = role;
+    // user.role = role;
 
     userRepository.save(user);
     logger.info(`User: ${user.id} update to role ${role.name}`);
@@ -61,7 +62,7 @@ export const changeRole = async (request: Request, response: Response) => {
 export const getUsers = async (_: Request, response: Response) => {
   try {
     const userRepository = getRepository(User);
-    const users = await userRepository.find({ relations: ['role'] });
+    const users = await userRepository.find();
 
     response.status(200).send(users);
   } catch (error) {
