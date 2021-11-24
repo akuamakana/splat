@@ -20,13 +20,5 @@
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
       "skipLibCheck": true
-      // "baseUrl": ".",
-      // "paths": {
-      //    "@entities/*": ["entities/*"],
-      //    "@controllers/*": ["controllers/*"],
-      //    "@middleware/*": ["middleware/*"],
-      //    "@routes/*": ["routes/*"],
-      //    "@lib/*": ["lib/*"]
-      // }
    }
 }

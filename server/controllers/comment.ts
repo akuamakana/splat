@@ -22,6 +22,7 @@ export const createComment = async (request: Request, response: Response) => {
       response.status(404).send({ field: 'ticket', message: 'No ticket found' });
       return;
     }
+    if (!request.session.userId) return;
 
     comment.text = request.body.text;
     comment.submitter = request.session.userId as any;
