@@ -9,17 +9,16 @@ import InputField from '@components/InputField';
 import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import axios from 'axios';
-import constants from '@lib/constants';
 import { useClientRouter } from 'use-client-router';
 import { useMutation } from 'react-query';
 import { useProject } from '@lib/splat-api';
 
 const EditProject: NextPage = () => {
   const router = useClientRouter();
-  const { data, isSuccess, isLoading } = useProject(router?.query?.id as string);
+  const { data, isSuccess } = useProject(router?.query?.id as string);
   const updateProjectMutation = useMutation(
     (values: IProjectInput) => {
-      return axios.put<IProject>(`${constants.API_URL}/project/${router?.query?.id}`, values, { withCredentials: true });
+      return axios.put<IProject>(`${process.env.API_URL}/project/${router?.query?.id}`, values, { withCredentials: true });
     },
     {
       onSuccess: () => {
@@ -30,7 +29,7 @@ const EditProject: NextPage = () => {
 
   const deleteProjectMutation = useMutation(
     () => {
-      return axios.delete(`${constants.API_URL}/project/${router?.query?.id}`, { withCredentials: true });
+      return axios.delete(`${process.env.API_URL}/project/${router?.query?.id}`, { withCredentials: true });
     },
     {
       onSuccess: () => {
@@ -39,7 +38,7 @@ const EditProject: NextPage = () => {
     }
   );
 
-  if (isSuccess) {
+  if (isSuccess && data) {
     return (
       <Content tabTitle={`Edit ${data.title}`}>
         <Card heading={data ? data.title : ''} description="Edit project">
@@ -80,7 +79,7 @@ const EditProject: NextPage = () => {
       </Content>
     );
   }
-  
+
   return <Loading />;
 };
 

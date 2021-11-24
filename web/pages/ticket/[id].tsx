@@ -1,23 +1,22 @@
 import { AddIcon, EditIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
-import { Form, Formik } from 'formik';
-import { IconButton, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery } from '@chakra-ui/react';
-import { addComment, useTicket } from '@lib/splat-api';
-import { useEffect, useMemo, useState } from 'react';
-import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
-
+import { Box, Grid, GridItem, Heading, HStack, Text } from '@chakra-ui/layout';
+import { chakra, IconButton, Table, Tbody, Td, Th, Thead, Tr, useMediaQuery } from '@chakra-ui/react';
 import Card from '@components/Card';
-import Content from '@layout/Content';
 import { GlobalFilter } from '@components/GlobalFilter';
-import Head from 'next/head';
+import InputField from '@components/InputField';
+import { Loading } from '@components/Loading';
 import { IComment } from '@interfaces/IComment';
 import { ICommentInput } from '@interfaces/ICommentInput';
 import { ILog } from '@interfaces/ILog';
-import InputField from '@components/InputField';
-import { Loading } from '@components/Loading';
+import Content from '@layout/Content';
+import { addComment, useTicket } from '@lib/splat-api';
+import { Form, Formik } from 'formik';
 import { NextPage } from 'next';
-import { useClientRouter } from 'use-client-router';
+import { useEffect, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
+import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
+import { useClientRouter } from 'use-client-router';
+
 
 const Ticket: NextPage = () => {
   const router = useClientRouter();
