@@ -26,7 +26,7 @@ const EditTicket: NextPage = () => {
 
   if (ticket.isSuccess) {
     return (
-      <Content>
+      <Content tabTitle={`Edit Ticket #${ticket.data.id}`}>
         <Card heading="Edit Ticket">
           <Formik
             initialValues={

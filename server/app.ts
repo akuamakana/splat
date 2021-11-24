@@ -20,7 +20,7 @@ var corsOptions = {
 const main = async () => {
   dotenv.config();
   const app = express();
-  createConnection();
+  await createConnection();
 
   const RedisStore = connectRedis(session);
 

@@ -80,7 +80,7 @@ const ManageUsers: NextPage = () => {
   }
 
   return (
-    <Content>
+    <Content tabTitle="Manage Users">
       <Card heading="Manage user roles">
         {data && (
           <>

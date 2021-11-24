@@ -35,7 +35,7 @@ const Register: NextPage = () => {
   );
 
   return (
-    <AuthLayout additionalLinks={additionalLinks}>
+    <AuthLayout additionalLinks={additionalLinks} tabTitle='Register'>
       <Formik
         initialValues={{ username: '', password: '', confirmPassword: '', email: '', firstName: '', lastName: '' }}
         onSubmit={async (values: IUserInput, { setFieldError }) => {

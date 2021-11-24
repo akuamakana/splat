@@ -11,7 +11,6 @@ import router from 'next/router';
 import React from 'react';
 import { useMutation } from 'react-query';
 
-
 const Login: NextPage = () => {
   const loginMutation = useMutation((values: { usernameOrEmail: string; password: string }) => login(values));
   const additionalLinks = (
@@ -31,7 +30,7 @@ const Login: NextPage = () => {
     </>
   );
   return (
-    <AuthLayout additionalLinks={additionalLinks}>
+    <AuthLayout additionalLinks={additionalLinks} tabTitle="Login">
       <Formik
         initialValues={{ usernameOrEmail: '', password: '' }}
         onSubmit={async (values: { usernameOrEmail: string; password: string }, { setFieldError }) => {

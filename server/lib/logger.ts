@@ -5,7 +5,7 @@ import { createLogger, format, transports } from 'winston';
 // timestamp
 
 const logger = createLogger({
-  level: 'info',
+  level: process.env.NODE_ENV !== 'production' ? 'info' : 'error',
   format: format.combine(
     format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss',

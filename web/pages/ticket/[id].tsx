@@ -98,11 +98,7 @@ const Ticket: NextPage = () => {
 
   if (isSuccess && data) {
     return (
-      <Content>
-        <Head>
-          <title>{`${data?.project?.title} - Ticket #${data.id}`}</title>
-          <meta property="og:title" content={`${data?.project?.title} - Ticket #${data.id}`} key="title" />
-        </Head>
+      <Content tabTitle={`${data?.project?.title} - Ticket #${data.id}`}>
         <Grid templateColumns={{ lg: '1fr 1fr' }} templateRows={'475px'} gap={6}>
           <Card heading={`#${data.id} Ticket Detail`} control={editTicketButton}>
             <Grid templateColumns={'auto auto'} gap={6}>
@@ -189,62 +185,70 @@ const Ticket: NextPage = () => {
             </Grid>
           </Card>
           <Card heading="Comments">
-            <GlobalFilter preGlobalFilteredRows={commentsTable.preGlobalFilteredRows} globalFilter={commentsTable.state.globalFilter} setGlobalFilter={commentsTable.setGlobalFilter} />
-            <Box maxHeight={'300px'} overflow="auto">
-              <Table {...commentsTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
-                <Thead>
-                  {commentsTable.headerGroups.map((headerGroup) => (
-                    <Tr {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map((column) => (
-                        <Th {...column.getHeaderProps(column.getSortByToggleProps())} style={{ textAlign: 'start', cursor: 'pointer' }}>
-                          {column.render('Header')}
-                          <chakra.span pl={4}>
-                            {column.isSorted ? column.isSortedDesc ? <TriangleDownIcon aria-label="sorted descending" /> : <TriangleUpIcon aria-label="sorted ascending" /> : null}
-                          </chakra.span>
-                        </Th>
+            <Grid templateRows={'max-content 300px max-content'}>
+              <GridItem>
+                <GlobalFilter preGlobalFilteredRows={commentsTable.preGlobalFilteredRows} globalFilter={commentsTable.state.globalFilter} setGlobalFilter={commentsTable.setGlobalFilter} />
+              </GridItem>
+              <GridItem>
+                <Box maxHeight={'300px'} overflow="auto">
+                  <Table {...commentsTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
+                    <Thead>
+                      {commentsTable.headerGroups.map((headerGroup) => (
+                        <Tr {...headerGroup.getHeaderGroupProps()}>
+                          {headerGroup.headers.map((column) => (
+                            <Th {...column.getHeaderProps(column.getSortByToggleProps())} style={{ textAlign: 'start', cursor: 'pointer' }}>
+                              {column.render('Header')}
+                              <chakra.span pl={4}>
+                                {column.isSorted ? column.isSortedDesc ? <TriangleDownIcon aria-label="sorted descending" /> : <TriangleUpIcon aria-label="sorted ascending" /> : null}
+                              </chakra.span>
+                            </Th>
+                          ))}
+                        </Tr>
                       ))}
-                    </Tr>
-                  ))}
-                </Thead>
-                <Tbody {...commentsTable.getTableBodyProps()}>
-                  {commentsTable.rows.map((row) => {
-                    commentsTable.prepareRow(row);
-                    return (
-                      <Tr {...row.getRowProps()}>
-                        {row.cells.map((cell) => (
-                          <Td style={{ textAlign: 'start' }} {...cell.getCellProps()}>
-                            {cell.render('Cell')}
-                          </Td>
-                        ))}
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
-            </Box>
-            <Formik
-              initialValues={{ text: '', ticket: router.query.id ? (router.query.id as string) : data.id }}
-              onSubmit={(values: ICommentInput, { resetForm, setFieldError }) => {
-                addCommentMutation.mutate(values, {
-                  onSuccess: () => {
-                    refetch();
-                    resetForm();
-                  },
-                  onError: (error: any) => {
-                    setFieldError(error.response.data.field, error.response.data.message);
-                  },
-                });
-              }}
-            >
-              <Form>
-                <HStack mt="4" alignItems="stretch">
-                  <InputField size={'sm'} name="text" placeholder="Add comment..." />
-                  <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" size="sm">
-                    Add
-                  </IconButton>
-                </HStack>
-              </Form>
-            </Formik>
+                    </Thead>
+                    <Tbody {...commentsTable.getTableBodyProps()}>
+                      {commentsTable.rows.map((row) => {
+                        commentsTable.prepareRow(row);
+                        return (
+                          <Tr {...row.getRowProps()}>
+                            {row.cells.map((cell) => (
+                              <Td style={{ textAlign: 'start' }} {...cell.getCellProps()}>
+                                {cell.render('Cell')}
+                              </Td>
+                            ))}
+                          </Tr>
+                        );
+                      })}
+                    </Tbody>
+                  </Table>
+                </Box>
+              </GridItem>
+              <GridItem>
+                <Formik
+                  initialValues={{ text: '', ticket: router.query.id ? (router.query.id as string) : data.id }}
+                  onSubmit={(values: ICommentInput, { resetForm, setFieldError }) => {
+                    addCommentMutation.mutate(values, {
+                      onSuccess: () => {
+                        refetch();
+                        resetForm();
+                      },
+                      onError: (error: any) => {
+                        setFieldError(error.response.data.field, error.response.data.message);
+                      },
+                    });
+                  }}
+                >
+                  <Form>
+                    <HStack mt="4" alignItems="stretch">
+                      <InputField size={'sm'} name="text" placeholder="Add comment..." />
+                      <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" size="sm">
+                        Add
+                      </IconButton>
+                    </HStack>
+                  </Form>
+                </Formik>
+              </GridItem>
+            </Grid>
           </Card>
           <GridItem colSpan={{ lg: 2 }}>
             <Card heading="Ticket History">

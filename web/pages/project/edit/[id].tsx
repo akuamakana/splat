@@ -39,9 +39,9 @@ const EditProject: NextPage = () => {
     }
   );
 
-  return (
-    <Content>
-      {isSuccess && (
+  if (isSuccess) {
+    return (
+      <Content tabTitle={`Edit ${data.title}`}>
         <Card heading={data ? data.title : ''} description="Edit project">
           <Formik
             initialValues={{ title: data ? data.title : '', description: data ? data.description : '' }}
@@ -77,10 +77,11 @@ const EditProject: NextPage = () => {
             )}
           </Formik>
         </Card>
-      )}
-      {isLoading && <Loading />}
-    </Content>
-  );
+      </Content>
+    );
+  }
+  
+  return <Loading />;
 };
 
 export default EditProject;
