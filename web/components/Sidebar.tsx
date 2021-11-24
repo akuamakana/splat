@@ -11,6 +11,8 @@ import { useMe } from '@lib/splat-api';
 import { useState } from '@hookstate/core';
 import NextLink from 'next/link';
 import globalState from '@lib/global-state';
+import Image from 'next/image';
+import splat from '../public/splat.svg';
 
 interface SidebarProps {}
 
@@ -24,7 +26,10 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
         {state.get().isSideBarOpen && (
           <>
             <Heading display={state.get().isSideBarOpen ? 'block' : 'none'} cursor={'pointer'}>
-              <NextLink href="/home">SPLAT</NextLink>
+              <HStack spacing={2}>
+                <Image src={splat} alt="splat icon" color="white" width={75.625 / 2} height={56.125 / 2} />
+                <NextLink href="/home">SPLAT</NextLink>
+              </HStack>
             </Heading>
             <Spacer />
           </>

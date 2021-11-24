@@ -8,16 +8,15 @@ import { IProjectInput } from '@interfaces/IProjectInput';
 import InputField from '@components/InputField';
 import { NextPage } from 'next';
 import axios from 'axios';
-import constants from '@lib/constants';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 
 const CreateProject: NextPage = () => {
   const router = useRouter();
-  const createProjectMutation = useMutation((values: IProjectInput) => axios.post<IProject>(`${constants.API_URL}/project`, values, { withCredentials: true }));
+  const createProjectMutation = useMutation((values: IProjectInput) => axios.post<IProject>(`${process.env.API_URL}/project`, values, { withCredentials: true }));
 
   return (
-    <Content tabTitle='Create Project'>
+    <Content tabTitle="Create Project">
       <Card heading="New project">
         <Formik
           initialValues={{ title: '', description: '' }}

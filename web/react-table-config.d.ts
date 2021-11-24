@@ -33,14 +33,20 @@ declare module 'react-table' {
     extends UseFiltersColumnProps<D>,
       UseGroupByColumnProps<D>,
       UseResizeColumnsColumnProps<D>,
-      UseSortByColumnProps<D> {}
+      UseSortByColumnProps<D> {
+    isNumeric?: boolean;
+  }
 
   export interface Cell<D extends Record<string, unknown> = Record<string, unknown>, V = any> extends UseTableCellProps<D>, UseGroupByCellProps<D>, UseRowStateCellProps<D> {}
 
   export interface Row<D extends Record<string, unknown> = Record<string, unknown>>
-    extends UseTableRowProps<D>,
-      UseExpandedRowProps<D>,
+    extends UseExpandedRowProps<D>,
       UseGroupByRowProps<D>,
       UseRowSelectRowProps<D>,
-      UseRowStateRowProps<D> {}
+      UseRowStateRowProps<D>,
+      UseTableRowProps<D> {
+    original: {
+      id: string;
+    };
+  }
 }

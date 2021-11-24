@@ -94,7 +94,7 @@ const Project: NextPage = () => {
   const ticketTable = useTable({ columns: ticketColumns, data: ticketTableData }, useFilters, useGlobalFilter, useSortBy);
   const assignedUserTable = useTable({ columns: userColumns, data: userTableData }, useFilters, useGlobalFilter, useSortBy);
 
-  if (isSuccess) {
+  if (isSuccess && data) {
     return (
       <Content tabTitle={data.title}>
         <Card heading={data ? data?.title : ''} description={data?.description} control={editProjectButton}></Card>

@@ -12,7 +12,6 @@ import { Loading } from '@components/Loading';
 import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
 import axios from 'axios';
-import constants from '@lib/constants';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 
@@ -28,7 +27,7 @@ const ManageUsers: NextPage = () => {
   const { data, refetch, isSuccess, isLoading } = useUsers();
   const [tableData, setTableData] = useState<any[]>([]);
   const updateRoleMutation = useMutation((values: IRoleInput) => {
-    return axios.put(`${constants.API_URL}/user/${values.user ? values.user : '0'}`, values, { withCredentials: true });
+    return axios.put(`${process.env.API_URL}/user/${values.user ? values.user : '0'}`, values, { withCredentials: true });
   });
 
   useEffect(() => {

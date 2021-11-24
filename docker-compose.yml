@@ -1,0 +1,47 @@
+version: "3.3"
+services:
+  api:
+    build: ./server/.
+    ports:
+      - "3001:3001"
+    links:
+      - redis
+      - db
+    depends_on:
+      - db
+    environment:
+      PORT: 3001
+      SESSION_SECRET: corgi carbonara
+      COOKIE_NAME: zid
+      REDIS_HOST: redis
+      TYPEORM_HOST: db
+      TYPEORM_USERNAME: postgres
+      TYPEORM_PASSWORD: Hawaii3274!
+
+  web:
+    build: ./web/.
+    ports:
+      - "3000:3000"
+    links:
+      - api
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: splat
+      POSTGRES_PASSWORD: Hawaii3274!
+      PGDATA: /data/postgres
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
