@@ -20,7 +20,7 @@ const CreateTicket: NextPage = () => {
 
   if (projects.isSuccess) {
     return (
-      <Content>
+      <Content tabTitle="Create Ticket">
         <Card heading="New Ticket">
           <Formik
             initialValues={{ title: '', description: '', status: 'open', priority: 'medium', type: 'bugs/errors', project: router.query.id ? router.query.id : '' } as ITicketInput}

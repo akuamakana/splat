@@ -57,7 +57,7 @@ const Home: NextPage = () => {
 
   if (isSuccess) {
     return (
-      <Content>
+      <Content tabTitle='Home'>
         <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6}>
           <Card heading="Tickets by Status">
             <VStack justifyContent="center" alignItems="center" textAlign="center">
@@ -108,14 +108,14 @@ const Home: NextPage = () => {
 
   if (isLoading) {
     return (
-      <Content>
+      <Content tabTitle='Home'>
         <Loading />
       </Content>
     );
   }
 
   return (
-    <Content>
+    <Content tabTitle='Home'>
       <Loading />
     </Content>
   );

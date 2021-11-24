@@ -65,7 +65,7 @@ const Tickets: NextPage = () => {
 
   if (allTickets.isSuccess) {
     return (
-      <Content>
+      <Content tabTitle='Tickets'>
         <Card heading="Tickets" control={createTicketButton}>
           <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
           <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>

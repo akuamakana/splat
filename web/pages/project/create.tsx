@@ -17,7 +17,7 @@ const CreateProject: NextPage = () => {
   const createProjectMutation = useMutation((values: IProjectInput) => axios.post<IProject>(`${constants.API_URL}/project`, values, { withCredentials: true }));
 
   return (
-    <Content>
+    <Content tabTitle='Create Project'>
       <Card heading="New project">
         <Formik
           initialValues={{ title: '', description: '' }}

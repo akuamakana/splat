@@ -12,7 +12,7 @@ import { useMutation } from 'react-query';
 const ForgotPassword: NextPage = () => {
   const changePasswordMutation = useMutation((values: { password: string; token: string }) => changePassword(values));
   return (
-    <AuthLayout>
+    <AuthLayout tabTitle="Change Password">
       <Formik
         initialValues={{ password: '', passwordConfirm: '' }}
         onSubmit={async (values, { setFieldError }) => {

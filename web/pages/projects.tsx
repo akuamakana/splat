@@ -54,7 +54,7 @@ const Projects: NextPage = () => {
   }
 
   return (
-    <Content>
+    <Content tabTitle='Projects'>
       <Card heading="Projects" control={createProjectButton}>
         <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
         <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>

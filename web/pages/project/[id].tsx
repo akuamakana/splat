@@ -96,7 +96,7 @@ const Project: NextPage = () => {
 
   if (isSuccess) {
     return (
-      <Content>
+      <Content tabTitle={data.title}>
         <Card heading={data ? data?.title : ''} description={data?.description} control={editProjectButton}></Card>
         <Card heading="Tickets" control={createTicketButton}>
           <GlobalFilter preGlobalFilteredRows={ticketTable.preGlobalFilteredRows} globalFilter={ticketTable.state.globalFilter} setGlobalFilter={ticketTable.setGlobalFilter} />

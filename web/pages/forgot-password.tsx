@@ -24,7 +24,7 @@ const ForgotPassword: NextPage = () => {
   );
 
   return (
-    <AuthLayout additionalLinks={additionalLinks}>
+    <AuthLayout additionalLinks={additionalLinks} tabTitle="Forgot Password">
       <Formik
         initialValues={{ email: '' }}
         onSubmit={async (values) => {

@@ -133,7 +133,7 @@ const EditUsersProject: NextPage = () => {
 
   if (currentProject.data && _allUsers.data) {
     return (
-      <Content>
+      <Content tabTitle={`Edit ${currentProject.data.title} Users`}>
         <Grid templateColumns={{ lg: 'auto auto' }} gap={6}>
           <Card heading="remove">
             <GlobalFilter globalFilter={currentUsersTable.state.globalFilter} preGlobalFilteredRows={currentUsersTable.preGlobalFilteredRows} setGlobalFilter={currentUsersTable.setGlobalFilter} />

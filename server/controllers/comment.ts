@@ -33,12 +33,11 @@ export const createComment = async (request: Request, response: Response) => {
     const notificationRepository = getRepository(Notification);
     const notifications = createNotification(`Comment added to ticket #${request.body.ticket}`, ticket, request.session.userId);
 
-    console.log('notifications: ', notifications);
-
     await notificationRepository.save(notifications);
 
-    response.status(200).send(comment);
+    response.status(200).send(true);
   } catch (error) {
+    logger.error(error);
     response.status(500).send({ error: error.message });
   }
 };
@@ -50,6 +49,7 @@ export const deleteComment = async (request: Request, response: Response) => {
 
     response.status(200).send(true);
   } catch (error) {
+    logger.error(error);
     response.status(500).send({ error: error.message });
   }
 };

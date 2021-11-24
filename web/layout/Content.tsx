@@ -6,10 +6,14 @@ import React from 'react';
 import Sidebar from '../components/Sidebar';
 import router from 'next/router';
 import { useMe } from '../lib/splat-api';
+import Head from 'next/head';
 
-interface Content {}
+interface ContentProps {
+  children: React.ReactNode;
+  tabTitle: string;
+}
 
-const Content: React.FC<{}> = ({ children }) => {
+const Content: React.FC<ContentProps> = ({ children, tabTitle }) => {
   const { isSuccess, isLoading, isError } = useMe();
 
   if (isError) {
@@ -18,6 +22,10 @@ const Content: React.FC<{}> = ({ children }) => {
 
   return (
     <>
+      <Head>
+        <title>{tabTitle}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Grid templateColumns={'max-content auto'} templateRows="fit-content(61px) 1fr" height="100vh" width="100vw">
         {isLoading && (
           <GridItem rowSpan={2} colSpan={2}>
