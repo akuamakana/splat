@@ -1,47 +1,122 @@
-version: "3.3"
+version: "3.9"
 services:
   api:
+    container_name: api
     build: ./server/.
     ports:
-      - "3001:3001"
+      - 3001:3001
     links:
       - redis
       - db
     depends_on:
       - db
     environment:
-      PORT: 3001
-      SESSION_SECRET: corgi carbonara
-      COOKIE_NAME: zid
-      REDIS_HOST: redis
-      TYPEORM_HOST: db
-      TYPEORM_USERNAME: postgres
-      TYPEORM_PASSWORD: Hawaii3274!
+      - PORT=3001
+      - SESSION_SECRET=corgi carbonara
+      - COOKIE_NAME=zid
+      - REDIS_HOST=redis
+      - TYPEORM_HOST=db
+      - TYPEORM_USERNAME=postgres
+      - TYPEORM_PASSWORD=Hawaii3274!
+    networks:
+      - splat-api
+    restart: always
 
-  web:
+  client:
+    container_name: client
     build: ./web/.
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - 3000:3000
     links:
+      - redis
+      - db
+    depends_on:
       - api
+    environment:
+      - API_URL=/api
+    networks:
+      - splat-api
 
   redis:
-    image: redis
     container_name: redis
+    image: redis
     ports:
-      - "6379:6379"
+      - 6379:6379
     expose:
       - "6379"
+    networks:
+      - splat-api
 
   db:
+    container_name: db
     image: postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: splat
-      POSTGRES_PASSWORD: Hawaii3274!
-      PGDATA: /data/postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=splat
+      - POSTGRES_PASSWORD=Hawaii3274!
     ports:
-      - "5432:5432"
-    expose:
-      - "5432"
+      - 5432:5432
+    networks:
+      - splat-api
+    volumes:
+      - ./data:/var/lib/postgresql/
+
+  nginx:
+    container_name: nginx
+    restart: always
+    depends_on:
+        - api
+        - client
+    build:
+        context: ./nginx
+        dockerfile: Dockerfile
+    ports:
+        - 80:80
+    networks:
+        - splat-api
+
+    # restart: always
+    # build:
+    #   context: ./nginx
+    #   dockerfile: Dockerfile
+    # ports:
+    #   - 8080:80
+    # volumes:
+    #   - web-root:/var/www/html
+    #   - ./nginx-conf:/etc/nginx/conf.d
+    #   - certbot-etc:/etc/letsencrypt
+    #   - certbot-var:/var/lib/letsencrypt
+    # depends_on:
+    #   - api
+    #   - client
+    # links:
+    #   - api
+    #   - client
+    # networks:
+    #   - splat-api
+
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes:
+  #     - certbot-etc:/etc/letsencrypt
+  #     - certbot-var:/var/lib/letsencrypt
+  #     - web-root:/var/www/html
+  #   depends_on:
+  #     - api
+  #   command: certonly --webroot --webroot-path=/var/www/html --email kionkaimi@gmail.com --agree-tos --no-eff-email --staging -d splatapi.com  -d www.splatapi.com
+
+networks:
+  splat-api:
+    driver: bridge
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/akuamakana/Source/Repos/splat/server/
+      o: bind

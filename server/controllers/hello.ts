@@ -1,5 +1,6 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
-export const hello = (response: Response) => {
-  response.status(200).send('Hello world');
+export const hello = (_: Request, response: Response) => {
+  response.send('Hello world');
+  return;
 };
