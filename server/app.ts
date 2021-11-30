@@ -6,14 +6,14 @@ import connectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { createConnection } from 'typeorm';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import logger from './lib/logger';
 import { routes } from './routes';
 import session from 'express-session';
 import redisClient from './lib/redisClient';
 
 var corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost',
   credentials: true,
 };
 
@@ -38,6 +38,10 @@ const main = async () => {
   app.use(express.json());
   app.use(cors(corsOptions));
   app.use(cookieParser());
+
+  app.get('/', (_: Request, res: Response) => {
+    res.send('Hello world');
+  });
 
   routes.hello(app);
   routes.auth(app);
