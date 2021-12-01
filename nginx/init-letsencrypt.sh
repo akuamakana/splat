@@ -9,7 +9,7 @@ domains=(splatapi.com www.splatapi.com)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="kionkaimi@gmail.com.com" # Adding a valid address is strongly recommended
-staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits
+staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 subscribe_to_eff=0 # Set to 1 if you provided an e-mail address and want to subscribe to EFF mailings
 
 if [ -d "$data_path" ]; then
@@ -81,5 +81,6 @@ docker-compose run --rm --entrypoint "certbot certonly -a webroot -v --debug-cha
 echo
 echo "### Reloading nginx ..."
 docker-compose exec nginx nginx -s reload
+
 
 
