@@ -3,7 +3,7 @@ import { Grid } from '@chakra-ui/layout';
 import { chakra, Table, Tbody, Td, Th, Thead, Tr, useMediaQuery, useToast } from '@chakra-ui/react';
 import Card from '@components/Card';
 import { GlobalFilter } from '@components/GlobalFilter';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import { IUser } from '@interfaces/IUser';
 import Content from '@layout/Content';
 import { addUserToProject, removeUserFromProject, useProject, useUsers } from '@lib/splat-api';

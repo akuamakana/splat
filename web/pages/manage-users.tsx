@@ -8,7 +8,7 @@ import { useMe, useUsers } from '@lib/splat-api';
 import Card from '@components/Card';
 import Content from '@layout/Content';
 import { GlobalFilter } from '@components/GlobalFilter';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
 import axios from 'axios';

@@ -1,7 +1,7 @@
 import { BellIcon } from '@chakra-ui/icons';
 import { Box, Heading, HStack, Spacer } from '@chakra-ui/layout';
 import { Avatar, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useMutation } from 'react-query';

@@ -1,10 +1,9 @@
 version: "3.9"
 services:
   api:
+    image: akuamakana/splat-api:latest
     container_name: api
-    build: ./server/.
-    ports:
-      - 3001:3001
+    # build: ./server/.
     links:
       - redis
       - db
@@ -12,28 +11,35 @@ services:
       - db
     environment:
       - PORT=3001
-      - SESSION_SECRET=corgi carbonara
+      - SESSION_SECRET=qmNi6At37515NiwbhZE34MW9POkSpY0W
       - COOKIE_NAME=zid
       - REDIS_HOST=redis
       - TYPEORM_HOST=db
       - TYPEORM_USERNAME=postgres
-      - TYPEORM_PASSWORD=Hawaii3274!
+      - TYPEORM_PASSWORD=9EberIVKtqQaDWzvTlMpX49U0qT3bw5E
+      - FRONTEND_URL=http://localhost
+    ports:
+      - "3001:3001"
     networks:
       - splat-api
     restart: always
 
   client:
+    image: akuamakana/splat-client:latest
     container_name: client
-    build: ./web/.
-    # ports:
-    #   - 3000:3000
+    # build:
+    #   context: ./web/.
+    #   args:
+    #     - API_URL=http://api.localhost
     links:
       - redis
       - db
+    ports:
+      - "3000:3000"
     depends_on:
       - api
     environment:
-      - API_URL=/api
+      - API_URL=http://api.localhost
     networks:
       - splat-api
 
@@ -54,7 +60,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=splat
-      - POSTGRES_PASSWORD=Hawaii3274!
+      - POSTGRES_PASSWORD=9EberIVKtqQaDWzvTlMpX49U0qT3bw5E
     ports:
       - 5432:5432
     networks:
@@ -63,6 +69,7 @@ services:
       - ./data:/var/lib/postgresql/
 
   nginx:
+    image: nginx:1.19-alpine
     container_name: nginx
     restart: always
     depends_on:
@@ -71,41 +78,27 @@ services:
     build:
         context: ./nginx
         dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/data/certbot/conf:/etc/letsencrypt
+      - ./nginx/data/certbot/www:/var/www/certbot
     ports:
         - 80:80
+        - 443:443
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     networks:
         - splat-api
 
-    # restart: always
-    # build:
-    #   context: ./nginx
-    #   dockerfile: Dockerfile
-    # ports:
-    #   - 8080:80
-    # volumes:
-    #   - web-root:/var/www/html
-    #   - ./nginx-conf:/etc/nginx/conf.d
-    #   - certbot-etc:/etc/letsencrypt
-    #   - certbot-var:/var/lib/letsencrypt
-    # depends_on:
-    #   - api
-    #   - client
-    # links:
-    #   - api
-    #   - client
-    # networks:
-    #   - splat-api
-
-  # certbot:
-  #   image: certbot/certbot
-  #   container_name: certbot
-  #   volumes:
-  #     - certbot-etc:/etc/letsencrypt
-  #     - certbot-var:/var/lib/letsencrypt
-  #     - web-root:/var/www/html
-  #   depends_on:
-  #     - api
-  #   command: certonly --webroot --webroot-path=/var/www/html --email kionkaimi@gmail.com --agree-tos --no-eff-email --staging -d splatapi.com  -d www.splatapi.com
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    restart: unless-stopped
+    volumes:
+      - ./nginx/data/certbot/conf:/etc/letsencrypt
+      - ./nginx/data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    depends_on:
+      - api
 
 networks:
   splat-api:
