@@ -7,11 +7,11 @@ FROM node:lts-alpine as builder
 WORKDIR /my-project
 COPY . .
 COPY --from=dependencies /my-project/node_modules ./node_modules
+ENV API_URL=http://api.localhost
 RUN yarn build
 
 FROM node:lts-alpine as runner
 WORKDIR /my-project
-ENV NODE_ENV production
 # If you are using a custom next.config.js file, uncomment this line.
 COPY --from=builder /my-project/next.config.js ./
 COPY --from=builder /my-project/public ./public

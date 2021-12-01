@@ -18,23 +18,28 @@ services:
       - TYPEORM_USERNAME=postgres
       - TYPEORM_PASSWORD=Hawaii3274!
       - FRONTEND_URL=http://localhost
+    ports:
+      - "3001:3001"
     networks:
       - splat-api
-    ports:
-      - 3001:3001
     restart: always
 
   client:
     image: akuamakana/splat-client:latest
     container_name: client
-    build: ./web/.
+    build:
+      context: ./web/.
+      args:
+        - API_URL=http://api.localhost
     links:
       - redis
       - db
+    ports:
+      - "3000:3000"
     depends_on:
       - api
     environment:
-      - API_URL=/api
+      - API_URL=http://api.localhost
     networks:
       - splat-api
 
@@ -73,30 +78,15 @@ services:
     build:
         context: ./nginx
         dockerfile: Dockerfile
-    ports:
-        - 80:80
-    networks:
-        - splat-api
-
-    # restart: always
-    # build:
-    #   context: ./nginx
-    #   dockerfile: Dockerfile
-    # ports:
-    #   - 8080:80
     # volumes:
     #   - web-root:/var/www/html
     #   - ./nginx-conf:/etc/nginx/conf.d
     #   - certbot-etc:/etc/letsencrypt
     #   - certbot-var:/var/lib/letsencrypt
-    # depends_on:
-    #   - api
-    #   - client
-    # links:
-    #   - api
-    #   - client
-    # networks:
-    #   - splat-api
+    ports:
+        - 80:80
+    networks:
+        - splat-api
 
   # certbot:
   #   image: certbot/certbot
