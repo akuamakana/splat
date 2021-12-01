@@ -7,11 +7,12 @@ import { login } from '@lib/splat-api';
 import { Form, Formik } from 'formik';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useMutation } from 'react-query';
 
 const Login: NextPage = () => {
+  const router = useRouter();
   const loginMutation = useMutation((values: { usernameOrEmail: string; password: string }) => login(values));
   const additionalLinks = (
     <>

@@ -3,7 +3,7 @@ import { SimpleGrid, VStack } from '@chakra-ui/react';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import { NextPage } from 'next';
 import { useTicketReport } from '@lib/splat-api';
 
@@ -57,7 +57,7 @@ const Home: NextPage = () => {
 
   if (isSuccess) {
     return (
-      <Content tabTitle='Home'>
+      <Content tabTitle="Home">
         <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6}>
           <Card heading="Tickets by Status">
             <VStack justifyContent="center" alignItems="center" textAlign="center">
@@ -108,14 +108,14 @@ const Home: NextPage = () => {
 
   if (isLoading) {
     return (
-      <Content tabTitle='Home'>
+      <Content tabTitle="Home">
         <Loading />
       </Content>
     );
   }
 
   return (
-    <Content tabTitle='Home'>
+    <Content tabTitle="Home">
       <Loading />
     </Content>
   );

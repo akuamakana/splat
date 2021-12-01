@@ -1,10 +1,9 @@
 version: "3.9"
 services:
   api:
+    image: akuamakana/splat-api:latest
     container_name: api
     build: ./server/.
-    ports:
-      - 3001:3001
     links:
       - redis
       - db
@@ -12,21 +11,23 @@ services:
       - db
     environment:
       - PORT=3001
-      - SESSION_SECRET=corgi carbonara
+      - SESSION_SECRET=corgicarbonara
       - COOKIE_NAME=zid
       - REDIS_HOST=redis
       - TYPEORM_HOST=db
       - TYPEORM_USERNAME=postgres
       - TYPEORM_PASSWORD=Hawaii3274!
+      - FRONTEND_URL=http://localhost
     networks:
       - splat-api
+    ports:
+      - 3001:3001
     restart: always
 
   client:
+    image: akuamakana/splat-client:latest
     container_name: client
     build: ./web/.
-    # ports:
-    #   - 3000:3000
     links:
       - redis
       - db
@@ -63,6 +64,7 @@ services:
       - ./data:/var/lib/postgresql/
 
   nginx:
+    image: nginx
     container_name: nginx
     restart: always
     depends_on:

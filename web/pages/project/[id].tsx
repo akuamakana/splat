@@ -2,7 +2,7 @@ import { AddIcon, EditIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/
 import { chakra, IconButton, Table, Tbody, Td, Th, Thead, Tr, useMediaQuery } from '@chakra-ui/react';
 import Card from '@components/Card';
 import { GlobalFilter } from '@components/GlobalFilter';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import Content from '@layout/Content';
 import { useProject, useTickets } from '@lib/splat-api';
 import { NextPage } from 'next';

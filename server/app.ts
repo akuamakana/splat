@@ -13,7 +13,7 @@ import session from 'express-session';
 import redisClient from './lib/redisClient';
 
 var corsOptions = {
-  origin: 'http://localhost',
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true,
 };
 

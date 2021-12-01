@@ -2,16 +2,18 @@ import { AddIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { chakra, IconButton, Table, Tbody, Td, Th, Thead, Tr, useMediaQuery } from '@chakra-ui/react';
 import Card from '@components/Card';
 import { GlobalFilter } from '@components/GlobalFilter';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import { ITicket } from '@interfaces/ITicket';
 import Content from '@layout/Content';
 import { useAllTickets } from '@lib/splat-api';
 import { NextPage } from 'next';
-import router from 'next/router';
+import { useRouter } from 'next/router';
+
 import { useEffect, useMemo, useState } from 'react';
 import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 
 const Tickets: NextPage = () => {
+  const router = useRouter();
   const allTickets = useAllTickets();
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
