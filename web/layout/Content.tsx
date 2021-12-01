@@ -1,12 +1,14 @@
+import dynamic from 'next/dynamic';
 import { Grid, GridItem, SimpleGrid } from '@chakra-ui/react';
 
-import { Loading } from '@components/Loading';
-import Navbar from '../components/Navbar';
 import React from 'react';
-import Sidebar from '../components/Sidebar';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { useMe } from '../lib/splat-api';
 import Head from 'next/head';
+
+const Loading = dynamic(() => import('@components/Loading'));
+const Navbar = dynamic(() => import('@components/Navbar'));
+const Sidebar = dynamic(() => import('@components/Sidebar'));
 
 interface ContentProps {
   children: React.ReactNode;
@@ -14,6 +16,7 @@ interface ContentProps {
 }
 
 const Content: React.FC<ContentProps> = ({ children, tabTitle }) => {
+  const router = useRouter();
   const { isSuccess, isLoading, isError } = useMe();
 
   if (isError) {

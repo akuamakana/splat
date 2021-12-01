@@ -7,7 +7,7 @@ import Card from '@components/Card';
 import Content from '@layout/Content';
 import { ITicketInput } from '@interfaces/ITicketInput';
 import InputField from '@components/InputField';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
 import { useClientRouter } from 'use-client-router';

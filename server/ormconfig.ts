@@ -8,7 +8,7 @@ module.exports = {
   database: 'splat',
   synchronize: true,
   logging: true,
-  entities: ['dist/entities/**/*.js'],
+  entities: ['dist/entities/**/*.js', './entities/**/*.js'],
   migrations: ['dist/migration/**/*.js'],
   subscribers: ['dist/subscriber/**/*.js'],
   cli: {

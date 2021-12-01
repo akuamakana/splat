@@ -5,11 +5,12 @@ import AuthLayout from '@layout/AuthLayout';
 import { changePassword } from '@lib/splat-api';
 import { Form, Formik } from 'formik';
 import { NextPage } from 'next';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useMutation } from 'react-query';
 
 const ForgotPassword: NextPage = () => {
+  const router = useRouter();
   const changePasswordMutation = useMutation((values: { password: string; token: string }) => changePassword(values));
   return (
     <AuthLayout tabTitle="Change Password">

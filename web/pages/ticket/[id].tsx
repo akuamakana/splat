@@ -4,7 +4,7 @@ import { chakra, IconButton, Table, Tbody, Td, Th, Thead, Tr, useMediaQuery } fr
 import Card from '@components/Card';
 import { GlobalFilter } from '@components/GlobalFilter';
 import InputField from '@components/InputField';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import { IComment } from '@interfaces/IComment';
 import { ICommentInput } from '@interfaces/ICommentInput';
 import { ILog } from '@interfaces/ILog';
@@ -16,7 +16,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
 import { useClientRouter } from 'use-client-router';
-
 
 const Ticket: NextPage = () => {
   const router = useClientRouter();

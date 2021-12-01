@@ -6,7 +6,7 @@ import Content from '@layout/Content';
 import { IProject } from '@interfaces/IProject';
 import { IProjectInput } from '@interfaces/IProjectInput';
 import InputField from '@components/InputField';
-import { Loading } from '@components/Loading';
+import Loading from '@components/Loading';
 import { NextPage } from 'next';
 import axios from 'axios';
 import { useClientRouter } from 'use-client-router';

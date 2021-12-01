@@ -1,12 +1,12 @@
-import { FaHome, FaTicketAlt } from 'react-icons/fa';
+import { FaHome, FaTicketAlt } from 'react-icons/fa/index';
 import { HStack, Heading, Spacer, VStack } from '@chakra-ui/layout';
 import React from 'react';
 
-import { CgNotes } from 'react-icons/cg';
-import { HiUsers } from 'react-icons/hi';
+import { CgNotes } from 'react-icons/cg/index';
+import { HiUsers } from 'react-icons/hi/index';
 import { Icon } from '@chakra-ui/react';
 import { SidebarLink } from '@components/SidebarLink';
-import { VscArrowSwap } from 'react-icons/vsc';
+import { VscArrowSwap } from 'react-icons/vsc/index';
 import { useMe } from '@lib/splat-api';
 import { useState } from '@hookstate/core';
 import NextLink from 'next/link';
