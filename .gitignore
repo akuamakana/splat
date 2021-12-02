@@ -2,7 +2,11 @@ server/logs
 nginx/data
 nginx/init-letsencrypt.sh
 server/dump.rdb
+web/dump.rdb
 *.rdb
 yarn-error.log
-postgres.env
 postgres.prod.env
+server/.vscode
+web/.vscode
+.vscode
+docker-compose.prod.yml
