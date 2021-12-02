@@ -1,11 +1,11 @@
-require('dotenv').config();
+require('dotenv-safe').config();
 
 module.exports = {
   type: 'postgres',
   host: process.env.TYPEORM_HOST,
   username: process.env.TYPEORM_USERNAME,
   password: process.env.TYPEORM_PASSWORD,
-  database: 'splat',
+  database: process.env.TYPEORM_DATABASE,
   synchronize: true,
   logging: true,
   entities: ['dist/entities/**/*.js', './entities/**/*.js'],

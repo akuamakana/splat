@@ -6,7 +6,8 @@ tmp/
 temp/
 ormconfig.json
 ormconfig.js
-.env*
+.env
+prod.env
 /coverage
 logs/
 dist/

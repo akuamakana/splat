@@ -1,7 +1,5 @@
 import 'reflect-metadata';
-
-import * as dotenv from 'dotenv';
-
+require('dotenv-safe').config();
 import connectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -18,7 +16,6 @@ var corsOptions = {
 };
 
 const main = async () => {
-  dotenv.config();
   const app = express();
   await createConnection();
 
