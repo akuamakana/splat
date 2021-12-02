@@ -1,27 +1,34 @@
 import * as nodemailer from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import logger from './logger';
 
 const sendEmail = async (email: string, url: string) => {
-  let transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    secure: false, // true for 465, false for other ports
+  const transporterOptions: SMTPTransport.Options = {
+    host: process.env.SMTP_SERVER,
+    port: parseInt(process.env.SMTP_PORT as string) || 587,
+    secure: false,
     auth: {
-      user: 'sq7thzxqdez35djy@ethereal.email', // generated ethereal user
-      pass: 'Uu2jRB9JYkvnhTZHF8', // generated ethereal password
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
     },
-  });
-
-  const mailOptions = {
-    from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    to: email, // list of receivers
-    subject: 'Password Reset Request for Splat', // Subject line
-    text: 'Reset password for Splat', // plain text body
-    html: `<a href="${url}">Reset your password using this link ${url}</a>`, // html body
   };
 
-  transporter.sendMail(mailOptions, (_, info) => {
+  let transporter = nodemailer.createTransport(transporterOptions);
+
+  const mailOptions = {
+    from: '"Splat Support" <noreply.splat@gmail.com',
+    to: email,
+    subject: 'Password Reset Request for Splat',
+    text: 'Reset password for Splat',
+    html: `<a href="${url}">Reset your password using this link ${url}</a>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      logger.error(error);
+      return;
+    }
     console.log('sent email: ', info);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
   });
 };
 
