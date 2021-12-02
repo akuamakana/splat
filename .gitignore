@@ -1,1 +1,8 @@
 server/logs
+nginx/data
+nginx/init-letsencrypt.sh
+server/dump.rdb
+*.rdb
+yarn-error.log
+postgres.env
+postgres.prod.env

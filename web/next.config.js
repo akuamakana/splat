@@ -9,7 +9,4 @@ module.exports = withBundleAnalyzer({
   env: {
     API_URL: process.env.API_URL || 'http://localhost:3001',
   },
-  publicRuntimeConfig: {
-    API_URL: process.env.API_URL,
-  },
 });

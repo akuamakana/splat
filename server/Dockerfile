@@ -19,12 +19,6 @@ COPY --from=build /build/package*.json ./
 COPY --from=build /build/dist ./
 RUN npm install -g pm2
 RUN npm install
-ENV PORT=3001
-ENV SESSION_SECRET=corgicarbonara
-ENV COOKIE_NAME=zid
-ENV TYPEORM_HOST=db
-ENV TYPEORM_USERNAME=postgres
-ENV TYPEORM_PASSWORD=Hawaii3274!
 
 EXPOSE 3001
 CMD ["pm2-runtime", "app.js"]

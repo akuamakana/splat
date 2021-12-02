@@ -3,14 +3,14 @@ services:
   api:
     image: akuamakana/splat-api:latest
     container_name: api
-    build: ./server/.
+    # build: ./server/.
     links:
       - redis
       - db
     depends_on:
       - db
     env_file:
-      - ./server/.env
+      - ./server/prod.env
     ports:
       - "3001:3001"
     networks:
@@ -20,10 +20,8 @@ services:
   client:
     image: akuamakana/splat-client:latest
     container_name: client
-    build:
-      context: ./web/.
-      args:
-        api_url: http://localhost:3001
+    # build:
+    #   context: ./web/.
     links:
       - redis
       - db
@@ -31,6 +29,8 @@ services:
       - "3000:3000"
     depends_on:
       - api
+    environment:
+      - API_URL=http://api.localhost
     networks:
       - splat-api
 
@@ -49,7 +49,7 @@ services:
     image: postgres
     restart: always
     env_file:
-      - postgres.env
+      - ./postgres.prod.env
     ports:
       - 5432:5432
     networks:
@@ -68,13 +68,27 @@ services:
         context: ./nginx
         dockerfile: Dockerfile
     volumes:
-      - ./nginx/dev:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/data/certbot/conf:/etc/letsencrypt
+      - ./nginx/data/certbot/www:/var/www/certbot
     ports:
         - 80:80
         - 443:443
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     networks:
         - splat-api
+
+  certbot:
+    image: certbot/certbot:v0.36.0
+    container_name: certbot
+    restart: unless-stopped
+    volumes:
+      - ./nginx/data/certbot/conf:/etc/letsencrypt
+      - ./nginx/data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    command: certonly --webroot --webroot-path=/var/www/certbot --email kionkaimi@gmail.com --agree-tos --no-eff-email --staging -d splatapi.com  -d www.splatapi.com
+    depends_on:
+      - api
 
 networks:
   splat-api:

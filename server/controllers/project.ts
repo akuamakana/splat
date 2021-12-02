@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-
+import { getRepository } from 'typeorm';
 import { Project } from '../entities/Project';
 import { User } from '../entities/User';
-import { getRepository } from 'typeorm';
 import logger from '../lib/logger';
 
 export const createProject = async (request: Request, response: Response) => {
@@ -66,12 +65,13 @@ export const deleteProject = async (_: Request, response: Response) => {
 
 export const getProjects = async (request: Request, response: Response) => {
   try {
-    const userRepository = getRepository(User);
+    // const userRepository = getRepository(User);
+    const projectRepository = getRepository(Project);
+    const projects = await projectRepository.find({ where: { user: request.session.userId }, relations: ['assigned_users'] });
+    // const user = await userRepository.findOne(request.session.userId, { relations: ['projects', 'projects.assigned_users'] });
 
-    const user = await userRepository.findOne(request.session.userId, { relations: ['projects', 'projects.assigned_users'] });
-
-    if (user) {
-      response.status(200).send(user.projects);
+    if (projects) {
+      response.status(200).send(projects);
     }
   } catch (error) {
     response.status(500).send({ error: error.message });

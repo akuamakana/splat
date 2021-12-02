@@ -1,3 +1,5 @@
+ARG api_url=/api
+
 FROM node:lts-alpine as dependencies
 WORKDIR /my-project
 COPY package.json yarn.lock ./
@@ -7,12 +9,11 @@ FROM node:lts-alpine as builder
 WORKDIR /my-project
 COPY . .
 COPY --from=dependencies /my-project/node_modules ./node_modules
-ENV API_URL=http://api.localhost
+ENV API_URL=$api_url
 RUN yarn build
 
 FROM node:lts-alpine as runner
 WORKDIR /my-project
-# If you are using a custom next.config.js file, uncomment this line.
 COPY --from=builder /my-project/next.config.js ./
 COPY --from=builder /my-project/public ./public
 COPY --from=builder /my-project/.next ./.next
