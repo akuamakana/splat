@@ -10,3 +10,4 @@ server/.vscode
 web/.vscode
 .vscode
 docker-compose.prod.yml
+postgres.env
