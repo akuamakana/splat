@@ -1,9 +1,9 @@
 import { Box, Button, Table, Tbody, Td, Th, Thead, Tr, chakra, useMediaQuery, HStack, Spacer } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { useEffect, useMemo, useState } from 'react';
 import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
-import { useMe, useUsers } from '@lib/splat-api';
+import { changeRole, useMe, useUsers } from '@lib/splat-api';
 
 import Card from '@components/Card';
 import Content from '@layout/Content';
@@ -11,14 +11,9 @@ import { GlobalFilter } from '@components/GlobalFilter';
 import Loading from '@components/Loading';
 import { NextPage } from 'next';
 import SelectField from '@components/SelectField';
-import axios from 'axios';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
-
-interface IRoleInput {
-  user: string;
-  role: string;
-}
+import { IRoleInput } from '@interfaces/IRoleInput';
 
 const ManageUsers: NextPage = () => {
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
@@ -26,9 +21,19 @@ const ManageUsers: NextPage = () => {
   const me = useMe();
   const { data, refetch, isSuccess, isLoading } = useUsers();
   const [tableData, setTableData] = useState<any[]>([]);
-  const updateRoleMutation = useMutation((values: IRoleInput) => {
-    return axios.put(`${process.env.API_URL}/user/${values.user ? values.user : '0'}`, values, { withCredentials: true });
-  });
+  const updateRoleMutation = useMutation((values: IRoleInput) => changeRole(values));
+
+  const handleOnSubmit = (values: IRoleInput, { setFieldError, resetForm }: FormikHelpers<IRoleInput>) => {
+    updateRoleMutation.mutate(values, {
+      onError: (error: any) => {
+        setFieldError(error.response.data.field, error.response.data.message);
+      },
+      onSuccess: () => {
+        refetch();
+        resetForm();
+      },
+    });
+  };
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -83,20 +88,7 @@ const ManageUsers: NextPage = () => {
       <Card heading="Manage user roles">
         {data && (
           <>
-            <Formik
-              initialValues={{ user: '', role: '' }}
-              onSubmit={(values, { setFieldError, resetForm }) => {
-                updateRoleMutation.mutate(values, {
-                  onError: (error: any) => {
-                    setFieldError(error.response.data.field, error.response.data.message);
-                  },
-                  onSuccess: () => {
-                    refetch();
-                    resetForm();
-                  },
-                });
-              }}
-            >
+            <Formik initialValues={{ user: '', role: '' }} onSubmit={handleOnSubmit}>
               <Form>
                 <Box>
                   <SelectField size="sm" name="user" label="Users">

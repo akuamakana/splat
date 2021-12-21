@@ -20,6 +20,7 @@ export const me = async (request: Request, response: Response) => {
 };
 
 export const changeRole = async (request: Request, response: Response) => {
+  console.log('PATCH');
   try {
     const userRepository = getRepository(User);
     const user = await userRepository.findOne(request.params.id);
@@ -39,6 +40,7 @@ export const changeRole = async (request: Request, response: Response) => {
       return;
     }
 
+    user.role = request.body.role;
     userRepository.save(user);
     logger.info(`User: ${user.id} update to role ${user.role}`);
     response.status(200).send({ field: 'alert', message: 'User updated successfully' });

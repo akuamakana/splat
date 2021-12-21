@@ -4,8 +4,7 @@ import connectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { createConnection } from 'typeorm';
-import express, { Request, Response } from 'express';
-import logger from './lib/logger';
+import express, { Request, Response, Express } from 'express';
 import { routes } from './routes';
 import session from 'express-session';
 import redisClient from './lib/redisClient';
@@ -15,7 +14,7 @@ var corsOptions = {
   credentials: true,
 };
 
-const main = async () => {
+export const app = async (): Promise<Express> => {
   const app = express();
   await createConnection();
 
@@ -31,16 +30,16 @@ const main = async () => {
       store: new RedisStore({ client: redisClient, disableTouch: true }),
     })
   );
+
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   app.use(cors(corsOptions));
   app.use(cookieParser());
 
-  app.get('/', (_: Request, res: Response) => {
-    res.send('Hello world');
+  app.get('/', (_: Request, response: Response) => {
+    response.send('Hello world');
   });
 
-  routes.hello(app);
   routes.auth(app);
   routes.project(app);
   routes.user(app);
@@ -49,9 +48,5 @@ const main = async () => {
   routes.notification(app);
   routes.report(app);
 
-  app.listen(process.env.PORT || 8080, () => {
-    logger.info(`Server is running on http://localhost:${process.env.PORT}`);
-  });
+  return app;
 };
-
-main().catch((err) => logger.error(err));

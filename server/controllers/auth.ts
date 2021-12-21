@@ -45,7 +45,6 @@ export const login = async (request: Request, response: Response) => {
     }
 
     request.session.userId = user.id;
-
     response.cookie('userId', user.id, { maxAge: 24 * 60 * 60 * 60 * 60, httpOnly: true, sameSite: 'lax' });
 
     response.status(200).send({ message: 'Log in successful' });

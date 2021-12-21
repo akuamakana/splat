@@ -9,9 +9,9 @@ export const authRoute = (app: Express) => {
 
   app.post('/auth/login', login);
 
-  app.post('/auth/logout', logout);
+  app.delete('/auth/logout', logout);
 
   app.post('/auth/forgot-password', forgotPassword);
 
-  app.put('/auth/change-password/:token', changePassword);
+  app.patch('/auth/change-password/:token', changePassword);
 };

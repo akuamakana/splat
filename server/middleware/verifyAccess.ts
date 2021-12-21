@@ -10,7 +10,7 @@ const verifyAccess = async (request: Request, response: Response, next: NextFunc
       .createQueryBuilder('project')
       .where(`project.id = ${request.params.id}`)
       .leftJoinAndSelect('project.assigned_users', 'user')
-      .andWhere(`user.id = ${request.session.userId}`)
+      .andWhere(`project.user.id = ${request.session.userId}`)
       .getOne();
 
     if (!project) {
@@ -18,7 +18,6 @@ const verifyAccess = async (request: Request, response: Response, next: NextFunc
       return;
     }
 
-    response.locals.projectRepository = projectRepository;
     response.locals.project = project;
 
     next();
