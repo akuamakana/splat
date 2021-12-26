@@ -40,7 +40,7 @@ export class User {
   @ManyToMany(() => Project, (project) => project.assigned_users, { nullable: false, onDelete: 'CASCADE' })
   projects: Project[];
 
-  @ManyToMany(() => Notification, (notification) => notification.user)
+  @ManyToMany(() => Notification, (notification) => notification.user, { cascade: true })
   notifications: Notification[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })

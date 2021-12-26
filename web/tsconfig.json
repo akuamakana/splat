@@ -6,6 +6,10 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": [
+      "@types/jest",
+      "jest"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -27,12 +31,28 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
-      "@layout/*": ["layout/*"],
-      "@lib/*": ["lib/*"],
-      "@interfaces/*": ["interfaces/*"]
+      "@components/*": [
+        "components/*"
+      ],
+      "@layout/*": [
+        "layout/*"
+      ],
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "styles/theme.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "styles/theme.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+  ]
 }

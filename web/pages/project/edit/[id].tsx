@@ -18,7 +18,7 @@ const EditProject: NextPage = () => {
   const { data, isSuccess } = useProject(router?.query?.id as string);
   const updateProjectMutation = useMutation(
     (values: IProjectInput) => {
-      return axios.put<IProject>(`${process.env.API_URL}/project/${router?.query?.id}`, values, { withCredentials: true });
+      return axios.patch<IProject>(`${process.env.API_URL}/project/${router?.query?.id}`, values, { withCredentials: true });
     },
     {
       onSuccess: () => {

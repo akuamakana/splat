@@ -47,7 +47,7 @@ export class Ticket {
   @JoinColumn()
   assigned_user!: User;
 
-  @OneToMany(() => Comment, (comment) => comment.ticket)
+  @OneToMany(() => Comment, (comment) => comment.ticket, { cascade: true })
   @JoinColumn()
   comments: Comment[];
 

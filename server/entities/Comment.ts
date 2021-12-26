@@ -15,7 +15,7 @@ export class Comment {
   @Column({ nullable: false })
   text!: string;
 
-  @ManyToOne(() => Ticket, (ticket) => ticket.comments, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(() => Ticket, (ticket) => ticket.comments, { nullable: false })
   ticket!: Ticket;
 
   @ManyToOne(() => User, { nullable: false })

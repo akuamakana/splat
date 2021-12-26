@@ -7,7 +7,7 @@ import verifyLoggedIn from '../middleware/verifyLoggedIn';
 export const ticketRoute = (app: Express) => {
   app.post('/ticket', [verifyLoggedIn, validateTicket], createTicket);
 
-  app.put('/ticket/:id', [verifyLoggedIn, validateTicket], updateTicket);
+  app.patch('/ticket/:id', [verifyLoggedIn, validateTicket], updateTicket);
 
   app.delete('/ticket/:id', [verifyLoggedIn], deleteTicket);
 

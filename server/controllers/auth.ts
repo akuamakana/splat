@@ -20,7 +20,7 @@ export const register = async (request: Request, response: Response) => {
 
     await userRepository.save(user);
     logger.info('Saved a new user with id: ' + user.id);
-    response.status(201).send({ message: 'User successfully created.' });
+    response.status(201).send(true);
   } catch (error) {
     logger.error(error);
     response.status(500).send({ message: error.message });
@@ -45,10 +45,9 @@ export const login = async (request: Request, response: Response) => {
     }
 
     request.session.userId = user.id;
-
     response.cookie('userId', user.id, { maxAge: 24 * 60 * 60 * 60 * 60, httpOnly: true, sameSite: 'lax' });
 
-    response.status(200).send({ message: 'Log in successful' });
+    response.status(200).send(true);
   } catch (error) {
     logger.error(error);
     response.status(500).send({ message: error.message });

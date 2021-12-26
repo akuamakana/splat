@@ -14,7 +14,6 @@ export const getNotifications = async (request: Request, response: Response) => 
   }
 };
 
-// TODO: Delete notification
 export const deleteNotifications = async (request: Request, response: Response) => {
   try {
     const { id } = request.query;

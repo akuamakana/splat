@@ -1,6 +1,5 @@
-import { validateUser, validatePassword, checkDuplicateEmail, checkDuplicateUsername } from './../middleware/validateUser';
-import { forgotPassword, changePassword } from './../controllers/auth';
-import { login, logout, register } from '../controllers/auth';
+import { validateUser, validatePassword, checkDuplicateEmail, checkDuplicateUsername } from '../middleware/validateUser';
+import { login, logout, register, forgotPassword, changePassword } from '../controllers/auth';
 
 import { Express } from 'express';
 
@@ -9,9 +8,9 @@ export const authRoute = (app: Express) => {
 
   app.post('/auth/login', login);
 
-  app.post('/auth/logout', logout);
+  app.delete('/auth/logout', logout);
 
   app.post('/auth/forgot-password', forgotPassword);
 
-  app.put('/auth/change-password/:token', changePassword);
+  app.patch('/auth/change-password/:token', changePassword);
 };

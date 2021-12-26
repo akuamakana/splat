@@ -10,9 +10,11 @@ export const validateUser = (request: Request, response: Response, next: NextFun
   }
   if (request.body.email.length <= 3) {
     response.status(400).send({ field: 'email', message: 'Email must be more than 3 characters' });
+    return;
   }
   if (!request.body.email.includes('@')) {
     response.status(400).send({ field: 'email', message: 'Invalid email' });
+    return;
   }
 
   // Username
@@ -21,11 +23,12 @@ export const validateUser = (request: Request, response: Response, next: NextFun
     return;
   }
   if (request.body.username.includes('@')) {
-    response.status(400).send({ field: 'username', message: '"@"cannot be in username' });
+    response.status(400).send({ field: 'username', message: 'Username cannot include @' });
     return;
   }
   if (request.body.username.length <= 3) {
     response.status(400).send({ field: 'username', message: 'Username must be more than 3 characters' });
+    return;
   }
 
   // Name
