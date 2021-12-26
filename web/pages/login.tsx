@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/button';
-import { Box, Flex, Spacer } from '@chakra-ui/layout';
+import { Box, Flex } from '@chakra-ui/layout';
 import { Link as CLink, Text } from '@chakra-ui/react';
 import InputField from '@components/InputField';
 import AuthLayout from '@layout/AuthLayout';
@@ -18,13 +18,13 @@ const Login: NextPage = () => {
     <>
       <Text mt={6} textAlign={['center']}>
         New here?{' '}
-        <CLink color="brand.600" as="strong">
+        <CLink color="brand.600" as="strong" role="register">
           <Link href="/register">Create an account</Link>
         </CLink>
       </Text>
       <Text mt={2} textAlign={['center']}>
         Forgot password?{' '}
-        <CLink color="brand.600" as="strong">
+        <CLink color="brand.600" as="strong" role="forgot-password">
           <Link href="/forgot-password">Reset password</Link>
         </CLink>
       </Text>
@@ -48,17 +48,15 @@ const Login: NextPage = () => {
         {({ isSubmitting }) => (
           <Form>
             <Box>
-              <InputField name="usernameOrEmail" label="Username or Email" placeholder="Username or Email" />
+              <InputField data-testid="form-input" role="usernameOrEmail" name="usernameOrEmail" label="Username or Email" placeholder="Username or Email" />
             </Box>
             <Box mt={6}>
-              <InputField name="password" label="Password" placeholder="Password" type="password" />
+              <InputField data-testid="form-input" role="password" name="password" label="Password" placeholder="Password" type="password" />
             </Box>
-            <Flex mt={12}>
-              <Spacer />
-              <Button type="submit" isLoading={isSubmitting}>
+            <Flex mt={12} justifyContent={'center'}>
+              <Button role="submit" type="submit" isLoading={isSubmitting}>
                 Login
               </Button>
-              <Spacer />
             </Flex>
           </Form>
         )}

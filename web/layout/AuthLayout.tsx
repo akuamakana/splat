@@ -1,11 +1,9 @@
-import dynamic from 'next/dynamic';
 import { Box, Heading, HStack, Spacer } from '@chakra-ui/layout';
 import Head from 'next/head';
 import React from 'react';
 import Image from 'next/image';
 import splat from '../public/splat.svg';
-
-const Wrapper = dynamic(() => import('@components/Wrapper'));
+import Wrapper from '@components/Wrapper';
 
 interface AuthLayoutProps {
   children: React.ReactNode;

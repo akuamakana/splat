@@ -42,17 +42,22 @@
       ],
       "@interfaces/*": [
         "interfaces/*"
+      ],
+      "@pages/*": [
+        "pages/*"
       ]
-    }
+    },
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "styles/theme.ts"
+    "styles/theme.ts",
+    "__mocks__/fileMock.js"
   ],
   "exclude": [
     "node_modules",
-    "**/*.spec.ts",
+    "**/*.spec.ts"
   ]
 }

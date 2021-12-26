@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/button';
-import { Box, Flex, HStack, Spacer } from '@chakra-ui/layout';
+import { Box, Flex, HStack } from '@chakra-ui/layout';
 import { Link as CLink, Text } from '@chakra-ui/react';
 import InputField from '@components/InputField';
 import { IUserInput } from '@interfaces/IUserInput';
@@ -57,27 +57,25 @@ const Register: NextPage = () => {
         {({ isSubmitting }) => (
           <Form>
             <HStack alignItems={'baseline'}>
-              <InputField role="first-name" name="firstName" label="First Name" placeholder="First Name" />
-              <InputField role="last-name" name="lastName" label="Last Name" placeholder="Last Name" />
+              <InputField data-testid="form-input" role="first-name" name="firstName" label="First Name" placeholder="First Name" />
+              <InputField data-testid="form-input" role="last-name" name="lastName" label="Last Name" placeholder="Last Name" />
             </HStack>
             <Box mt={6}>
-              <InputField role="email" name="email" label="Email" placeholder="Email" />
+              <InputField role="email" name="email" label="Email" placeholder="Email" data-testid="form-input" />
             </Box>
             <Box mt={6}>
-              <InputField role="username" name="username" label="Username" placeholder="Username" />
+              <InputField role="username" name="username" label="Username" placeholder="Username" data-testid="form-input" />
             </Box>
             <Box mt={6}>
-              <InputField role="password" name="password" label="Password" placeholder="Password" type="password" />
+              <InputField role="password" name="password" label="Password" placeholder="Password" type="password" data-testid="form-input" />
             </Box>
             <Box mt={6}>
-              <InputField role="confirm-password" name="confirmPassword" label="Confirm Password" placeholder="Confirm Password" type="password" />
+              <InputField data-testid="form-input" role="confirm-password" name="confirmPassword" label="Confirm Password" placeholder="Confirm Password" type="password" />
             </Box>
-            <Flex mt={12}>
-              <Spacer />
+            <Flex mt={12} justifyContent={'center'}>
               <Button type="submit" isLoading={isSubmitting} role="submit">
                 Register
               </Button>
-              <Spacer />
             </Flex>
           </Form>
         )}
