@@ -14,7 +14,7 @@ var corsOptions = {
   credentials: true,
 };
 
-export const app = async (): Promise<Express> => {
+export default async (): Promise<Express> => {
   const app = express();
   await createConnection();
 

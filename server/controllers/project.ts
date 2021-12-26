@@ -44,13 +44,10 @@ export const updateProject = async (request: Request, response: Response) => {
 
 export const deleteProject = async (_: Request, response: Response) => {
   try {
-    if (response.locals.project) {
-      const projectRepository = getRepository(Project);
-      await projectRepository.remove(response.locals.project);
-      response.status(200).send({ field: 'alert', message: 'Project successfully deleted.' });
-    } else {
-      response.status(401).send({ field: 'alert', message: 'Access denied' });
-    }
+    const projectRepository = getRepository(Project);
+    await projectRepository.remove(response.locals.project);
+    response.status(200).send({ field: 'alert', message: 'Project successfully deleted.' });
+    response.status(401).send({ field: 'alert', message: 'Access denied' });
   } catch (error) {
     logger.error(error);
     response.status(500).send({ message: error.message });
@@ -66,6 +63,7 @@ export const getProjects = async (request: Request, response: Response) => {
       response.status(200).send(projects);
     }
   } catch (error) {
+    // TODO: Change to error fn
     response.status(500).send({ error: error.message });
   }
 };

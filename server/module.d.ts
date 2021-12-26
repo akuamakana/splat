@@ -3,9 +3,9 @@ import { Project } from './entities/Project';
 import { User } from './entities/User';
 
 interface Locals {
-  project?: Project;
-  userRole?: number;
-  user?: User;
+  project: Project;
+  userRole: number;
+  user: User;
 }
 
 declare module 'express' {

@@ -16,6 +16,6 @@ export class Notification {
   @Column()
   ticket: number;
 
-  @ManyToOne(() => User, (user) => user.notifications, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.notifications, { nullable: false })
   user!: User;
 }

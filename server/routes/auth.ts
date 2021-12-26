@@ -1,6 +1,5 @@
-import { validateUser, validatePassword, checkDuplicateEmail, checkDuplicateUsername } from './../middleware/validateUser';
-import { forgotPassword, changePassword } from './../controllers/auth';
-import { login, logout, register } from '../controllers/auth';
+import { validateUser, validatePassword, checkDuplicateEmail, checkDuplicateUsername } from '../middleware/validateUser';
+import { login, logout, register, forgotPassword, changePassword } from '../controllers/auth';
 
 import { Express } from 'express';
 
