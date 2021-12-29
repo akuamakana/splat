@@ -6,7 +6,7 @@ interface LoadingProps {}
 const Loading: React.FC<LoadingProps> = ({}) => {
   return (
     <Flex alignItems="center" justifyContent="center" h="100%">
-      <Spinner />
+      <Spinner data-testid="loading" />
     </Flex>
   );
 };

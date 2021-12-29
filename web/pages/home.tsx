@@ -59,7 +59,7 @@ const Home: NextPage = () => {
     return (
       <Content tabTitle="Home">
         <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6}>
-          <Card heading="Tickets by Status">
+          <Card heading="Tickets by Status" id="status-graph">
             <VStack justifyContent="center" alignItems="center" textAlign="center">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart margin={{ right: 50 }} data={statusData}>
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
               </ResponsiveContainer>
             </VStack>
           </Card>
-          <Card heading="Tickets by Priority">
+          <Card heading="Tickets by Priority" data-testid="graph" id="priority-graph">
             <VStack justifyContent="center" alignItems="center" textAlign="center">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart margin={{ right: 50 }} data={priorityData}>
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
               </ResponsiveContainer>
             </VStack>
           </Card>
-          <Card heading="Tickets by Type">
+          <Card heading="Tickets by Type" data-testid="graph" id="type-graph">
             <VStack justifyContent="center" alignItems="center" textAlign="center">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart margin={{ right: 50 }} data={typeData}>

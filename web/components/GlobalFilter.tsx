@@ -6,9 +6,10 @@ interface GlobalFilterProps {
   preGlobalFilteredRows: Array<Row>;
   globalFilter: string;
   setGlobalFilter: Function;
+  role?: string;
 }
 
-export const GlobalFilter: React.FC<GlobalFilterProps> = ({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) => {
+export const GlobalFilter: React.FC<GlobalFilterProps> = ({ preGlobalFilteredRows, globalFilter, setGlobalFilter, role }) => {
   const count = preGlobalFilteredRows.length;
   const [value, setValue] = useState(globalFilter);
 
@@ -19,6 +20,7 @@ export const GlobalFilter: React.FC<GlobalFilterProps> = ({ preGlobalFilteredRow
   return (
     <Box mb={2}>
       <Input
+        role={role}
         size="sm"
         value={value || ''}
         onChange={(e) => {

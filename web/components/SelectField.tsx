@@ -20,7 +20,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ children, label, size = 'md',
       <FormLabel fontSize={size} htmlFor={field.name}>
         {label}
       </FormLabel>
-      <Select rounded={'sm'} {...field} id={field.name} size={size} name={field.name} onChange={(option) => setValue(option.target.value)}>
+      <Select rounded={'sm'} {...field} id={`select-${field.name}`} size={size} name={field.name} onChange={(option) => setValue(option.target.value)}>
         {children}
       </Select>
       {error && <FormErrorMessage>{error}</FormErrorMessage>}

@@ -6,11 +6,12 @@ interface CardProps {
   heading: string;
   description?: string;
   control?: React.ReactNode;
+  id?: string;
 }
 
-const Card: React.FC<CardProps> = ({ children, heading, description, control }) => {
+const Card: React.FC<CardProps> = ({ children, heading, description, control, id }) => {
   return (
-    <Box bgColor="white" boxShadow="sm" rounded="sm" p="6">
+    <Box bgColor="white" boxShadow="sm" rounded="sm" p="6" id={id} data-testid={id}>
       <HStack alignItems="baseline">
         <Box mb={description ? 0 : 4}>
           <Heading size="sm" color="gray.700">

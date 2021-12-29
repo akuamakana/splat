@@ -56,7 +56,7 @@ const Projects: NextPage = () => {
   return (
     <Content tabTitle="Projects">
       <Card heading="Projects" control={createProjectButton}>
-        <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
+        <GlobalFilter role="project-filter" preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
         <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
           <Thead>
             {headerGroups.map((headerGroup) => (
@@ -90,6 +90,7 @@ const Projects: NextPage = () => {
                       },
                     })
                   }
+                  data-testid="project-table-row"
                 >
                   {row.cells.map((cell) => (
                     <Td style={{ textAlign: 'start' }} {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
