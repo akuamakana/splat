@@ -18,7 +18,7 @@ const Tickets: NextPage = () => {
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
 
-  const createTicketButton = <IconButton aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create' })} icon={<AddIcon />} size="sm" />;
+  const createTicketButton = <IconButton role="create-ticket" aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create' })} icon={<AddIcon />} size="sm" />;
 
   useEffect(() => {
     if (allTickets.isSuccess) {
@@ -69,8 +69,8 @@ const Tickets: NextPage = () => {
     return (
       <Content tabTitle="Tickets">
         <Card heading="Tickets" control={createTicketButton}>
-          <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
-          <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
+          <GlobalFilter role="ticket-filter" preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
+          <Table data-testid="ticket-table" {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
             <Thead>
               {headerGroups.map((headerGroup) => (
                 <Tr {...headerGroup.getHeaderGroupProps()}>
@@ -90,6 +90,7 @@ const Tickets: NextPage = () => {
                 prepareRow(row);
                 return (
                   <Tr
+                    data-testid="ticket-table-row"
                     {...row.getRowProps()}
                     style={{ cursor: 'pointer' }}
                     _hover={{

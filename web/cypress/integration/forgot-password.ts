@@ -1,4 +1,4 @@
-describe('home page', () => {
+describe('forgot password page', () => {
   beforeEach(() => {
     cy.visit('/forgot-password');
     cy.intercept({ method: 'POST', url: `${Cypress.env('API_URL')}/auth/forgot-password` }).as('forgot-password');
