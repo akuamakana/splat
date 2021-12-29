@@ -15,7 +15,7 @@ const ForgotPassword: NextPage = () => {
   const additionalLinks = (
     <Text mt={6} textAlign={['center']}>
       Already have an account?{' '}
-      <CLink as="strong" color="brand.600">
+      <CLink as="strong" color="brand.600" role="login">
         <Link href="/login">
           <a>Login</a>
         </Link>
@@ -42,11 +42,11 @@ const ForgotPassword: NextPage = () => {
         {({ isSubmitting, values }) => (
           <Form>
             <Box>
-              <InputField name="email" label="Email" placeholder="Email" type="email" />
+              <InputField role="email" name="email" label="Email" placeholder="Email" type="email" />
             </Box>
             <Flex mt={12}>
               <Spacer />
-              <Button type="submit" disabled={!values.email.includes('@')} isLoading={isSubmitting}>
+              <Button role="submit" type="submit" disabled={!values.email.includes('@')} isLoading={isSubmitting}>
                 Submit
               </Button>
               <Spacer />

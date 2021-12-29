@@ -91,7 +91,7 @@ const ManageUsers: NextPage = () => {
             <Formik initialValues={{ user: '', role: '' }} onSubmit={handleOnSubmit}>
               <Form>
                 <Box>
-                  <SelectField size="sm" name="user" label="Users">
+                  <SelectField size="sm" name="user" label="Users" role="select-user">
                     <option>Select user...</option>
                     {data.map((user) => (
                       <option key={user.id} value={user.id}>
@@ -101,7 +101,7 @@ const ManageUsers: NextPage = () => {
                   </SelectField>
                 </Box>
                 <Box mt={6}>
-                  <SelectField size="sm" name="role" label="Select Role">
+                  <SelectField size="sm" name="role" label="Select Role" role="select-role">
                     <option>Select role...</option>
                     <option value="SUBMITTER">Submitter</option>
                     <option value="DEV">Developer</option>
@@ -111,7 +111,7 @@ const ManageUsers: NextPage = () => {
                 </Box>
                 <HStack mt={6}>
                   <Spacer />
-                  <Button type="submit" isLoading={updateRoleMutation.isLoading}>
+                  <Button role="submit" type="submit" isLoading={updateRoleMutation.isLoading}>
                     Submit
                   </Button>
                 </HStack>
@@ -122,7 +122,7 @@ const ManageUsers: NextPage = () => {
       </Card>
       {data && (
         <Card heading="Users">
-          <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
+          <GlobalFilter role="user-filter" preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
           <Box>
             <Table {...getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
               <Thead>
@@ -143,7 +143,7 @@ const ManageUsers: NextPage = () => {
                 {rows.map((row) => {
                   prepareRow(row);
                   return (
-                    <Tr {...row.getRowProps()}>
+                    <Tr {...row.getRowProps()} data-testid="user-table-row">
                       {row.cells.map((cell) => (
                         <Td style={{ textAlign: 'start' }} {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
                           {cell.render('Cell')}
