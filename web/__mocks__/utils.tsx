@@ -39,6 +39,9 @@ export const handlers = [
   rest.get('*/notifications', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json([]));
   }),
+  rest.post('*/auth/forgot-password', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ message: 'Reset password link sent to email address. Link expires in 24 hours.' }));
+  }),
 ];
 
 const createTestQueryClient = () =>

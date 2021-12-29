@@ -73,7 +73,7 @@ const Home: NextPage = () => {
               </ResponsiveContainer>
             </VStack>
           </Card>
-          <Card heading="Tickets by Priority" data-testid="graph" id="priority-graph">
+          <Card heading="Tickets by Priority" id="priority-graph">
             <VStack justifyContent="center" alignItems="center" textAlign="center">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart margin={{ right: 50 }} data={priorityData}>
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
               </ResponsiveContainer>
             </VStack>
           </Card>
-          <Card heading="Tickets by Type" data-testid="graph" id="type-graph">
+          <Card heading="Tickets by Type" id="type-graph">
             <VStack justifyContent="center" alignItems="center" textAlign="center">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart margin={{ right: 50 }} data={typeData}>

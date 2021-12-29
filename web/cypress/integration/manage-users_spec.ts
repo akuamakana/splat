@@ -1,4 +1,4 @@
-describe('home page', () => {
+describe('manage users page', () => {
   beforeEach(() => {
     cy.request('POST', `${Cypress.env('API_URL')}/auth/login`, {
       usernameOrEmail: 'test',
