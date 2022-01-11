@@ -1,35 +1,51 @@
 import { Server } from 'http';
 import { Application } from 'express';
-// import { createConnection, getConnection } from 'typeorm';
+import { createConnection, getConnection } from 'typeorm';
 import app from '../app';
 import redisClient from '../lib/redisClient';
 import logger from '../lib/logger';
+import { Project } from './mocks/types';
 
 const request = require('supertest');
 const PORT = process.env.PORT;
+const user = {
+  username: 'test',
+  password: 'test',
+  email: 'test@gmail.com',
+  firstName: 'test',
+  lastName: 'test',
+};
 
-describe('tracker server', () => {
+const clearDB = async (run: boolean) => {
+  if (run) {
+    await createConnection();
+    const entities = getConnection().entityMetadatas;
+    for (const entity of entities) {
+      const repository = getConnection().getRepository(entity.name); // Get repository
+      await repository.clear(); // Clear each entity table's content
+    }
+  }
+};
+
+describe('splat server', () => {
   let application: Application;
   let server: Server;
-  const user = {
-    username: 'test',
-    password: 'test',
-    email: 'test@gmail.com',
-    firstName: 'test',
-    lastName: 'test',
-  };
 
   beforeAll(async () => {
-    // await createConnection();
-    // const entities = getConnection().entityMetadatas;
-
-    // for (const entity of entities) {
-    //   const repository = getConnection().getRepository(entity.name); // Get repository
-    //   await repository.clear(); // Clear each entity table's content
-    // }
+    await clearDB(false);
     application = await app();
     server = application.listen(PORT, () => logger.info(`Server is running on http://localhost:${process.env.PORT}`));
   });
+
+  const loginUser = async () => {
+    const response = await request(server).post('/auth/login').send({
+      usernameOrEmail: 'test',
+      password: 'test',
+    });
+
+    const cookies: string[] = response.header['set-cookie'];
+    return cookies;
+  };
 
   afterAll(async () => {
     await redisClient.flushall();
@@ -197,5 +213,82 @@ describe('tracker server', () => {
         expect(response.body).toEqual(true);
       });
     });
+  });
+
+  describe.only('PROJECT route', () => {
+    let project: Project;
+    let cookies: String[];
+    beforeAll(async () => {
+      cookies = await loginUser();
+    });
+
+    describe.only('POST /project', () => {
+      it('should return 201 with the project', async () => {
+        const response = await request(server).post('/project').set('Cookie', cookies).send({
+          title: 'Test',
+          description: 'test description',
+        });
+        expect(response.status).toBe(201);
+        expect(response.body).toMatchObject({
+          title: 'Test',
+          description: 'test description',
+          user: expect.any(Object),
+          assigned_users: expect.any(Array),
+          id: expect.any(Number),
+          created_at: expect.any(String),
+          updated_at: expect.any(String),
+        });
+        project = response.body;
+      });
+    });
+
+    describe('PATCH /project/:id', () => {
+      it('should update project', async () => {
+        const response = await request(server).patch(`/project/${project.id}`).set('Cookie', cookies).send({
+          title: 'Title Update',
+          description: 'Description Update',
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toMatchObject({
+          id: project.id,
+          title: 'Title Update',
+          description: 'Description Update',
+          updated_at: expect.any(String),
+        });
+      });
+    });
+
+    describe('GET /project/:id', () => {
+      it('should get project', async () => {
+        const cookies = await loginUser();
+        const response = await request(server).get(`/project/${project.id}`).set('Cookie', cookies);
+        expect(response.status).toBe(200);
+        expect(response.body).toMatchObject({
+          id: expect.any(Number),
+          title: 'Title Update',
+          description: 'Description Update',
+          created_at: expect.any(String),
+          updated_at: expect.any(String),
+          assigned_users: expect.any(Array),
+          tickets: expect.any(Array),
+        });
+      });
+    });
+
+    describe('GET /project', () => {
+      it('should get projects', async () => {
+        const cookies = await loginUser();
+        const response = await request(server).get(`/project`).set('Cookie', cookies);
+        expect(response.status).toBe(200);
+        expect(response.body).toBe(Array);
+      });
+    });
+
+    describe('DELETE /project/:id', () => {});
+
+    describe('PATCH /project/:id/user/:uid', () => {});
+
+    describe('DELETE /project/:id/user/:uid', () => {});
   });
 });

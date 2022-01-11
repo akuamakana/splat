@@ -32,7 +32,7 @@ export const updateProject = async (request: Request, response: Response) => {
     if (response.locals.project) {
       const projectRepository = getRepository(Project);
       const updatedProject = await projectRepository.save({ id: response.locals.project.id, ...request.body });
-      response.status(200).send({ field: 'alert', message: 'Project successfully updated.', ...updatedProject });
+      response.status(200).send(updatedProject);
     } else {
       response.status(401).send({ field: 'alert', message: 'Access denied' });
     }
