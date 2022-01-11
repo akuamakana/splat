@@ -27,7 +27,9 @@ const Project: NextPage = () => {
     <IconButton aria-label="Create project" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/project/edit/users/[id]', query: { id: data ? data.id : router.query.id } })} />
   );
 
-  const createTicketButton = <IconButton aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create', query: { id: data?.id } })} icon={<AddIcon />} size="sm" />;
+  const createTicketButton = (
+    <IconButton role="create-ticket-button" aria-label="Add ticket" onClick={() => router.push({ pathname: '/ticket/create', query: { id: data?.id } })} icon={<AddIcon />} size="sm" />
+  );
 
   useEffect(() => {
     if (isSuccess && data) {

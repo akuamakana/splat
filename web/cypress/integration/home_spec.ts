@@ -1,9 +1,7 @@
+import testUser from '@mocks/test-user';
 describe('home page', () => {
   beforeEach(() => {
-    cy.request('POST', `${Cypress.env('API_URL')}/auth/login`, {
-      usernameOrEmail: 'test',
-      password: 'test',
-    });
+    cy.request('POST', `${Cypress.env('API_URL')}/auth/login`, testUser);
     cy.visit('/home');
   });
 

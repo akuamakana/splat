@@ -25,7 +25,9 @@ const Ticket: NextPage = () => {
   const [historyTableData, setHistoryTableData] = useState<ILog[]>([]);
   const [commentTableData, setCommentTableData] = useState<IComment[]>([]);
   const formatDate = (date: string) => new Date(date).toLocaleString();
-  const editTicketButton = <IconButton aria-label="Edit Ticket" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />;
+  const editTicketButton = (
+    <IconButton role="edit-ticket-button" aria-label="Edit Ticket" icon={<EditIcon />} size="sm" onClick={() => router.push({ pathname: '/ticket/edit/[id]', query: { id: data?.id } })} />
+  );
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -98,7 +100,7 @@ const Ticket: NextPage = () => {
     return (
       <Content tabTitle={`${data?.project?.title} - Ticket #${data.id}`}>
         <Grid templateColumns={{ lg: '1fr 1fr' }} templateRows={'475px'} gap={6}>
-          <Card heading={`#${data.id} Ticket Detail`} control={editTicketButton}>
+          <Card id="ticket-detail" heading={`#${data.id} Ticket Detail`} control={editTicketButton}>
             <Grid templateColumns={'auto auto'} gap={6}>
               <GridItem>
                 <Box>
@@ -182,10 +184,15 @@ const Ticket: NextPage = () => {
               </GridItem>
             </Grid>
           </Card>
-          <Card heading="Comments">
+          <Card id="comments" heading="Comments">
             <Grid templateRows={'max-content 300px max-content'}>
               <GridItem>
-                <GlobalFilter preGlobalFilteredRows={commentsTable.preGlobalFilteredRows} globalFilter={commentsTable.state.globalFilter} setGlobalFilter={commentsTable.setGlobalFilter} />
+                <GlobalFilter
+                  role="comment-filter"
+                  preGlobalFilteredRows={commentsTable.preGlobalFilteredRows}
+                  globalFilter={commentsTable.state.globalFilter}
+                  setGlobalFilter={commentsTable.setGlobalFilter}
+                />
               </GridItem>
               <GridItem>
                 <Box maxHeight={'300px'} overflow="auto">
@@ -208,7 +215,7 @@ const Ticket: NextPage = () => {
                       {commentsTable.rows.map((row) => {
                         commentsTable.prepareRow(row);
                         return (
-                          <Tr {...row.getRowProps()}>
+                          <Tr data-testid="comment-table-row" {...row.getRowProps()}>
                             {row.cells.map((cell) => (
                               <Td style={{ textAlign: 'start' }} {...cell.getCellProps()}>
                                 {cell.render('Cell')}
@@ -238,8 +245,8 @@ const Ticket: NextPage = () => {
                 >
                   <Form>
                     <HStack mt="4" alignItems="stretch">
-                      <InputField size={'sm'} name="text" placeholder="Add comment..." />
-                      <IconButton aria-label="Add comment" icon={<AddIcon />} type="submit" size="sm">
+                      <InputField role="input-comment" size={'sm'} name="text" placeholder="Add comment..." />
+                      <IconButton role="add-comment" aria-label="Add comment" icon={<AddIcon />} type="submit" size="sm">
                         Add
                       </IconButton>
                     </HStack>
@@ -249,8 +256,15 @@ const Ticket: NextPage = () => {
             </Grid>
           </Card>
           <GridItem colSpan={{ lg: 2 }}>
-            <Card heading="Ticket History">
-              {<GlobalFilter preGlobalFilteredRows={historyTable.preGlobalFilteredRows} globalFilter={historyTable.state.globalFilter} setGlobalFilter={historyTable.setGlobalFilter} />}
+            <Card heading="Ticket History" id="history">
+              {
+                <GlobalFilter
+                  role="history-filter"
+                  preGlobalFilteredRows={historyTable.preGlobalFilteredRows}
+                  globalFilter={historyTable.state.globalFilter}
+                  setGlobalFilter={historyTable.setGlobalFilter}
+                />
+              }
               <Box maxHeight={'320px'} overflow="auto">
                 <Table {...historyTable.getTableProps()} variant="simple" size={isLargerThan992 ? 'sm' : 'xs'}>
                   <Thead>
@@ -271,7 +285,7 @@ const Ticket: NextPage = () => {
                     {historyTable.rows.map((row) => {
                       historyTable.prepareRow(row);
                       return (
-                        <Tr {...row.getRowProps()}>
+                        <Tr data-testid="history-table-row" {...row.getRowProps()}>
                           {row.cells.map((cell) => (
                             <Td style={{ textAlign: 'start' }} {...cell.getCellProps()}>
                               {cell.render('Cell')}

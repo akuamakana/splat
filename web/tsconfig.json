@@ -45,6 +45,9 @@
       ],
       "@pages/*": [
         "pages/*"
+      ],
+      "@mocks/*": [
+        "__mocks__/*"
       ]
     },
     "incremental": true

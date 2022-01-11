@@ -39,29 +39,29 @@ const CreateTicket: NextPage = () => {
             {({ isSubmitting }) => (
               <Form>
                 <HStack spacing={6} alignItems={'base'}>
-                  <InputField name="title" label="Title" placeholder="Title..." />
-                  <InputField name="description" label="Description" placeholder="Description..." />
+                  <InputField role="title" name="title" label="Title" placeholder="Title..." />
+                  <InputField role="description" name="description" label="Description" placeholder="Description..." />
                 </HStack>
                 <HStack mt={6} spacing={6} alignItems={'base'}>
-                  <SelectField name="status" label="Status">
+                  <SelectField role="status" name="status" label="Status">
                     <option value="open">Open</option>
                     <option value="in progress">In Progress</option>
                     <option value="closed">Closed</option>
                   </SelectField>
-                  <SelectField name="priority" label="Priority">
+                  <SelectField role="priority" name="priority" label="Priority">
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
                   </SelectField>
                 </HStack>
                 <HStack mt={6} spacing={6} alignItems={'base'}>
-                  <SelectField name="type" label="Type">
+                  <SelectField role="type" name="type" label="Type">
                     <option value="bugs/errors">Bugs/Errors</option>
                     <option value="feature requests">Feature Requests</option>
                     <option value="other">Other</option>
                     <option value="training">Training</option>
                   </SelectField>
-                  <SelectField name="project" label="Project">
+                  <SelectField role="project" name="project" label="Project">
                     <option>Select a project...</option>
                     {projects?.data?.map((project) => (
                       <option key={project.id} value={project.id}>
@@ -70,12 +70,11 @@ const CreateTicket: NextPage = () => {
                     ))}
                   </SelectField>
                 </HStack>
-                <Flex mt={10}>
-                  <Spacer />
-                  <Button mx={2} w="150px" onClick={() => router.back()} isLoading={isSubmitting} colorScheme="gray">
+                <Flex mt={10} justifyContent={'flex-end'}>
+                  <Button role="cancel" mx={2} w="150px" onClick={() => router.back()} isLoading={isSubmitting} colorScheme="gray">
                     Cancel
                   </Button>
-                  <Button mx={2} w="150px" type="submit" isLoading={isSubmitting}>
+                  <Button role="submit" mx={2} w="150px" type="submit" isLoading={isSubmitting}>
                     Submit
                   </Button>
                 </Flex>

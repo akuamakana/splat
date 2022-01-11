@@ -1,8 +1,7 @@
 /// <reference types="cypress" />
+import random from '@mocks/random';
 
 describe('register page', () => {
-  const random = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-
   beforeEach(() => {
     cy.intercept({ method: 'POST', url: `${Cypress.env('API_URL')}/auth/register` }).as('register');
     cy.visit('/register');
